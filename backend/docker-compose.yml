@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: pathfinder-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-pathfinder}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-pathfinder_dev_password}
+      POSTGRES_DB: ${DATABASE_NAME:-pathfinder_db}
+    ports:
+      - '${DATABASE_PORT:-5432}:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - pathfinder-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DATABASE_USER:-pathfinder}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: pathfinder-redis
+    restart: unless-stopped
+    ports:
+      - '${REDIS_PORT:-6379}:6379'
+    volumes:
+      - redis_data:/data
+    networks:
+      - pathfinder-network
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NestJS Backend API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: pathfinder-api
+    restart: unless-stopped
+    ports:
+      - '${PORT:-3001}:3001'
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: ${PORT:-3001}
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: ${DATABASE_USER:-pathfinder}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-pathfinder_dev_password}
+      DATABASE_NAME: ${DATABASE_NAME:-pathfinder_db}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      SUPABASE_JWT_SECRET: ${SUPABASE_JWT_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      VERCEL_FRONTEND_URL: ${VERCEL_FRONTEND_URL}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - pathfinder-network
+    volumes:
+      - ./logs:/app/logs
+
+  # Optional: pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pathfinder-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pathfinder.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - '5050:80'
+    networks:
+      - pathfinder-network
+    depends_on:
+      - postgres
+
+networks:
+  pathfinder-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

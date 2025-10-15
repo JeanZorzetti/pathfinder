@@ -1,0 +1,199 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+import { Brain } from "lucide-react";
+import { z } from "zod";
+
+const emailSchema = z.string().trim().email({ message: "Email inválido" });
+const passwordSchema = z.string().min(6, { message: "A senha deve ter pelo menos 6 caracteres" });
+
+const Auth = () => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [signUpData, setSignUpData] = useState({
+    email: "",
+    password: "",
+    fullName: "",
+  });
+  const [signInData, setSignInData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate inputs
+    try {
+      emailSchema.parse(signUpData.email);
+      passwordSchema.parse(signUpData.password);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(error.errors[0].message);
+        return;
+      }
+    }
+
+    setIsLoading(true);
+
+    const { error } = await supabase.auth.signUp({
+      email: signUpData.email,
+      password: signUpData.password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/`,
+        data: {
+          full_name: signUpData.fullName,
+        },
+      },
+    });
+
+    setIsLoading(false);
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    toast.success("Conta criada! Redirecionando...");
+    navigate("/dashboard");
+  };
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate inputs
+    try {
+      emailSchema.parse(signInData.email);
+      passwordSchema.parse(signInData.password);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(error.errors[0].message);
+        return;
+      }
+    }
+
+    setIsLoading(true);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: signInData.email,
+      password: signInData.password,
+    });
+
+    setIsLoading(false);
+
+    if (error) {
+      toast.error("Email ou senha incorretos");
+      return;
+    }
+
+    toast.success("Login realizado com sucesso!");
+    navigate("/dashboard");
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-subtle px-4">
+      <Card className="w-full max-w-md shadow-elegant">
+        <CardHeader className="text-center">
+          <div className="flex justify-center mb-4">
+            <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center">
+              <Brain className="w-6 h-6 text-primary-foreground" />
+            </div>
+          </div>
+          <CardTitle className="text-2xl gradient-text">Bem-vindo ao Pathfinder</CardTitle>
+          <CardDescription>
+            Seu ecossistema de autoconhecimento e propósito
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="signup" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="signup">Criar Conta</TabsTrigger>
+              <TabsTrigger value="signin">Entrar</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="signup">
+              <form onSubmit={handleSignUp} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="signup-name">Nome Completo</Label>
+                  <Input
+                    id="signup-name"
+                    placeholder="Seu nome"
+                    value={signUpData.fullName}
+                    onChange={(e) => setSignUpData({ ...signUpData, fullName: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-email">Email</Label>
+                  <Input
+                    id="signup-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={signUpData.email}
+                    onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-password">Senha</Label>
+                  <Input
+                    id="signup-password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={signUpData.password}
+                    onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                  {isLoading ? "Criando conta..." : "Criar Conta Gratuita"}
+                </Button>
+              </form>
+            </TabsContent>
+            
+            <TabsContent value="signin">
+              <form onSubmit={handleSignIn} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="signin-email">Email</Label>
+                  <Input
+                    id="signin-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    value={signInData.email}
+                    onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signin-password">Senha</Label>
+                  <Input
+                    id="signin-password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={signInData.password}
+                    onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                  {isLoading ? "Entrando..." : "Entrar"}
+                </Button>
+              </form>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+        <CardFooter className="text-center text-sm text-muted-foreground">
+          Seus dados estão protegidos e nunca serão compartilhados
+        </CardFooter>
+      </Card>
+    </div>
+  );
+};
+
+export default Auth;

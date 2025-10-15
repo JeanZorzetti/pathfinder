@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run start:dev:*)",
+      "Bash(cat:*)",
+      "Bash(npm run seed)",
+      "Bash(curl http://localhost:3001/api/v1/health)",
+      "Bash(curl http://localhost:3001/api/v1/personality-tests/frameworks)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(curl:*)",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0MTM0ZjUyMC1mNDZiLTQyYWEtYWY4MC00MTFlNTMzNzEyMDYiLCJlbWFpbCI6InRlc3RlQHBhdGhmaW5kZXIuY29tIiwic3Vic2NyaXB0aW9uU3RhdHVzIjoiZnJlZSIsImlhdCI6MTc2MDU2OTQ3OCwiZXhwIjoxNzYxMTc0Mjc4fQ.AxNqr4Hb7o75ErrHREsxgFtuYpXbShgq4x_rsCAIgzA\")",
+      "Bash(TEST_ID=\"087deb2a-f6fb-449f-960e-ddd9e9b2dddc\")",
+      "Bash(tree:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
