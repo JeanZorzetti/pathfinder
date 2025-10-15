@@ -75,6 +75,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
    DATABASE_USER=PathPost
    DATABASE_PASSWORD=sua_senha_do_banco
    DATABASE_NAME=PathPost
+   DATABASE_SSL=false
 
    # JWT Secrets (cole os que você gerou)
    JWT_SECRET=seu_jwt_secret_gerado

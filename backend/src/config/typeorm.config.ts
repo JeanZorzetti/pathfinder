@@ -12,6 +12,8 @@ const config: DataSourceOptions = {
   migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
+  // SSL configuration - disable for local/VPS PostgreSQL without SSL
+  ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
 };
 
 export default registerAs('typeorm', () => config);
