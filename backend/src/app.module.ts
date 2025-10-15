@@ -55,7 +55,10 @@ import typeormConfig from './config/typeorm.config';
         ],
         synchronize: configService.get('NODE_ENV') === 'development',
         logging: configService.get('NODE_ENV') === 'development',
-        ssl: configService.get('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
+        // SSL configuration - usar DATABASE_SSL env var ao invés de NODE_ENV
+        ssl: configService.get('DATABASE_SSL') === 'true'
+          ? { rejectUnauthorized: false }
+          : false,
       }),
     }),
 
