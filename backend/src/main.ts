@@ -30,6 +30,15 @@ async function bootstrap() {
     }),
   );
 
+  // Permissions-Policy header (Feature-Policy replacement)
+  app.use((req, res, next) => {
+    res.setHeader(
+      'Permissions-Policy',
+      'geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()',
+    );
+    next();
+  });
+
   // Compression for responses
   app.use(compression());
 
