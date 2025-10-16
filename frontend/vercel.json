@@ -7,6 +7,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://pathback.roilabs.com.br/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
