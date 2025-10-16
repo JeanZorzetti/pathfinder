@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase-client";
 import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
@@ -249,7 +249,6 @@ const mbtiDescriptions: Record<string, { title: string; description: string }> =
 };
 
 const Test = () => {
-  const { testType } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -274,12 +273,12 @@ const Test = () => {
 
   const calculateMBTI = () => {
     const dimensions = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
-    
+
     Object.values(answers).forEach((answer) => {
       dimensions[answer as keyof typeof dimensions]++;
     });
 
-    const type = 
+    const type =
       (dimensions.E >= dimensions.I ? "E" : "I") +
       (dimensions.S >= dimensions.N ? "S" : "N") +
       (dimensions.T >= dimensions.F ? "T" : "F") +
@@ -321,22 +320,6 @@ const Test = () => {
   };
 
   const progress = ((currentQuestion + 1) / mbtiQuestions.length) * 100;
-
-  if (testType !== "mbti") {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardHeader>
-            <CardTitle>Teste não disponível</CardTitle>
-            <CardDescription>Este teste ainda não foi implementado</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button onClick={() => navigate("/")}>Voltar para Home</Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   if (showResult && result) {
     const resultInfo = mbtiDescriptions[result];
