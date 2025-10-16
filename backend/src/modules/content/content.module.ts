@@ -5,9 +5,12 @@ import { ContentService } from './content.service';
 import { SitemapService } from './services/sitemap.service';
 import { Article } from './entities/article.entity';
 import { ArticleCategory } from './entities/article-category.entity';
+import { PersonalityType } from '../personality-tests/entities/personality-type.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Article, ArticleCategory])],
+  imports: [
+    TypeOrmModule.forFeature([Article, ArticleCategory, PersonalityType]),
+  ],
   controllers: [ContentController],
   providers: [ContentService, SitemapService],
   exports: [ContentService],
