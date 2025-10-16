@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 // Modules
 import { AuthModule } from './modules/auth/auth.module';
@@ -62,6 +64,28 @@ import typeormConfig from './config/typeorm.config';
       }),
     }),
 
+    // Rate Limiting - Proteção contra abuso
+    ThrottlerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => [
+        {
+          name: 'short',
+          ttl: 1000, // 1 segundo
+          limit: 3, // 3 requests por segundo
+        },
+        {
+          name: 'medium',
+          ttl: 10000, // 10 segundos
+          limit: 20, // 20 requests por 10 segundos
+        },
+        {
+          name: 'long',
+          ttl: 60000, // 1 minuto
+          limit: parseInt(configService.get('RATE_LIMIT_MAX') || '100'),
+        },
+      ],
+    }),
+
     // In-memory cache (Redis is optional)
     CacheModule.register({
       isGlobal: true,
@@ -77,6 +101,13 @@ import typeormConfig from './config/typeorm.config';
     UsersModule,
     PersonalityTestsModule,
     ContentModule,
+  ],
+  providers: [
+    // Aplicar rate limiting globalmente
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

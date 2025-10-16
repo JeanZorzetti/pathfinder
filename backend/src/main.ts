@@ -10,8 +10,27 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
-  // Security
-  app.use(helmet());
+  // Security Headers - Helmet with enhanced configuration
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          scriptSrc: ["'self'"],
+          imgSrc: ["'self'", 'data:', 'https:'],
+        },
+      },
+      crossOriginEmbedderPolicy: false, // Allow embedding for Swagger
+      hsts: {
+        maxAge: 31536000, // 1 year
+        includeSubDomains: true,
+        preload: true,
+      },
+    }),
+  );
+
+  // Compression for responses
   app.use(compression());
 
   // CORS Configuration - Allow Vercel frontend
@@ -25,6 +44,8 @@ async function bootstrap() {
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    exposedHeaders: ['X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-RateLimit-Reset'],
+    maxAge: 3600, // Cache preflight requests for 1 hour
   });
 
   // Global prefix and versioning
@@ -35,28 +56,30 @@ async function bootstrap() {
     type: VersioningType.URI,
   });
 
-  // Global validation pipe
+  // Global validation pipe with strict security
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
+      whitelist: true, // Remove propriedades não definidas nos DTOs
+      forbidNonWhitelisted: true, // Retornar erro se houver propriedades extras
+      transform: true, // Transformar tipos automaticamente
       transformOptions: {
         enableImplicitConversion: true,
       },
+      disableErrorMessages: configService.get('NODE_ENV') === 'production', // Ocultar mensagens detalhadas em produção
     }),
   );
 
   // Swagger API Documentation
   const config = new DocumentBuilder()
     .setTitle('Pathfinder API')
-    .setDescription('Backend API for Pathfinder - Self-Discovery Platform')
+    .setDescription('Backend API for Pathfinder - Self-Discovery Platform with MBTI, Big Five, and Enneagram tests')
     .setVersion('1.0')
     .addBearerAuth()
     .addTag('auth', 'Authentication endpoints')
     .addTag('personality-tests', 'Personality test endpoints')
     .addTag('content', 'Content and SEO endpoints')
     .addTag('users', 'User management endpoints')
+    .addTag('health', 'Health check and monitoring endpoints')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -70,6 +93,7 @@ async function bootstrap() {
 ╔═══════════════════════════════════════════════════════╗
 ║                                                       ║
 ║   🚀 Pathfinder Backend API is running!              ║
+║   🛡️  Security: Helmet + Rate Limiting enabled       ║
 ║                                                       ║
 ║   📡 Server:  http://localhost:${port}                   ║
 ║   📚 Docs:    http://localhost:${port}/api/docs          ║
