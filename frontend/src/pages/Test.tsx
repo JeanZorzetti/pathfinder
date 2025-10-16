@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase-client";
-import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Brain, ArrowRight, ArrowLeft, Check, Save, LogIn } from "lucide-react";
+import { Brain, ArrowRight, ArrowLeft, Check } from "lucide-react";
 import { toast } from "sonner";
 import QuestionPage from "@/components/personality-tests/QuestionPage";
 import { LikertValue } from "@/components/personality-tests/LikertScale";
@@ -16,73 +14,6 @@ import {
   LikertAnswer,
 } from "@/data/mbti-questions-60";
 
-const mbtiDescriptions: Record<string, { title: string; description: string }> = {
-  INTJ: {
-    title: "O Arquiteto",
-    description: "Visionário estratégico com originalidade, motivação interna e determinação para realizar suas ideias e objetivos."
-  },
-  INTP: {
-    title: "O Lógico",
-    description: "Pensador inovador com sede insaciável de conhecimento e compreensão dos sistemas complexos."
-  },
-  ENTJ: {
-    title: "O Comandante",
-    description: "Líder nato, ousado, imaginativo e com forte determinação, sempre encontra ou cria soluções."
-  },
-  ENTP: {
-    title: "O Inovador",
-    description: "Pensador curioso e inteligente, incapaz de resistir a um desafio intelectual."
-  },
-  INFJ: {
-    title: "O Advogado",
-    description: "Idealista silencioso e místico, mas inspirador e incansável em busca de seus valores."
-  },
-  INFP: {
-    title: "O Mediador",
-    description: "Altruísta poético e gentil, sempre disposto a ajudar uma boa causa."
-  },
-  ENFJ: {
-    title: "O Protagonista",
-    description: "Líder carismático e inspirador, capaz de fascinar seus ouvintes com sua energia."
-  },
-  ENFP: {
-    title: "O Ativista",
-    description: "Espírito livre entusiasta, criativo e sociável, sempre encontra razões para sorrir."
-  },
-  ISTJ: {
-    title: "O Logístico",
-    description: "Indivíduo prático e factual, com confiabilidade que não pode ser duvidada."
-  },
-  ISFJ: {
-    title: "O Defensor",
-    description: "Protetor dedicado e caloroso, sempre pronto para defender seus entes queridos."
-  },
-  ESTJ: {
-    title: "O Executivo",
-    description: "Administrador excelente, incomparável em gerenciar coisas e pessoas."
-  },
-  ESFJ: {
-    title: "O Cônsul",
-    description: "Pessoa extraordinariamente atenciosa, sociável e popular, sempre disposta a ajudar."
-  },
-  ISTP: {
-    title: "O Virtuoso",
-    description: "Experimentador ousado e prático, mestre de todos os tipos de ferramentas."
-  },
-  ISFP: {
-    title: "O Aventureiro",
-    description: "Artista flexível e charmoso, sempre pronto para explorar e experimentar algo novo."
-  },
-  ESTP: {
-    title: "O Empreendedor",
-    description: "Pessoa esperta, energética e muito perceptiva, que realmente aproveita viver no limite."
-  },
-  ESFP: {
-    title: "O Animador",
-    description: "Artista espontâneo, energético e entusiasta que nunca deixa a vida ficar chata."
-  },
-};
-
 const TOTAL_PAGES = 6;
 const QUESTIONS_PER_PAGE = 10;
 const TOTAL_QUESTIONS = 60;
@@ -91,17 +22,9 @@ const RESULT_KEY = 'mbti_test_result';
 
 const Test = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [answers, setAnswers] = useState<Record<number, LikertValue>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showResult, setShowResult] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
-  const [result, setResult] = useState<{
-    type: string;
-    percentages: { EI: number; SN: number; TF: number; JP: number };
-    scores: any;
-  } | null>(null);
 
   // Load saved progress from localStorage on mount
   useEffect(() => {
@@ -116,18 +39,6 @@ const Test = () => {
         console.error("Error loading saved progress:", error);
       }
     }
-
-    // Check for saved result
-    const savedResult = localStorage.getItem(RESULT_KEY);
-    if (savedResult) {
-      try {
-        const parsedResult = JSON.parse(savedResult);
-        setResult(parsedResult);
-        setShowResult(true);
-      } catch (error) {
-        console.error("Error loading saved result:", error);
-      }
-    }
   }, []);
 
   // Save progress to localStorage whenever answers change
@@ -140,20 +51,6 @@ const Test = () => {
       }));
     }
   }, [answers, currentPage]);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        setUser(session.user);
-      }
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   const currentQuestions = getQuestionsForPage(currentPage);
 
@@ -205,200 +102,17 @@ const Test = () => {
       }));
 
     const calculatedResult = calculateMBTIFromLikert(likertAnswers);
-    setResult(calculatedResult);
 
     // Save result to localStorage
     localStorage.setItem(RESULT_KEY, JSON.stringify(calculatedResult));
 
     setIsSubmitting(false);
-    setShowResult(true);
 
-    toast.success("Resultado calculado! Veja abaixo.");
+    toast.success("Resultado calculado! Redirecionando...");
+
+    // Redirect to the new comprehensive result page
+    navigate(`/results/mbti/${calculatedResult.type.toLowerCase()}`);
   };
-
-  const handleSaveToProfile = async () => {
-    if (!user) {
-      toast.error("Você precisa estar logado para salvar no perfil");
-      navigate("/auth?redirect=/test/mbti");
-      return;
-    }
-
-    if (!result) return;
-
-    setIsSubmitting(true);
-
-    const { error } = await supabase.from("test_results").insert({
-      user_id: user.id,
-      test_type: "mbti",
-      result_data: {
-        type: result.type,
-        scores: result.scores,
-        percentages: result.percentages,
-        ...mbtiDescriptions[result.type],
-        answers: answers,
-      },
-    });
-
-    setIsSubmitting(false);
-
-    if (error) {
-      toast.error("Erro ao salvar resultado");
-      console.error("Error saving result:", error);
-      return;
-    }
-
-    setIsSaved(true);
-    // Clear localStorage after saving
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(RESULT_KEY);
-    toast.success("Resultado salvo no seu perfil!");
-  };
-
-  const handleStartNew = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(RESULT_KEY);
-    window.location.reload();
-  };
-
-  // Result page
-  if (showResult && result) {
-    const resultInfo = mbtiDescriptions[result.type];
-    return (
-      <div className="min-h-screen bg-gradient-subtle flex items-center justify-center px-4 py-12">
-        <Card className="max-w-3xl w-full shadow-elegant">
-          <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center">
-                <Brain className="w-8 h-8 text-primary-foreground" />
-              </div>
-            </div>
-            <CardTitle className="text-4xl mb-2 gradient-text">{result.type}</CardTitle>
-            <CardDescription className="text-xl">{resultInfo.title}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-8">
-            <p className="text-lg text-center leading-relaxed">{resultInfo.description}</p>
-
-            {/* Preference strengths */}
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-center">Força das Preferências</h3>
-              <div className="grid gap-4">
-                {/* E vs I */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm font-medium">
-                    <span>Extroversão (E)</span>
-                    <span>{result.percentages.EI}%</span>
-                    <span>Introversão (I)</span>
-                  </div>
-                  <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-green-500 to-purple-500 transition-all duration-500"
-                      style={{ width: `${result.percentages.EI}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* S vs N */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm font-medium">
-                    <span>Sensação (S)</span>
-                    <span>{result.percentages.SN}%</span>
-                    <span>Intuição (N)</span>
-                  </div>
-                  <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-blue-500 to-yellow-500 transition-all duration-500"
-                      style={{ width: `${result.percentages.SN}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* T vs F */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm font-medium">
-                    <span>Pensamento (T)</span>
-                    <span>{result.percentages.TF}%</span>
-                    <span>Sentimento (F)</span>
-                  </div>
-                  <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-red-500 to-pink-500 transition-all duration-500"
-                      style={{ width: `${result.percentages.TF}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* J vs P */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm font-medium">
-                    <span>Julgamento (J)</span>
-                    <span>{result.percentages.JP}%</span>
-                    <span>Percepção (P)</span>
-                  </div>
-                  <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-indigo-500 to-orange-500 transition-all duration-500"
-                      style={{ width: `${result.percentages.JP}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Call to action */}
-            {!isSaved && !user && (
-              <Card className="bg-primary/5 border-primary/20">
-                <CardContent className="pt-6">
-                  <div className="text-center space-y-3">
-                    <p className="text-sm font-medium">
-                      💾 Quer salvar seu resultado e acessar depois?
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Crie uma conta gratuita para salvar todos os seus resultados!
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            <div className="flex gap-3 justify-center flex-wrap">
-              {user && !isSaved && (
-                <Button
-                  variant="hero"
-                  size="lg"
-                  onClick={handleSaveToProfile}
-                  disabled={isSubmitting}
-                >
-                  <Save className="w-4 h-4 mr-2" />
-                  {isSubmitting ? "Salvando..." : "Salvar no Perfil"}
-                </Button>
-              )}
-
-              {!user && (
-                <Button
-                  variant="hero"
-                  size="lg"
-                  onClick={() => navigate("/auth?redirect=/test/mbti")}
-                >
-                  <LogIn className="w-4 h-4 mr-2" />
-                  Criar Conta / Login
-                </Button>
-              )}
-
-              {user && isSaved && (
-                <Button variant="hero" size="lg" onClick={() => navigate("/dashboard")}>
-                  Ver Dashboard
-                </Button>
-              )}
-
-              <Button variant="outline" size="lg" onClick={handleStartNew}>
-                Refazer Teste
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   // Test page
   return (

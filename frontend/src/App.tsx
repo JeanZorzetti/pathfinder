@@ -17,6 +17,7 @@ import Compatibility from "./pages/Compatibility";
 import Premium from "./pages/Premium";
 import MBTIGuide from "./pages/MBTIGuide";
 import MBTIType from "./pages/MBTIType";
+import PersonalityResultPage from "./pages/PersonalityResultPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/premium" element={<Premium />} />
           <Route path="/mbti" element={<MBTIGuide />} />
           <Route path="/mbti/:type" element={<MBTIType />} />
+          <Route path="/results/mbti/:type" element={<PersonalityResultPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
