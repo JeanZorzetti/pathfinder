@@ -5,7 +5,7 @@ import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Brain, ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { Brain, ArrowRight, ArrowLeft, Check, Save, LogIn } from "lucide-react";
 import { toast } from "sonner";
 import QuestionPage from "@/components/personality-tests/QuestionPage";
 import { LikertValue } from "@/components/personality-tests/LikertScale";
@@ -86,6 +86,8 @@ const mbtiDescriptions: Record<string, { title: string; description: string }> =
 const TOTAL_PAGES = 6;
 const QUESTIONS_PER_PAGE = 10;
 const TOTAL_QUESTIONS = 60;
+const STORAGE_KEY = 'mbti_test_progress';
+const RESULT_KEY = 'mbti_test_result';
 
 const Test = () => {
   const navigate = useNavigate();
@@ -94,10 +96,50 @@ const Test = () => {
   const [answers, setAnswers] = useState<Record<number, LikertValue>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [result, setResult] = useState<{
     type: string;
     percentages: { EI: number; SN: number; TF: number; JP: number };
+    scores: any;
   } | null>(null);
+
+  // Load saved progress from localStorage on mount
+  useEffect(() => {
+    const savedProgress = localStorage.getItem(STORAGE_KEY);
+    if (savedProgress) {
+      try {
+        const { answers: savedAnswers, page } = JSON.parse(savedProgress);
+        setAnswers(savedAnswers);
+        setCurrentPage(page);
+        toast.success("Progresso anterior recuperado!");
+      } catch (error) {
+        console.error("Error loading saved progress:", error);
+      }
+    }
+
+    // Check for saved result
+    const savedResult = localStorage.getItem(RESULT_KEY);
+    if (savedResult) {
+      try {
+        const parsedResult = JSON.parse(savedResult);
+        setResult(parsedResult);
+        setShowResult(true);
+      } catch (error) {
+        console.error("Error loading saved result:", error);
+      }
+    }
+  }, []);
+
+  // Save progress to localStorage whenever answers change
+  useEffect(() => {
+    if (Object.keys(answers).length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        answers,
+        page: currentPage,
+        timestamp: new Date().toISOString()
+      }));
+    }
+  }, [answers, currentPage]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -146,12 +188,6 @@ const Test = () => {
   };
 
   const handleSubmit = async () => {
-    if (!user) {
-      toast.error("Você precisa estar logado para salvar seus resultados");
-      navigate("/auth");
-      return;
-    }
-
     if (answeredCount < TOTAL_QUESTIONS) {
       toast.error("Por favor, responda todas as questões antes de finalizar");
       return;
@@ -170,14 +206,34 @@ const Test = () => {
     const calculatedResult = calculateMBTIFromLikert(likertAnswers);
     setResult(calculatedResult);
 
+    // Save result to localStorage
+    localStorage.setItem(RESULT_KEY, JSON.stringify(calculatedResult));
+
+    setIsSubmitting(false);
+    setShowResult(true);
+
+    toast.success("Resultado calculado! Veja abaixo.");
+  };
+
+  const handleSaveToProfile = async () => {
+    if (!user) {
+      toast.error("Você precisa estar logado para salvar no perfil");
+      navigate("/auth?redirect=/test/mbti");
+      return;
+    }
+
+    if (!result) return;
+
+    setIsSubmitting(true);
+
     const { error } = await supabase.from("test_results").insert({
       user_id: user.id,
       test_type: "mbti",
       result_data: {
-        type: calculatedResult.type,
-        scores: calculatedResult.scores,
-        percentages: calculatedResult.percentages,
-        ...mbtiDescriptions[calculatedResult.type],
+        type: result.type,
+        scores: result.scores,
+        percentages: result.percentages,
+        ...mbtiDescriptions[result.type],
         answers: answers,
       },
     });
@@ -190,8 +246,17 @@ const Test = () => {
       return;
     }
 
-    setShowResult(true);
-    toast.success("Resultado salvo com sucesso!");
+    setIsSaved(true);
+    // Clear localStorage after saving
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(RESULT_KEY);
+    toast.success("Resultado salvo no seu perfil!");
+  };
+
+  const handleStartNew = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(RESULT_KEY);
+    window.location.reload();
   };
 
   // Result page
@@ -278,11 +343,53 @@ const Test = () => {
               </div>
             </div>
 
+            {/* Call to action */}
+            {!isSaved && !user && (
+              <Card className="bg-primary/5 border-primary/20">
+                <CardContent className="pt-6">
+                  <div className="text-center space-y-3">
+                    <p className="text-sm font-medium">
+                      💾 Quer salvar seu resultado e acessar depois?
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Crie uma conta gratuita para salvar todos os seus resultados!
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             <div className="flex gap-3 justify-center flex-wrap">
-              <Button variant="hero" size="lg" onClick={() => navigate("/dashboard")}>
-                Ver Dashboard
-              </Button>
-              <Button variant="outline" size="lg" onClick={() => window.location.reload()}>
+              {user && !isSaved && (
+                <Button
+                  variant="hero"
+                  size="lg"
+                  onClick={handleSaveToProfile}
+                  disabled={isSubmitting}
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  {isSubmitting ? "Salvando..." : "Salvar no Perfil"}
+                </Button>
+              )}
+
+              {!user && (
+                <Button
+                  variant="hero"
+                  size="lg"
+                  onClick={() => navigate("/auth?redirect=/test/mbti")}
+                >
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Criar Conta / Login
+                </Button>
+              )}
+
+              {user && isSaved && (
+                <Button variant="hero" size="lg" onClick={() => navigate("/dashboard")}>
+                  Ver Dashboard
+                </Button>
+              )}
+
+              <Button variant="outline" size="lg" onClick={handleStartNew}>
                 Refazer Teste
               </Button>
             </div>
@@ -315,6 +422,12 @@ const Test = () => {
               <span>{answeredCount} de {TOTAL_QUESTIONS} questões respondidas</span>
               <span>{Math.round(progress)}%</span>
             </div>
+
+            {answeredCount > 0 && (
+              <p className="text-xs text-center text-muted-foreground mt-2">
+                💾 Seu progresso é salvo automaticamente
+              </p>
+            )}
           </CardHeader>
         </Card>
 
