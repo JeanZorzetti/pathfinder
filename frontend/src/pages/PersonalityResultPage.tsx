@@ -37,19 +37,21 @@ export default function PersonalityResultPage() {
 
   useEffect(() => {
     // Validar e carregar tipo de personalidade
-    if (!type || !isMBTICode(type)) {
-      // Tipo inválido
-      navigate('/404');
+    const upperType = type?.toUpperCase();
+
+    if (!upperType || !isMBTICode(upperType)) {
+      // Tipo inválido - redirecionar para NotFound
+      navigate('*');
       return;
     }
 
-    if (!isTypeImplemented(type)) {
+    if (!isTypeImplemented(upperType)) {
       // Tipo ainda não implementado
       setIsLoading(false);
       return;
     }
 
-    const data = getPersonalityType(type);
+    const data = getPersonalityType(upperType);
     setPersonalityType(data);
     setIsLoading(false);
 
@@ -71,15 +73,16 @@ export default function PersonalityResultPage() {
 
   // Type Not Implemented Yet
   if (!personalityType) {
+    const upperType = type?.toUpperCase();
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-md text-center">
           <div className="text-6xl mb-4">🚧</div>
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            Tipo {type} Em Desenvolvimento
+            Tipo {upperType} Em Desenvolvimento
           </h1>
           <p className="text-gray-600 mb-6">
-            Estamos trabalhando no conteúdo detalhado para o tipo {type}.
+            Estamos trabalhando no conteúdo detalhado para o tipo {upperType}.
             Em breve você poderá acessar a análise completa!
           </p>
           <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
