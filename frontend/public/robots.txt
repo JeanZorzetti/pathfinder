@@ -12,8 +12,8 @@ Disallow: /profile/
 Disallow: /*.json$
 Disallow: /*?*
 
-# Sitemap location
-Sitemap: https://pathback.roilabs.com.br/api/v1/content/sitemap.xml
+# Sitemap location (served via frontend proxy)
+Sitemap: https://pathfinder.roilabs.com.br/sitemap.xml
 
 # Specific crawlers
 User-agent: Googlebot
