@@ -188,6 +188,7 @@ const Test = () => {
   };
 
   const handleSubmit = async () => {
+    // NO LOGIN REQUIRED - Guest users can see results immediately
     if (answeredCount < TOTAL_QUESTIONS) {
       toast.error("Por favor, responda todas as questões antes de finalizar");
       return;
