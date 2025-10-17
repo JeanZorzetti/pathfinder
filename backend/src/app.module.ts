@@ -15,6 +15,8 @@ import { HealthModule } from './modules/health/health.module';
 import { GamificationModule } from './modules/gamification/gamification.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { ChallengesModule } from './modules/challenges/challenges.module';
+import { JournalModule } from './modules/journal/journal.module';
+import { ComparisonModule } from './modules/comparison/comparison.module';
 
 // Entities
 import { User } from './modules/users/entities/user.entity';
@@ -27,6 +29,8 @@ import { Article } from './modules/content/entities/article.entity';
 import { ArticleCategory } from './modules/content/entities/article-category.entity';
 import { XpTransaction } from './modules/gamification/entities/xp-transaction.entity';
 import { UserChallenge } from './modules/challenges/entities/user-challenge.entity';
+import { JournalEntry } from './modules/journal/entities/journal-entry.entity';
+import { ComparisonHistory } from './modules/comparison/entities/comparison-history.entity';
 
 // Config
 import typeormConfig from './config/typeorm.config';
@@ -61,6 +65,8 @@ import typeormConfig from './config/typeorm.config';
           ArticleCategory,
           XpTransaction,
           UserChallenge,
+          JournalEntry,
+          ComparisonHistory,
         ],
         synchronize: configService.get('NODE_ENV') === 'development',
         logging: configService.get('NODE_ENV') === 'development',
@@ -111,6 +117,8 @@ import typeormConfig from './config/typeorm.config';
     GamificationModule,
     DashboardModule,
     ChallengesModule,
+    JournalModule,
+    ComparisonModule,
   ],
   providers: [
     // Aplicar rate limiting globalmente

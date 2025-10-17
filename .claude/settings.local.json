@@ -24,7 +24,10 @@
       "Bash(npm run build:*)",
       "Bash(git checkout:*)",
       "Bash(touch:*)",
-      "Bash(timeout /t 10)"
+      "Bash(timeout /t 10)",
+      "Bash(node check-data.js:*)",
+      "Bash(node check-data.cjs:*)",
+      "Bash(node test-compatibility-algorithm.cjs:*)"
     ],
     "deny": [],
     "ask": []

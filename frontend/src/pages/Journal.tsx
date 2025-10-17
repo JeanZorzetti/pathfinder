@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase-client";
 import { User } from "@supabase/supabase-js";
+import { useJournal } from "@/hooks/useAPI";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,13 +23,23 @@ interface JournalEntry {
 const Journal = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
-  const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [isWriting, setIsWriting] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [content, setContent] = useState("");
   const [mood, setMood] = useState<string>("");
-  const [loading, setLoading] = useState(true);
 
+  // Use API hook for journal operations
+  const {
+    entries,
+    loading,
+    error,
+    createEntry,
+    getEntries,
+    updateEntry,
+    deleteEntry
+  } = useJournal();
+
+  // Auth management (still using Supabase Auth)
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) {
@@ -36,7 +47,8 @@ const Journal = () => {
         return;
       }
       setUser(session.user);
-      loadEntries(session.user.id);
+      // Load entries using API hook
+      getEntries(1, 50);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
@@ -44,27 +56,13 @@ const Journal = () => {
         navigate("/auth");
       } else {
         setUser(session.user);
+        // Reload entries on auth change
+        getEntries(1, 50);
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
-
-  const loadEntries = async (userId: string) => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from("journal_entries")
-      .select("*")
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false }) as { data: JournalEntry[] | null, error: any };
-
-    if (error) {
-      toast.error("Erro ao carregar entradas");
-    } else {
-      setEntries(data || []);
-    }
-    setLoading(false);
-  };
+  }, [navigate, getEntries]);
 
   const handleSave = async () => {
     if (!user || !content.trim()) {
@@ -72,33 +70,21 @@ const Journal = () => {
       return;
     }
 
-    if (editingId) {
-      const { error } = await supabase
-        .from("journal_entries")
-        .update({ content: content.trim(), mood: mood || null })
-        .eq("id", editingId);
-
-      if (error) {
-        toast.error("Erro ao atualizar entrada");
-      } else {
+    try {
+      if (editingId) {
+        // Update existing entry
+        await updateEntry(editingId, content.trim(), mood || undefined, undefined);
         toast.success("Entrada atualizada!");
-        loadEntries(user.id);
-        resetForm();
-      }
-    } else {
-      const { error } = await supabase.from("journal_entries").insert({
-        user_id: user.id,
-        content: content.trim(),
-        mood: mood || null,
-      });
-
-      if (error) {
-        toast.error("Erro ao salvar entrada");
       } else {
-        toast.success("Entrada salva com sucesso!");
-        loadEntries(user.id);
-        resetForm();
+        // Create new entry (+10 XP from backend)
+        await createEntry(content.trim(), mood || undefined, undefined);
+        toast.success("Entrada salva com sucesso! +10 XP");
       }
+      // Reload entries
+      await getEntries(1, 50);
+      resetForm();
+    } catch (err: any) {
+      toast.error(err.message || "Erro ao salvar entrada");
     }
   };
 
@@ -112,13 +98,12 @@ const Journal = () => {
   const handleDelete = async (id: string) => {
     if (!confirm("Tem certeza que deseja excluir esta entrada?")) return;
 
-    const { error } = await supabase.from("journal_entries").delete().eq("id", id);
-
-    if (error) {
-      toast.error("Erro ao excluir entrada");
-    } else {
+    try {
+      await deleteEntry(id);
       toast.success("Entrada excluída");
-      if (user) loadEntries(user.id);
+      // deleteEntry hook already reloads entries
+    } catch (err: any) {
+      toast.error(err.message || "Erro ao excluir entrada");
     }
   };
 
@@ -141,7 +126,7 @@ const Journal = () => {
     return mood ? moods[mood] || "📝" : "📝";
   };
 
-  if (loading) {
+  if (loading && entries.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin">
@@ -150,6 +135,13 @@ const Journal = () => {
       </div>
     );
   }
+
+  // Show error toast if API error
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   return (
     <div className="min-h-screen bg-gradient-subtle">

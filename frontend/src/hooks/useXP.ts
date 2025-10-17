@@ -1,7 +1,30 @@
 /**
  * useXP Hook - Gerenciamento de XP e Gamificação
  *
- * Sprint 2: Gamificação
+ * @deprecated Este hook está DEPRECATED - Use useProgress do useAPI.ts
+ *
+ * Sprint 5 Migration: Este hook foi substituído pela nova API backend.
+ *
+ * MIGRAÇÃO:
+ * ```typescript
+ * // ❌ ANTES (Supabase direto)
+ * import { useXP } from '@/hooks/useXP';
+ * const { addXP } = useXP();
+ * await addXP(userId, 'test_completed', currentXP, lastXpGain);
+ *
+ * // ✅ DEPOIS (API backend)
+ * import { useProgress } from '@/hooks/useAPI';
+ * const { addXP, loading, error } = useProgress();
+ * await addXP('test_completed', 100);
+ * ```
+ *
+ * Benefícios da nova API:
+ * - ✅ Não precisa passar userId (autenticação no backend)
+ * - ✅ Não precisa passar currentXP (backend calcula)
+ * - ✅ Validações centralizadas no backend
+ * - ✅ Hooks com estados de loading/error
+ *
+ * Sprint 2: Gamificação (LEGACY)
  *
  * Hook para adicionar XP, desbloquear conquistas e atualizar nível
  */

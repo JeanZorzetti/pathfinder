@@ -456,16 +456,46 @@ export class GamificationController {
 - [ ] Testes E2E
 
 ### Fase 4: Journal & Comparison (2 dias)
-- [ ] CRUD de journal entries
-- [ ] Sistema de prompts diários
-- [ ] Algoritmo de comparação
-- [ ] Histórico de comparações
+- [x] CRUD de journal entries
+- [x] Sistema de prompts diários (25+ prompts personalizados por MBTI)
+- [x] Estatísticas e cálculo de streaks
+- [x] JournalModule completo e testado
+- [x] Algoritmo de compatibilidade MBTI (portado do frontend)
+- [x] Sistema de geração de códigos de comparação
+- [x] Histórico de comparações com estatísticas
+- [x] ComparisonModule completo e testado
+- [x] Campos mbti_type e comparison_code adicionados à tabela users
+- [x] Tabela comparison_history criada automaticamente
 
 ### Fase 5: Integration & Testing (2-3 dias)
-- [ ] Integrar frontend com novo backend
-- [ ] Testes E2E completos
+
+- [x] Criar API Client no frontend (`frontend/src/lib/api.ts`)
+- [x] Criar hooks React (`frontend/src/hooks/useAPI.ts`)
+- [x] Configurar variáveis de ambiente (`.env`)
+- [x] Documentação de integração (`API_INTEGRATION.md`)
+- [x] Substituir chamadas Supabase nos componentes do frontend
+  - [x] `useXP` hook deprecado (substituído por `useProgress`)
+  - [x] `Journal.tsx` migrado 100% para API (create, update, delete, list)
+  - [x] `Dashboard.tsx` migração parcial (challenges, comparison code usando API)
+    - ✅ Challenges: `handleMarkChallengeComplete()` usa `completeDay()` da API
+    - ✅ Comparison: `useComparison().getCode()` integrado
+    - ⚠️ Profile/test_results/daily_insights ainda no Supabase (aguardando módulos backend)
+  - [ ] Outros componentes (Auth mantém Supabase conforme estratégia)
+- [x] **Backend compila sem erros TypeScript** ✅
+- [x] **Todos os 8 módulos carregam corretamente** ✅
+- [ ] Testes E2E completos (próximo passo recomendado)
 - [ ] Performance testing
 - [ ] Documentation review
+
+**✅ Status Final da Fase 5:**
+- **Backend**: 100% funcional (GamificationModule, DashboardModule, ChallengesModule, JournalModule, ComparisonModule)
+- **Frontend**: Migração parcial concluída
+  - useXP: ✅ Deprecado
+  - Journal: ✅ 100% migrado
+  - Dashboard: 🟡 Parcial (challenges + comparison na API)
+- **API Client**: ✅ 300+ linhas completas
+- **React Hooks**: ✅ 380+ linhas completos
+- **Documentação**: ✅ API_INTEGRATION.md e MIGRATION_STRATEGY.md completos
 
 ### Fase 6: Deploy (1 dia)
 - [ ] Deploy em Railway/Fly.io

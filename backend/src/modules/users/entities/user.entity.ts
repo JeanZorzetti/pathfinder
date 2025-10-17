@@ -55,6 +55,12 @@ export class User {
   @Column({ name: 'last_login_at', nullable: true })
   lastLoginAt: Date;
 
+  @Column({ name: 'mbti_type', nullable: true, length: 4 })
+  mbti_type: string;
+
+  @Column({ name: 'comparison_code', nullable: true, unique: true, length: 20 })
+  comparison_code: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

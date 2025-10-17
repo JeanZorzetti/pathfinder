@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase-client";
 import { User, Session } from "@supabase/supabase-js";
+import { useDashboard, useChallenges, useComparison } from "@/hooks/useAPI";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,7 +22,6 @@ import { calculateStreak, formatStreak } from "@/utils/streakCalculator";
 import { getColorScheme, getMBTINickname } from "@/data/mbti-colors";
 import { Achievement } from "@/types/gamification";
 import { getAchievementsForType } from "@/data/achievements";
-import { useXP } from "@/hooks/useXP";
 import { WeeklyChallenge, shouldCreateNewChallenge, getCurrentWeekdayIndex } from "@/types/challenges";
 import { selectWeeklyChallenge, createWeeklyChallengeFromTemplate } from "@/data/weeklyChallenges";
 import { getDailyPrompt } from "@/data/journalPrompts";
@@ -30,28 +30,42 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [testResults, setTestResults] = useState<TestResult[]>([]);
-  const [dailyInsight, setDailyInsight] = useState<DailyInsight | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [mbtiType, setMbtiType] = useState<string | null>(null);
-  const [streak, setStreak] = useState<{ current: number; longest: number }>({ current: 0, longest: 0 });
-  const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [currentChallenge, setCurrentChallenge] = useState<WeeklyChallenge | null>(null);
-  const [isChallengeProcessing, setIsChallengeProcessing] = useState(false);
-  const [recommendedContent, setRecommendedContent] = useState<Content[]>([]);
-  const [comparisonCode, setComparisonCode] = useState<string>('');
-  const { addXP } = useXP();
 
+  // API Hooks - auto-fetch dashboard data
+  const {
+    data: dashboardData,
+    loading: dashboardLoading,
+    error: dashboardError
+  } = useDashboard();
+
+  const {
+    currentChallenge,
+    loading: challengeLoading,
+    error: challengeError,
+    completeDay,
+    getCurrentChallenge
+  } = useChallenges();
+
+  const {
+    code: comparisonCode,
+    loading: comparisonLoading,
+    error: comparisonError,
+    getCode
+  } = useComparison();
+
+  // Auth management (Supabase Auth)
   useEffect(() => {
-    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        
+
         if (!session) {
           navigate("/auth");
+        } else {
+          // Trigger API hooks to fetch data
+          getCurrentChallenge();
+          getCode();
         }
       }
     );
@@ -60,16 +74,18 @@ const Dashboard = () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      
+
       if (!session) {
         navigate("/auth");
       } else {
-        loadDashboardData(session.user.id);
+        // Trigger initial data load
+        getCurrentChallenge();
+        getCode();
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, getCurrentChallenge, getCode]);
 
   const loadDashboardData = async (userId: string) => {
     setLoading(true);
@@ -230,9 +246,7 @@ const Dashboard = () => {
   };
 
   const handleMarkChallengeComplete = async () => {
-    if (!currentChallenge || !user || !profile) return;
-
-    setIsChallengeProcessing(true);
+    if (!currentChallenge || !user) return;
 
     try {
       const todayIndex = getCurrentWeekdayIndex();
@@ -241,54 +255,17 @@ const Dashboard = () => {
         return;
       }
 
-      // Update days completed
-      const updatedDays = [...currentChallenge.daysCompleted];
-      updatedDays[todayIndex] = true;
+      // Use API to complete day
+      await completeDay(todayIndex);
 
-      // Check if challenge is now complete (all 5 days)
-      const isNowCompleted = updatedDays.every((day) => day === true);
+      // Success toast is shown by the hook
+      toast.success("✓ Dia marcado como completo!");
 
-      const updatedChallenge: WeeklyChallenge = {
-        ...currentChallenge,
-        daysCompleted: updatedDays,
-        isCompleted: isNowCompleted,
-      };
-
-      setCurrentChallenge(updatedChallenge);
-
-      // Prepare database updates
-      const updates: any = {
-        current_challenge: updatedChallenge,
-      };
-
-      // If completed, add to completed challenges and give XP + badge
-      if (isNowCompleted) {
-        const completedChallenges = profile.completed_challenges || [];
-        updates.completed_challenges = [...completedChallenges, currentChallenge.id];
-
-        // Add XP for challenge completion
-        const newXP = (profile.xp || 0) + currentChallenge.xpReward;
-        updates.xp = newXP;
-
-        toast.success(`🎉 Desafio Completado!`, {
-          description: `+${currentChallenge.xpReward} XP ${currentChallenge.badgeReward || ''}`,
-        });
-
-        // Update local profile state
-        setProfile({ ...profile, xp: newXP, completed_challenges: updates.completed_challenges });
-      } else {
-        toast.success("✓ Dia marcado como completo!", {
-          description: `${updatedDays.filter((d) => d).length}/5 dias completos`,
-        });
-      }
-
-      // Save to database
-      await supabase.from("profiles").update(updates).eq("id", user.id);
-    } catch (error) {
+      // Reload challenge data
+      getCurrentChallenge();
+    } catch (error: any) {
       console.error("Error marking challenge complete:", error);
-      toast.error("Erro ao marcar desafio. Tente novamente.");
-    } finally {
-      setIsChallengeProcessing(false);
+      toast.error(error.message || "Erro ao marcar desafio. Tente novamente.");
     }
   };
 
