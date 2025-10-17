@@ -12,6 +12,8 @@ import { UsersModule } from './modules/users/users.module';
 import { PersonalityTestsModule } from './modules/personality-tests/personality-tests.module';
 import { ContentModule } from './modules/content/content.module';
 import { HealthModule } from './modules/health/health.module';
+import { GamificationModule } from './modules/gamification/gamification.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 // Entities
 import { User } from './modules/users/entities/user.entity';
@@ -22,6 +24,7 @@ import { TestResult } from './modules/personality-tests/entities/test-result.ent
 import { Answer } from './modules/personality-tests/entities/answer.entity';
 import { Article } from './modules/content/entities/article.entity';
 import { ArticleCategory } from './modules/content/entities/article-category.entity';
+import { XpTransaction } from './modules/gamification/entities/xp-transaction.entity';
 
 // Config
 import typeormConfig from './config/typeorm.config';
@@ -54,6 +57,7 @@ import typeormConfig from './config/typeorm.config';
           Answer,
           Article,
           ArticleCategory,
+          XpTransaction,
         ],
         synchronize: configService.get('NODE_ENV') === 'development',
         logging: configService.get('NODE_ENV') === 'development',
@@ -101,6 +105,8 @@ import typeormConfig from './config/typeorm.config';
     UsersModule,
     PersonalityTestsModule,
     ContentModule,
+    GamificationModule,
+    DashboardModule,
   ],
   providers: [
     // Aplicar rate limiting globalmente
