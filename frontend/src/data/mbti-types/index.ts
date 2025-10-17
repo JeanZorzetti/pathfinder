@@ -2,8 +2,8 @@
  * MBTI Types Data - Central Export
  *
  * Exporta todos os 16 tipos de personalidade MBTI.
- * Sprint 1 & 2 Completos: INTJ, INTP, ENTJ, ENTP, INFJ, INFP, ENFJ, ENFP (8/16)
- * Pendentes (Sprint 3): 8 tipos Sentinels & Explorers
+ * 🎉 TODOS OS 16 TIPOS COMPLETOS! 🎉
+ * Sprint 1-3: INTJ, INTP, ENTJ, ENTP, INFJ, INFP, ENFJ, ENFP, ISTJ, ISFJ, ESTJ, ESFJ, ISTP, ISFP, ESTP, ESFP
  */
 
 import { INTJ } from './intj';
@@ -14,9 +14,17 @@ import { ENTP } from './entp';
 import { INFJ } from './infj';
 import { ENFJ } from './enfj';
 import { ENFP } from './enfp';
+import { ISTJ } from './istj';
+import { ISFJ } from './isfj';
+import { ESTJ } from './estj';
+import { ESFJ } from './esfj';
+import { ISTP } from './istp';
+import { ISFP } from './isfp';
+import { ESTP } from './estp';
+import { ESFP } from './esfp';
 import { PersonalityType, MBTICode } from '../../types/personality';
 
-// Map de todos os tipos (atualmente 8/16 - Sprint 1 & 2 completos!)
+// Map de todos os tipos (16/16 - TODOS OS SPRINTS COMPLETOS! 🎉)
 export const PERSONALITY_TYPES: Record<MBTICode, PersonalityType | null> = {
   // Analysts (NT) - Sprint 1 & 2 ✅
   INTJ: INTJ,
@@ -30,17 +38,17 @@ export const PERSONALITY_TYPES: Record<MBTICode, PersonalityType | null> = {
   ENFJ: ENFJ,
   ENFP: ENFP,
 
-  // Sentinels (SJ) - Sprint 3
-  ISTJ: null, // TODO: Sprint 3
-  ISFJ: null, // TODO: Sprint 3
-  ESTJ: null, // TODO: Sprint 3
-  ESFJ: null, // TODO: Sprint 3
+  // Sentinels (SJ) - Sprint 3 ✅
+  ISTJ: ISTJ,
+  ISFJ: ISFJ,
+  ESTJ: ESTJ,
+  ESFJ: ESFJ,
 
-  // Explorers (SP) - Sprint 3
-  ISTP: null, // TODO: Sprint 3
-  ISFP: null, // TODO: Sprint 3
-  ESTP: null, // TODO: Sprint 3
-  ESFP: null, // TODO: Sprint 3
+  // Explorers (SP) - Sprint 3 ✅
+  ISTP: ISTP,
+  ISFP: ISFP,
+  ESTP: ESTP,
+  ESFP: ESFP,
 };
 
 /**
@@ -66,5 +74,5 @@ export function isTypeImplemented(code: MBTICode): boolean {
   return PERSONALITY_TYPES[code] !== null;
 }
 
-// Export individual dos tipos implementados (Sprint 1 & 2)
-export { INTJ, INTP, ENTJ, ENTP, INFJ, INFP, ENFJ, ENFP };
+// Export individual dos tipos implementados (Sprint 1, 2 & 3 - TODOS!)
+export { INTJ, INTP, ENTJ, ENTP, INFJ, INFP, ENFJ, ENFP, ISTJ, ISFJ, ESTJ, ESFJ, ISTP, ISFP, ESTP, ESFP };
