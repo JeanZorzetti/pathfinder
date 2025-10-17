@@ -35,4 +35,9 @@ export interface Profile {
   streak_current?: number;
   streak_longest?: number;
   visit_history?: string[]; // Array de datas de visitas
+  // Sprint 2: Gamificação
+  level?: number;
+  xp?: number;
+  achievements?: any[]; // JSON array de conquistas
+  last_xp_gain?: string | null;
 }

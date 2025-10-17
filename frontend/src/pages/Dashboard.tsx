@@ -9,9 +9,13 @@ import { Brain, LogOut, BookOpen, Flame, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import { DailyInsightCard } from "@/components/DailyInsightCard";
 import { ProfileCard } from "@/components/dashboard/ProfileCard";
+import { JourneyCard } from "@/components/dashboard/JourneyCard";
 import { TestResult, DailyInsight, Profile } from "@/types/database";
 import { calculateStreak, formatStreak } from "@/utils/streakCalculator";
 import { getColorScheme, getMBTINickname } from "@/data/mbti-colors";
+import { Achievement } from "@/types/gamification";
+import { getAchievementsForType } from "@/data/achievements";
+import { useXP } from "@/hooks/useXP";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -23,6 +27,8 @@ const Dashboard = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [mbtiType, setMbtiType] = useState<string | null>(null);
   const [streak, setStreak] = useState<{ current: number; longest: number }>({ current: 0, longest: 0 });
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const { addXP } = useXP();
 
   useEffect(() => {
     // Set up auth state listener
@@ -72,6 +78,10 @@ const Dashboard = () => {
       );
       setStreak(calculatedStreak);
 
+      // Initialize XP and level if not set
+      const currentXP = profileData.xp || 0;
+      const currentLevel = profileData.level || 1;
+
       // Update last visit and streak in database
       const now = new Date().toISOString();
       const updatedVisitHistory = [
@@ -85,7 +95,9 @@ const Dashboard = () => {
           last_visit: now,
           streak_current: calculatedStreak.current,
           streak_longest: calculatedStreak.longest,
-          visit_history: updatedVisitHistory
+          visit_history: updatedVisitHistory,
+          xp: currentXP,
+          level: currentLevel
         })
         .eq("id", userId);
     }
@@ -108,6 +120,24 @@ const Dashboard = () => {
       if (mbtiResult?.result_data) {
         personalityKey = (mbtiResult.result_data as any).type;
         setMbtiType(personalityKey); // Store MBTI type for ProfileCard
+
+        // Initialize achievements for this type
+        if (profileData) {
+          const userAchievements = profileData.achievements || [];
+          if (userAchievements.length === 0) {
+            // First time - initialize achievements
+            const initialAchievements = getAchievementsForType(personalityKey);
+            setAchievements(initialAchievements);
+
+            // Save to database
+            await supabase
+              .from("profiles")
+              .update({ achievements: initialAchievements })
+              .eq("id", userId);
+          } else {
+            setAchievements(userAchievements);
+          }
+        }
       } else {
         // Try Enneagram
         const enneagramResult = results.find((r) => r.test_type === "enneagram");
@@ -235,6 +265,18 @@ const Dashboard = () => {
               mbtiType={mbtiType}
               nickname={getMBTINickname(mbtiType)}
               colorScheme={getColorScheme(mbtiType)}
+            />
+          )}
+
+          {/* Journey Card - Gamification */}
+          {profile && (
+            <JourneyCard
+              xp={profile.xp || 0}
+              achievements={achievements}
+              onViewAll={() => {
+                // TODO: Navigate to achievements page
+                toast.info('Página de conquistas em desenvolvimento');
+              }}
             />
           )}
 
