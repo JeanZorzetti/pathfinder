@@ -204,7 +204,7 @@ export default function PersonalityResultPage() {
 
         {/* Cognitive Functions */}
         <CognitiveFunctionsStack
-          functions={personalityType.cognitiveFunctions}
+          functions={personalityType.cognitiveFunctions || []}
           colorScheme={personalityType.colorScheme}
         />
 
@@ -216,7 +216,7 @@ export default function PersonalityResultPage() {
           <p className="text-gray-600 mb-8">
             Estas são as características que fazem você brilhar. Use-as com consciência e intencionalidade.
           </p>
-          <StrengthsList strengths={personalityType.strengths.free} />
+          <StrengthsList strengths={personalityType.strengths?.free || []} />
 
           {/* Gated Strengths CTA */}
           {!isAuthenticated && (
@@ -240,7 +240,7 @@ export default function PersonalityResultPage() {
               <h3 className="text-2xl font-bold mb-4 text-gray-800">
                 ✨ Forças Secundárias
               </h3>
-              <StrengthsList strengths={personalityType.strengths.gated} />
+              <StrengthsList strengths={personalityType.strengths?.gated || []} />
             </div>
           )}
         </section>
@@ -254,7 +254,7 @@ export default function PersonalityResultPage() {
             Conhecer suas fraquezas é o primeiro passo para superá-las. Não são defeitos, são oportunidades de crescimento.
           </p>
           <WeaknessesList
-            weaknesses={personalityType.weaknesses.free}
+            weaknesses={personalityType.weaknesses?.free || []}
             showMitigation={false}
           />
 
@@ -281,7 +281,7 @@ export default function PersonalityResultPage() {
                 🔧 Análise Completa + Como Superar
               </h3>
               <WeaknessesList
-                weaknesses={personalityType.weaknesses.gated.full}
+                weaknesses={personalityType.weaknesses?.gated?.full || []}
                 showMitigation={true}
               />
             </div>
@@ -296,7 +296,7 @@ export default function PersonalityResultPage() {
           <p className="text-gray-600 mb-8">
             Estas carreiras se alinham naturalmente com suas forças e preferências. Use como ponto de partida para exploração.
           </p>
-          <CareerPathsGrid careers={personalityType.careers.free} showDetailed={false} />
+          <CareerPathsGrid careers={personalityType.careers?.free || []} showDetailed={false} />
 
           {/* Gated Careers CTA */}
           {!isAuthenticated && (
@@ -315,7 +315,7 @@ export default function PersonalityResultPage() {
           )}
 
           {/* Show Gated Careers if Authenticated */}
-          {isAuthenticated && personalityType.careers.gated.length > 0 && (
+          {isAuthenticated && personalityType.careers?.gated && personalityType.careers.gated.length > 0 && (
             <div className="mt-8">
               <h3 className="text-2xl font-bold mb-4 text-gray-800">
                 📊 Mais Carreiras Detalhadas
@@ -366,7 +366,7 @@ export default function PersonalityResultPage() {
           <p className="text-gray-600 mb-8">
             Estas personalidades compartilham seu tipo MBTI. Veja o que vocês têm em comum!
           </p>
-          <FamousPeopleGrid people={personalityType.famousPeople} />
+          <FamousPeopleGrid people={personalityType.famousPeople || []} />
         </section>
 
         {/* Final CTA - Big Banner */}
