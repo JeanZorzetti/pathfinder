@@ -274,16 +274,16 @@ O verdadeiro poder do ISTP está em sua capacidade de permanecer absolutamente p
   },
 
   famousPeople: [
-    { name: 'Bruce Lee', role: 'Artista Marcial e Ator', avatar: 'https://ui-avatars.com/api/?name=Bruce+Lee&background=0F766E&color=fff' },
-    { name: 'Tom Cruise', role: 'Ator', avatar: 'https://ui-avatars.com/api/?name=Tom+Cruise&background=0F766E&color=fff' },
-    { name: 'Clint Eastwood', role: 'Ator e Diretor', avatar: 'https://ui-avatars.com/api/?name=Clint+Eastwood&background=0F766E&color=fff' },
-    { name: 'Bear Grylls', role: 'Aventureiro e Sobrevivencialista', avatar: 'https://ui-avatars.com/api/?name=Bear+Grylls&background=0F766E&color=fff' },
-    { name: 'Amelia Earhart', role: 'Aviadora', avatar: 'https://ui-avatars.com/api/?name=Amelia+Earhart&background=0F766E&color=fff' },
-    { name: 'Steve Jobs', role: 'Empreendedor', avatar: 'https://ui-avatars.com/api/?name=Steve+Jobs&background=0F766E&color=fff' },
-    { name: 'Katherine Hepburn', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Katherine+Hepburn&background=0F766E&color=fff' },
-    { name: 'Michael Jordan', role: 'Atleta', avatar: 'https://ui-avatars.com/api/?name=Michael+Jordan&background=0F766E&color=fff' },
-    { name: 'Snoop Dogg', role: 'Músico', avatar: 'https://ui-avatars.com/api/?name=Snoop+Dogg&background=0F766E&color=fff' },
-    { name: 'Scarlett Johansson', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Scarlett+Johansson&background=0F766E&color=fff' },
+    { name: 'Bruce Lee', description: 'Artista Marcial e Ator', photo: 'https://ui-avatars.com/api/?name=Bruce+Lee&background=0F766E&color=fff', category: 'contemporary' },
+    { name: 'Tom Cruise', description: 'Ator', photo: 'https://ui-avatars.com/api/?name=Tom+Cruise&background=0F766E&color=fff', category: 'contemporary' },
+    { name: 'Clint Eastwood', description: 'Ator e Diretor', photo: 'https://ui-avatars.com/api/?name=Clint+Eastwood&background=0F766E&color=fff', category: 'contemporary' },
+    { name: 'Bear Grylls', description: 'Aventureiro e Sobrevivencialista', photo: 'https://ui-avatars.com/api/?name=Bear+Grylls&background=0F766E&color=fff', category: 'contemporary' },
+    { name: 'Amelia Earhart', description: 'Aviadora', photo: 'https://ui-avatars.com/api/?name=Amelia+Earhart&background=0F766E&color=fff', category: 'contemporary' },
+    { name: 'Steve Jobs', description: 'Empreendedor', photo: 'https://ui-avatars.com/api/?name=Steve+Jobs&background=0F766E&color=fff', category: 'contemporary' },
+    { name: 'Katherine Hepburn', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Katherine+Hepburn&background=0F766E&color=fff', category: 'contemporary' },
+    { name: 'Michael Jordan', description: 'Atleta', photo: 'https://ui-avatars.com/api/?name=Michael+Jordan&background=0F766E&color=fff', category: 'contemporary' },
+    { name: 'Snoop Dogg', description: 'Músico', photo: 'https://ui-avatars.com/api/?name=Snoop+Dogg&background=0F766E&color=fff', category: 'contemporary' },
+    { name: 'Scarlett Johansson', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Scarlett+Johansson&background=0F766E&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

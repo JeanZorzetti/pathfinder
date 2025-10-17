@@ -274,16 +274,16 @@ O verdadeiro poder do INTP está em sua capacidade de ver padrões onde outros v
   },
 
   famousPeople: [
-    { name: 'Albert Einstein', role: 'Físico Teórico', avatar: 'https://ui-avatars.com/api/?name=Albert+Einstein&background=4C51BF&color=fff' },
-    { name: 'Isaac Newton', role: 'Matemático e Físico', avatar: 'https://ui-avatars.com/api/?name=Isaac+Newton&background=4C51BF&color=fff' },
-    { name: 'Charles Darwin', role: 'Naturalista', avatar: 'https://ui-avatars.com/api/?name=Charles+Darwin&background=4C51BF&color=fff' },
-    { name: 'Bill Gates', role: 'Empreendedor e Filantropo', avatar: 'https://ui-avatars.com/api/?name=Bill+Gates&background=4C51BF&color=fff' },
-    { name: 'Tina Fey', role: 'Comediante e Roteirista', avatar: 'https://ui-avatars.com/api/?name=Tina+Fey&background=4C51BF&color=fff' },
-    { name: 'Larry Page', role: 'Co-fundador do Google', avatar: 'https://ui-avatars.com/api/?name=Larry+Page&background=4C51BF&color=fff' },
-    { name: 'Kristen Stewart', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Kristen+Stewart&background=4C51BF&color=fff' },
-    { name: 'Immanuel Kant', role: 'Filósofo', avatar: 'https://ui-avatars.com/api/?name=Immanuel+Kant&background=4C51BF&color=fff' },
-    { name: 'René Descartes', role: 'Filósofo e Matemático', avatar: 'https://ui-avatars.com/api/?name=Rene+Descartes&background=4C51BF&color=fff' },
-    { name: 'Marie Curie', role: 'Física e Química', avatar: 'https://ui-avatars.com/api/?name=Marie+Curie&background=4C51BF&color=fff' },
+    { name: 'Albert Einstein', description: 'Físico Teórico', photo: 'https://ui-avatars.com/api/?name=Albert+Einstein&background=4C51BF&color=fff', category: 'contemporary' },
+    { name: 'Isaac Newton', description: 'Matemático e Físico', photo: 'https://ui-avatars.com/api/?name=Isaac+Newton&background=4C51BF&color=fff', category: 'contemporary' },
+    { name: 'Charles Darwin', description: 'Naturalista', photo: 'https://ui-avatars.com/api/?name=Charles+Darwin&background=4C51BF&color=fff', category: 'contemporary' },
+    { name: 'Bill Gates', description: 'Empreendedor e Filantropo', photo: 'https://ui-avatars.com/api/?name=Bill+Gates&background=4C51BF&color=fff', category: 'contemporary' },
+    { name: 'Tina Fey', description: 'Comediante e Roteirista', photo: 'https://ui-avatars.com/api/?name=Tina+Fey&background=4C51BF&color=fff', category: 'contemporary' },
+    { name: 'Larry Page', description: 'Co-fundador do Google', photo: 'https://ui-avatars.com/api/?name=Larry+Page&background=4C51BF&color=fff', category: 'contemporary' },
+    { name: 'Kristen Stewart', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Kristen+Stewart&background=4C51BF&color=fff', category: 'contemporary' },
+    { name: 'Immanuel Kant', description: 'Filósofo', photo: 'https://ui-avatars.com/api/?name=Immanuel+Kant&background=4C51BF&color=fff', category: 'contemporary' },
+    { name: 'René Descartes', description: 'Filósofo e Matemático', photo: 'https://ui-avatars.com/api/?name=Rene+Descartes&background=4C51BF&color=fff', category: 'contemporary' },
+    { name: 'Marie Curie', description: 'Física e Química', photo: 'https://ui-avatars.com/api/?name=Marie+Curie&background=4C51BF&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

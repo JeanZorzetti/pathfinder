@@ -274,16 +274,16 @@ O verdadeiro poder do INFJ está em sua capacidade de inspirar mudança genuína
   },
 
   famousPeople: [
-    { name: 'Martin Luther King Jr.', role: 'Líder dos Direitos Civis', avatar: 'https://ui-avatars.com/api/?name=Martin+Luther+King&background=059669&color=fff' },
-    { name: 'Nelson Mandela', role: 'Ativista e Ex-Presidente', avatar: 'https://ui-avatars.com/api/?name=Nelson+Mandela&background=059669&color=fff' },
-    { name: 'Mother Teresa', role: 'Missionária e Santa', avatar: 'https://ui-avatars.com/api/?name=Mother+Teresa&background=059669&color=fff' },
-    { name: 'Oprah Winfrey', role: 'Apresentadora e Filantropa', avatar: 'https://ui-avatars.com/api/?name=Oprah+Winfrey&background=059669&color=fff' },
-    { name: 'Carl Jung', role: 'Psicólogo e Psiquiatra', avatar: 'https://ui-avatars.com/api/?name=Carl+Jung&background=059669&color=fff' },
-    { name: 'Fyodor Dostoevsky', role: 'Escritor e Filósofo', avatar: 'https://ui-avatars.com/api/?name=Fyodor+Dostoevsky&background=059669&color=fff' },
-    { name: 'Lady Gaga', role: 'Cantora e Ativista', avatar: 'https://ui-avatars.com/api/?name=Lady+Gaga&background=059669&color=fff' },
-    { name: 'Nicole Kidman', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Nicole+Kidman&background=059669&color=fff' },
-    { name: 'Mahatma Gandhi', role: 'Líder Pacifista', avatar: 'https://ui-avatars.com/api/?name=Mahatma+Gandhi&background=059669&color=fff' },
-    { name: 'Eleanor Roosevelt', role: 'Diplomata e Ativista', avatar: 'https://ui-avatars.com/api/?name=Eleanor+Roosevelt&background=059669&color=fff' },
+    { name: 'Martin Luther King Jr.', description: 'Líder dos Direitos Civis', photo: 'https://ui-avatars.com/api/?name=Martin+Luther+King&background=059669&color=fff', category: 'historical' },
+    { name: 'Nelson Mandela', description: 'Ativista e Ex-Presidente', photo: 'https://ui-avatars.com/api/?name=Nelson+Mandela&background=059669&color=fff', category: 'historical' },
+    { name: 'Mother Teresa', description: 'Missionária e Santa', photo: 'https://ui-avatars.com/api/?name=Mother+Teresa&background=059669&color=fff', category: 'historical' },
+    { name: 'Oprah Winfrey', description: 'Apresentadora e Filantropa', photo: 'https://ui-avatars.com/api/?name=Oprah+Winfrey&background=059669&color=fff', category: 'contemporary' },
+    { name: 'Carl Jung', description: 'Psicólogo e Psiquiatra', photo: 'https://ui-avatars.com/api/?name=Carl+Jung&background=059669&color=fff', category: 'historical' },
+    { name: 'Fyodor Dostoevsky', description: 'Escritor e Filósofo', photo: 'https://ui-avatars.com/api/?name=Fyodor+Dostoevsky&background=059669&color=fff', category: 'historical' },
+    { name: 'Lady Gaga', description: 'Cantora e Ativista', photo: 'https://ui-avatars.com/api/?name=Lady+Gaga&background=059669&color=fff', category: 'contemporary' },
+    { name: 'Nicole Kidman', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Nicole+Kidman&background=059669&color=fff', category: 'contemporary' },
+    { name: 'Mahatma Gandhi', description: 'Líder Pacifista', photo: 'https://ui-avatars.com/api/?name=Mahatma+Gandhi&background=059669&color=fff', category: 'historical' },
+    { name: 'Eleanor Roosevelt', description: 'Diplomata e Ativista', photo: 'https://ui-avatars.com/api/?name=Eleanor+Roosevelt&background=059669&color=fff', category: 'historical' },
   ],
 
   relationships: {

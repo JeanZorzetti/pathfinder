@@ -274,16 +274,16 @@ O verdadeiro poder do ESTJ está em sua capacidade de transformar ideias em aç�
   },
 
   famousPeople: [
-    { name: 'Judge Judy', role: 'Juíza e Personalidade da TV', avatar: 'https://ui-avatars.com/api/?name=Judge+Judy&background=991B1B&color=fff' },
-    { name: 'John D. Rockefeller', role: 'Industrial e Filantropo', avatar: 'https://ui-avatars.com/api/?name=John+Rockefeller&background=991B1B&color=fff' },
-    { name: 'Lyndon B. Johnson', role: '36º Presidente dos EUA', avatar: 'https://ui-avatars.com/api/?name=Lyndon+Johnson&background=991B1B&color=fff' },
-    { name: 'Martha Stewart', role: 'Empresária e Apresentadora', avatar: 'https://ui-avatars.com/api/?name=Martha+Stewart&background=991B1B&color=fff' },
-    { name: 'Sonia Sotomayor', role: 'Juíza da Suprema Corte', avatar: 'https://ui-avatars.com/api/?name=Sonia+Sotomayor&background=991B1B&color=fff' },
-    { name: 'Billy Graham', role: 'Evangelista', avatar: 'https://ui-avatars.com/api/?name=Billy+Graham&background=991B1B&color=fff' },
-    { name: 'Laura Linney', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Laura+Linney&background=991B1B&color=fff' },
-    { name: 'Vince Lombardi', role: 'Treinador de Futebol Americano', avatar: 'https://ui-avatars.com/api/?name=Vince+Lombardi&background=991B1B&color=fff' },
-    { name: 'Michelle Obama', role: 'Ex-Primeira Dama', avatar: 'https://ui-avatars.com/api/?name=Michelle+Obama&background=991B1B&color=fff' },
-    { name: 'Frank Sinatra', role: 'Cantor e Ator', avatar: 'https://ui-avatars.com/api/?name=Frank+Sinatra&background=991B1B&color=fff' },
+    { name: 'Judge Judy', description: 'Juíza e Personalidade da TV', photo: 'https://ui-avatars.com/api/?name=Judge+Judy&background=991B1B&color=fff', category: 'contemporary' },
+    { name: 'John D. Rockefeller', description: 'Industrial e Filantropo', photo: 'https://ui-avatars.com/api/?name=John+Rockefeller&background=991B1B&color=fff', category: 'contemporary' },
+    { name: 'Lyndon B. Johnson', description: '36º Presidente dos EUA', photo: 'https://ui-avatars.com/api/?name=Lyndon+Johnson&background=991B1B&color=fff', category: 'contemporary' },
+    { name: 'Martha Stewart', description: 'Empresária e Apresentadora', photo: 'https://ui-avatars.com/api/?name=Martha+Stewart&background=991B1B&color=fff', category: 'contemporary' },
+    { name: 'Sonia Sotomayor', description: 'Juíza da Suprema Corte', photo: 'https://ui-avatars.com/api/?name=Sonia+Sotomayor&background=991B1B&color=fff', category: 'contemporary' },
+    { name: 'Billy Graham', description: 'Evangelista', photo: 'https://ui-avatars.com/api/?name=Billy+Graham&background=991B1B&color=fff', category: 'contemporary' },
+    { name: 'Laura Linney', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Laura+Linney&background=991B1B&color=fff', category: 'contemporary' },
+    { name: 'Vince Lombardi', description: 'Treinador de Futebol Americano', photo: 'https://ui-avatars.com/api/?name=Vince+Lombardi&background=991B1B&color=fff', category: 'contemporary' },
+    { name: 'Michelle Obama', description: 'Ex-Primeira Dama', photo: 'https://ui-avatars.com/api/?name=Michelle+Obama&background=991B1B&color=fff', category: 'contemporary' },
+    { name: 'Frank Sinatra', description: 'Cantor e Ator', photo: 'https://ui-avatars.com/api/?name=Frank+Sinatra&background=991B1B&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

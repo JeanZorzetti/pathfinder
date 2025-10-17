@@ -274,16 +274,16 @@ O verdadeiro poder do ESTP está em sua capacidade de transformar caos em oportu
   },
 
   famousPeople: [
-    { name: 'Donald Trump', role: 'Empresário e Político', avatar: 'https://ui-avatars.com/api/?name=Donald+Trump&background=EA580C&color=fff' },
-    { name: 'Ernest Hemingway', role: 'Escritor', avatar: 'https://ui-avatars.com/api/?name=Ernest+Hemingway&background=EA580C&color=fff' },
-    { name: 'Eddie Murphy', role: 'Comediante e Ator', avatar: 'https://ui-avatars.com/api/?name=Eddie+Murphy&background=EA580C&color=fff' },
-    { name: 'Madonna', role: 'Cantora e Empresária', avatar: 'https://ui-avatars.com/api/?name=Madonna&background=EA580C&color=fff' },
-    { name: 'Bruce Willis', role: 'Ator', avatar: 'https://ui-avatars.com/api/?name=Bruce+Willis&background=EA580C&color=fff' },
-    { name: 'Jack Nicholson', role: 'Ator', avatar: 'https://ui-avatars.com/api/?name=Jack+Nicholson&background=EA580C&color=fff' },
-    { name: 'Samuel L. Jackson', role: 'Ator', avatar: 'https://ui-avatars.com/api/?name=Samuel+Jackson&background=EA580C&color=fff' },
-    { name: 'Winston Churchill', role: 'Estadista', avatar: 'https://ui-avatars.com/api/?name=Winston+Churchill&background=EA580C&color=fff' },
-    { name: 'Theodore Roosevelt', role: 'Presidente dos EUA', avatar: 'https://ui-avatars.com/api/?name=Theodore+Roosevelt&background=EA580C&color=fff' },
-    { name: 'Mae West', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Mae+West&background=EA580C&color=fff' },
+    { name: 'Donald Trump', description: 'Empresário e Político', photo: 'https://ui-avatars.com/api/?name=Donald+Trump&background=EA580C&color=fff', category: 'contemporary' },
+    { name: 'Ernest Hemingway', description: 'Escritor', photo: 'https://ui-avatars.com/api/?name=Ernest+Hemingway&background=EA580C&color=fff', category: 'contemporary' },
+    { name: 'Eddie Murphy', description: 'Comediante e Ator', photo: 'https://ui-avatars.com/api/?name=Eddie+Murphy&background=EA580C&color=fff', category: 'contemporary' },
+    { name: 'Madonna', description: 'Cantora e Empresária', photo: 'https://ui-avatars.com/api/?name=Madonna&background=EA580C&color=fff', category: 'contemporary' },
+    { name: 'Bruce Willis', description: 'Ator', photo: 'https://ui-avatars.com/api/?name=Bruce+Willis&background=EA580C&color=fff', category: 'contemporary' },
+    { name: 'Jack Nicholson', description: 'Ator', photo: 'https://ui-avatars.com/api/?name=Jack+Nicholson&background=EA580C&color=fff', category: 'contemporary' },
+    { name: 'Samuel L. Jackson', description: 'Ator', photo: 'https://ui-avatars.com/api/?name=Samuel+Jackson&background=EA580C&color=fff', category: 'contemporary' },
+    { name: 'Winston Churchill', description: 'Estadista', photo: 'https://ui-avatars.com/api/?name=Winston+Churchill&background=EA580C&color=fff', category: 'contemporary' },
+    { name: 'Theodore Roosevelt', description: 'Presidente dos EUA', photo: 'https://ui-avatars.com/api/?name=Theodore+Roosevelt&background=EA580C&color=fff', category: 'contemporary' },
+    { name: 'Mae West', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Mae+West&background=EA580C&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

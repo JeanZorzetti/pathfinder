@@ -295,16 +295,16 @@ O verdadeiro dom do ESFP está em sua capacidade de fazer os outros se sentirem 
   },
 
   famousPeople: [
-    { name: 'Marilyn Monroe', role: 'Atriz e Ícone Cultural', avatar: 'https://ui-avatars.com/api/?name=Marilyn+Monroe&background=F59E0B&color=fff' },
-    { name: 'Elvis Presley', role: 'Cantor e Performer', avatar: 'https://ui-avatars.com/api/?name=Elvis+Presley&background=F59E0B&color=fff' },
-    { name: 'Jamie Foxx', role: 'Ator e Comediante', avatar: 'https://ui-avatars.com/api/?name=Jamie+Foxx&background=F59E0B&color=fff' },
-    { name: 'Adele', role: 'Cantora', avatar: 'https://ui-avatars.com/api/?name=Adele&background=F59E0B&color=fff' },
-    { name: 'Will Smith', role: 'Ator e Produtor', avatar: 'https://ui-avatars.com/api/?name=Will+Smith&background=F59E0B&color=fff' },
-    { name: 'Katy Perry', role: 'Cantora e Compositora', avatar: 'https://ui-avatars.com/api/?name=Katy+Perry&background=F59E0B&color=fff' },
-    { name: 'Dolly Parton', role: 'Cantora e Filantropa', avatar: 'https://ui-avatars.com/api/?name=Dolly+Parton&background=F59E0B&color=fff' },
-    { name: 'Magic Johnson', role: 'Jogador de Basquete', avatar: 'https://ui-avatars.com/api/?name=Magic+Johnson&background=F59E0B&color=fff' },
-    { name: 'Miley Cyrus', role: 'Cantora e Atriz', avatar: 'https://ui-avatars.com/api/?name=Miley+Cyrus&background=F59E0B&color=fff' },
-    { name: 'Hugh Hefner', role: 'Empresário e Editor', avatar: 'https://ui-avatars.com/api/?name=Hugh+Hefner&background=F59E0B&color=fff' },
+    { name: 'Marilyn Monroe', description: 'Atriz e Ícone Cultural', photo: 'https://ui-avatars.com/api/?name=Marilyn+Monroe&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Elvis Presley', description: 'Cantor e Performer', photo: 'https://ui-avatars.com/api/?name=Elvis+Presley&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Jamie Foxx', description: 'Ator e Comediante', photo: 'https://ui-avatars.com/api/?name=Jamie+Foxx&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Adele', description: 'Cantora', photo: 'https://ui-avatars.com/api/?name=Adele&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Will Smith', description: 'Ator e Produtor', photo: 'https://ui-avatars.com/api/?name=Will+Smith&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Katy Perry', description: 'Cantora e Compositora', photo: 'https://ui-avatars.com/api/?name=Katy+Perry&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Dolly Parton', description: 'Cantora e Filantropa', photo: 'https://ui-avatars.com/api/?name=Dolly+Parton&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Magic Johnson', description: 'Jogador de Basquete', photo: 'https://ui-avatars.com/api/?name=Magic+Johnson&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Miley Cyrus', description: 'Cantora e Atriz', photo: 'https://ui-avatars.com/api/?name=Miley+Cyrus&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Hugh Hefner', description: 'Empresário e Editor', photo: 'https://ui-avatars.com/api/?name=Hugh+Hefner&background=F59E0B&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

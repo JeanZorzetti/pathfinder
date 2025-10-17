@@ -274,16 +274,16 @@ O verdadeiro poder do ENTJ está em sua capacidade de transformar visões ambici
   },
 
   famousPeople: [
-    { name: 'Steve Jobs', role: 'Co-fundador da Apple', avatar: 'https://ui-avatars.com/api/?name=Steve+Jobs&background=DC2626&color=fff' },
-    { name: 'Napoleon Bonaparte', role: 'Líder Militar e Imperador', avatar: 'https://ui-avatars.com/api/?name=Napoleon+Bonaparte&background=DC2626&color=fff' },
-    { name: 'Margaret Thatcher', role: 'Primeira-Ministra do Reino Unido', avatar: 'https://ui-avatars.com/api/?name=Margaret+Thatcher&background=DC2626&color=fff' },
-    { name: 'Franklin D. Roosevelt', role: 'Presidente dos EUA', avatar: 'https://ui-avatars.com/api/?name=Franklin+Roosevelt&background=DC2626&color=fff' },
-    { name: 'Gordon Ramsay', role: 'Chef e Empresário', avatar: 'https://ui-avatars.com/api/?name=Gordon+Ramsay&background=DC2626&color=fff' },
-    { name: 'Whoopi Goldberg', role: 'Atriz e Apresentadora', avatar: 'https://ui-avatars.com/api/?name=Whoopi+Goldberg&background=DC2626&color=fff' },
-    { name: 'Harrison Ford', role: 'Ator', avatar: 'https://ui-avatars.com/api/?name=Harrison+Ford&background=DC2626&color=fff' },
-    { name: 'Mindy Kaling', role: 'Atriz e Produtora', avatar: 'https://ui-avatars.com/api/?name=Mindy+Kaling&background=DC2626&color=fff' },
-    { name: 'Malcolm X', role: 'Ativista de Direitos Civis', avatar: 'https://ui-avatars.com/api/?name=Malcolm+X&background=DC2626&color=fff' },
-    { name: 'Bill Gates', role: 'Co-fundador da Microsoft', avatar: 'https://ui-avatars.com/api/?name=Bill+Gates&background=DC2626&color=fff' },
+    { name: 'Steve Jobs', description: 'Co-fundador da Apple', photo: 'https://ui-avatars.com/api/?name=Steve+Jobs&background=DC2626&color=fff', category: 'contemporary' },
+    { name: 'Napoleon Bonaparte', description: 'Líder Militar e Imperador', photo: 'https://ui-avatars.com/api/?name=Napoleon+Bonaparte&background=DC2626&color=fff', category: 'contemporary' },
+    { name: 'Margaret Thatcher', description: 'Primeira-Ministra do Reino Unido', photo: 'https://ui-avatars.com/api/?name=Margaret+Thatcher&background=DC2626&color=fff', category: 'contemporary' },
+    { name: 'Franklin D. Roosevelt', description: 'Presidente dos EUA', photo: 'https://ui-avatars.com/api/?name=Franklin+Roosevelt&background=DC2626&color=fff', category: 'contemporary' },
+    { name: 'Gordon Ramsay', description: 'Chef e Empresário', photo: 'https://ui-avatars.com/api/?name=Gordon+Ramsay&background=DC2626&color=fff', category: 'contemporary' },
+    { name: 'Whoopi Goldberg', description: 'Atriz e Apresentadora', photo: 'https://ui-avatars.com/api/?name=Whoopi+Goldberg&background=DC2626&color=fff', category: 'contemporary' },
+    { name: 'Harrison Ford', description: 'Ator', photo: 'https://ui-avatars.com/api/?name=Harrison+Ford&background=DC2626&color=fff', category: 'contemporary' },
+    { name: 'Mindy Kaling', description: 'Atriz e Produtora', photo: 'https://ui-avatars.com/api/?name=Mindy+Kaling&background=DC2626&color=fff', category: 'contemporary' },
+    { name: 'Malcolm X', description: 'Ativista de Direitos Civis', photo: 'https://ui-avatars.com/api/?name=Malcolm+X&background=DC2626&color=fff', category: 'contemporary' },
+    { name: 'Bill Gates', description: 'Co-fundador da Microsoft', photo: 'https://ui-avatars.com/api/?name=Bill+Gates&background=DC2626&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

@@ -274,16 +274,16 @@ O verdadeiro poder do ISFP está em sua capacidade de transformar o ordinário e
   },
 
   famousPeople: [
-    { name: 'Marilyn Monroe', role: 'Atriz e Ícone Cultural', avatar: 'https://ui-avatars.com/api/?name=Marilyn+Monroe&background=7C3AED&color=fff' },
-    { name: 'Bob Dylan', role: 'Músico e Poeta', avatar: 'https://ui-avatars.com/api/?name=Bob+Dylan&background=7C3AED&color=fff' },
-    { name: 'Prince', role: 'Músico e Performer', avatar: 'https://ui-avatars.com/api/?name=Prince&background=7C3AED&color=fff' },
-    { name: 'Rihanna', role: 'Cantora e Empresária', avatar: 'https://ui-avatars.com/api/?name=Rihanna&background=7C3AED&color=fff' },
-    { name: 'Jimi Hendrix', role: 'Guitarrista Lendário', avatar: 'https://ui-avatars.com/api/?name=Jimi+Hendrix&background=7C3AED&color=fff' },
-    { name: 'Frida Kahlo', role: 'Pintora', avatar: 'https://ui-avatars.com/api/?name=Frida+Kahlo&background=7C3AED&color=fff' },
-    { name: 'Britney Spears', role: 'Cantora e Performer', avatar: 'https://ui-avatars.com/api/?name=Britney+Spears&background=7C3AED&color=fff' },
-    { name: 'Kevin Costner', role: 'Ator e Diretor', avatar: 'https://ui-avatars.com/api/?name=Kevin+Costner&background=7C3AED&color=fff' },
-    { name: 'Lana Del Rey', role: 'Cantora e Compositora', avatar: 'https://ui-avatars.com/api/?name=Lana+Del+Rey&background=7C3AED&color=fff' },
-    { name: 'Michael Jackson', role: 'Rei do Pop', avatar: 'https://ui-avatars.com/api/?name=Michael+Jackson&background=7C3AED&color=fff' },
+    { name: 'Marilyn Monroe', description: 'Atriz e Ícone Cultural', photo: 'https://ui-avatars.com/api/?name=Marilyn+Monroe&background=7C3AED&color=fff', category: 'contemporary' },
+    { name: 'Bob Dylan', description: 'Músico e Poeta', photo: 'https://ui-avatars.com/api/?name=Bob+Dylan&background=7C3AED&color=fff', category: 'contemporary' },
+    { name: 'Prince', description: 'Músico e Performer', photo: 'https://ui-avatars.com/api/?name=Prince&background=7C3AED&color=fff', category: 'contemporary' },
+    { name: 'Rihanna', description: 'Cantora e Empresária', photo: 'https://ui-avatars.com/api/?name=Rihanna&background=7C3AED&color=fff', category: 'contemporary' },
+    { name: 'Jimi Hendrix', description: 'Guitarrista Lendário', photo: 'https://ui-avatars.com/api/?name=Jimi+Hendrix&background=7C3AED&color=fff', category: 'contemporary' },
+    { name: 'Frida Kahlo', description: 'Pintora', photo: 'https://ui-avatars.com/api/?name=Frida+Kahlo&background=7C3AED&color=fff', category: 'contemporary' },
+    { name: 'Britney Spears', description: 'Cantora e Performer', photo: 'https://ui-avatars.com/api/?name=Britney+Spears&background=7C3AED&color=fff', category: 'contemporary' },
+    { name: 'Kevin Costner', description: 'Ator e Diretor', photo: 'https://ui-avatars.com/api/?name=Kevin+Costner&background=7C3AED&color=fff', category: 'contemporary' },
+    { name: 'Lana Del Rey', description: 'Cantora e Compositora', photo: 'https://ui-avatars.com/api/?name=Lana+Del+Rey&background=7C3AED&color=fff', category: 'contemporary' },
+    { name: 'Michael Jackson', description: 'Rei do Pop', photo: 'https://ui-avatars.com/api/?name=Michael+Jackson&background=7C3AED&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

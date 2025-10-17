@@ -274,16 +274,16 @@ O verdadeiro poder do ISFJ está em sua capacidade de criar estabilidade e harmo
   },
 
   famousPeople: [
-    { name: 'Madre Teresa', role: 'Missionária e Santa', avatar: 'https://ui-avatars.com/api/?name=Madre+Teresa&background=0891B2&color=fff' },
-    { name: 'Rainha Elizabeth II', role: 'Monarca Britânica', avatar: 'https://ui-avatars.com/api/?name=Elizabeth+II&background=0891B2&color=fff' },
-    { name: 'Beyoncé', role: 'Cantora e Empresária', avatar: 'https://ui-avatars.com/api/?name=Beyonce&background=0891B2&color=fff' },
-    { name: 'Kate Middleton', role: 'Princesa de Gales', avatar: 'https://ui-avatars.com/api/?name=Kate+Middleton&background=0891B2&color=fff' },
-    { name: 'Jimmy Carter', role: 'Ex-Presidente e Humanitário', avatar: 'https://ui-avatars.com/api/?name=Jimmy+Carter&background=0891B2&color=fff' },
-    { name: 'Rosa Parks', role: 'Ativista dos Direitos Civis', avatar: 'https://ui-avatars.com/api/?name=Rosa+Parks&background=0891B2&color=fff' },
-    { name: 'Selena Gomez', role: 'Atriz e Cantora', avatar: 'https://ui-avatars.com/api/?name=Selena+Gomez&background=0891B2&color=fff' },
-    { name: 'Tiger Woods', role: 'Golfista Profissional', avatar: 'https://ui-avatars.com/api/?name=Tiger+Woods&background=0891B2&color=fff' },
-    { name: 'Anne Hathaway', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Anne+Hathaway&background=0891B2&color=fff' },
-    { name: 'Vin Diesel', role: 'Ator e Produtor', avatar: 'https://ui-avatars.com/api/?name=Vin+Diesel&background=0891B2&color=fff' },
+    { name: 'Madre Teresa', description: 'Missionária e Santa', photo: 'https://ui-avatars.com/api/?name=Madre+Teresa&background=0891B2&color=fff', category: 'contemporary' },
+    { name: 'Rainha Elizabeth II', description: 'Monarca Britânica', photo: 'https://ui-avatars.com/api/?name=Elizabeth+II&background=0891B2&color=fff', category: 'contemporary' },
+    { name: 'Beyoncé', description: 'Cantora e Empresária', photo: 'https://ui-avatars.com/api/?name=Beyonce&background=0891B2&color=fff', category: 'contemporary' },
+    { name: 'Kate Middleton', description: 'Princesa de Gales', photo: 'https://ui-avatars.com/api/?name=Kate+Middleton&background=0891B2&color=fff', category: 'contemporary' },
+    { name: 'Jimmy Carter', description: 'Ex-Presidente e Humanitário', photo: 'https://ui-avatars.com/api/?name=Jimmy+Carter&background=0891B2&color=fff', category: 'contemporary' },
+    { name: 'Rosa Parks', description: 'Ativista dos Direitos Civis', photo: 'https://ui-avatars.com/api/?name=Rosa+Parks&background=0891B2&color=fff', category: 'contemporary' },
+    { name: 'Selena Gomez', description: 'Atriz e Cantora', photo: 'https://ui-avatars.com/api/?name=Selena+Gomez&background=0891B2&color=fff', category: 'contemporary' },
+    { name: 'Tiger Woods', description: 'Golfista Profissional', photo: 'https://ui-avatars.com/api/?name=Tiger+Woods&background=0891B2&color=fff', category: 'contemporary' },
+    { name: 'Anne Hathaway', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Anne+Hathaway&background=0891B2&color=fff', category: 'contemporary' },
+    { name: 'Vin Diesel', description: 'Ator e Produtor', photo: 'https://ui-avatars.com/api/?name=Vin+Diesel&background=0891B2&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

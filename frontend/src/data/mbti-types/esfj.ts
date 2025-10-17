@@ -274,16 +274,16 @@ O verdadeiro poder do ESFJ está em sua capacidade de nutrir talentos nos outros
   },
 
   famousPeople: [
-    { name: 'Taylor Swift', role: 'Cantora e Compositora', avatar: 'https://ui-avatars.com/api/?name=Taylor+Swift&background=BE185D&color=fff' },
-    { name: 'Jennifer Garner', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Jennifer+Garner&background=BE185D&color=fff' },
-    { name: 'Sally Field', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Sally+Field&background=BE185D&color=fff' },
-    { name: 'Tyra Banks', role: 'Modelo e Empresária', avatar: 'https://ui-avatars.com/api/?name=Tyra+Banks&background=BE185D&color=fff' },
-    { name: 'Whitney Houston', role: 'Cantora', avatar: 'https://ui-avatars.com/api/?name=Whitney+Houston&background=BE185D&color=fff' },
-    { name: 'Steve Harvey', role: 'Apresentador e Comediante', avatar: 'https://ui-avatars.com/api/?name=Steve+Harvey&background=BE185D&color=fff' },
-    { name: 'Danny Glover', role: 'Ator', avatar: 'https://ui-avatars.com/api/?name=Danny+Glover&background=BE185D&color=fff' },
-    { name: 'Sarah Jessica Parker', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Sarah+Jessica+Parker&background=BE185D&color=fff' },
-    { name: 'William McKinley', role: 'Presidente dos EUA', avatar: 'https://ui-avatars.com/api/?name=William+McKinley&background=BE185D&color=fff' },
-    { name: 'Martha Stewart', role: 'Empresária', avatar: 'https://ui-avatars.com/api/?name=Martha+Stewart&background=BE185D&color=fff' },
+    { name: 'Taylor Swift', description: 'Cantora e Compositora', photo: 'https://ui-avatars.com/api/?name=Taylor+Swift&background=BE185D&color=fff', category: 'contemporary' },
+    { name: 'Jennifer Garner', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Jennifer+Garner&background=BE185D&color=fff', category: 'contemporary' },
+    { name: 'Sally Field', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Sally+Field&background=BE185D&color=fff', category: 'contemporary' },
+    { name: 'Tyra Banks', description: 'Modelo e Empresária', photo: 'https://ui-avatars.com/api/?name=Tyra+Banks&background=BE185D&color=fff', category: 'contemporary' },
+    { name: 'Whitney Houston', description: 'Cantora', photo: 'https://ui-avatars.com/api/?name=Whitney+Houston&background=BE185D&color=fff', category: 'contemporary' },
+    { name: 'Steve Harvey', description: 'Apresentador e Comediante', photo: 'https://ui-avatars.com/api/?name=Steve+Harvey&background=BE185D&color=fff', category: 'contemporary' },
+    { name: 'Danny Glover', description: 'Ator', photo: 'https://ui-avatars.com/api/?name=Danny+Glover&background=BE185D&color=fff', category: 'contemporary' },
+    { name: 'Sarah Jessica Parker', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Sarah+Jessica+Parker&background=BE185D&color=fff', category: 'contemporary' },
+    { name: 'William McKinley', description: 'Presidente dos EUA', photo: 'https://ui-avatars.com/api/?name=William+McKinley&background=BE185D&color=fff', category: 'contemporary' },
+    { name: 'Martha Stewart', description: 'Empresária', photo: 'https://ui-avatars.com/api/?name=Martha+Stewart&background=BE185D&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

@@ -274,16 +274,16 @@ O verdadeiro poder do ENTP está em sua capacidade de ver oportunidades onde out
   },
 
   famousPeople: [
-    { name: 'Thomas Edison', role: 'Inventor', avatar: 'https://ui-avatars.com/api/?name=Thomas+Edison&background=8B5CF6&color=fff' },
-    { name: 'Leonardo da Vinci', role: 'Polímata e Inventor', avatar: 'https://ui-avatars.com/api/?name=Leonardo+da+Vinci&background=8B5CF6&color=fff' },
-    { name: 'Benjamin Franklin', role: 'Polímata e Estadista', avatar: 'https://ui-avatars.com/api/?name=Benjamin+Franklin&background=8B5CF6&color=fff' },
-    { name: 'Sarah Silverman', role: 'Comediante', avatar: 'https://ui-avatars.com/api/?name=Sarah+Silverman&background=8B5CF6&color=fff' },
-    { name: 'Adam Savage', role: 'Apresentador e Inventor', avatar: 'https://ui-avatars.com/api/?name=Adam+Savage&background=8B5CF6&color=fff' },
-    { name: 'Mark Twain', role: 'Escritor e Humorista', avatar: 'https://ui-avatars.com/api/?name=Mark+Twain&background=8B5CF6&color=fff' },
-    { name: 'Sacha Baron Cohen', role: 'Comediante e Ator', avatar: 'https://ui-avatars.com/api/?name=Sacha+Baron+Cohen&background=8B5CF6&color=fff' },
-    { name: 'Celine Dion', role: 'Cantora', avatar: 'https://ui-avatars.com/api/?name=Celine+Dion&background=8B5CF6&color=fff' },
-    { name: 'Neil Patrick Harris', role: 'Ator e Apresentador', avatar: 'https://ui-avatars.com/api/?name=Neil+Patrick+Harris&background=8B5CF6&color=fff' },
-    { name: 'Catherine the Great', role: 'Imperatriz da Rússia', avatar: 'https://ui-avatars.com/api/?name=Catherine+the+Great&background=8B5CF6&color=fff' },
+    { name: 'Thomas Edison', description: 'Inventor', photo: 'https://ui-avatars.com/api/?name=Thomas+Edison&background=8B5CF6&color=fff', category: 'contemporary' },
+    { name: 'Leonardo da Vinci', description: 'Polímata e Inventor', photo: 'https://ui-avatars.com/api/?name=Leonardo+da+Vinci&background=8B5CF6&color=fff', category: 'contemporary' },
+    { name: 'Benjamin Franklin', description: 'Polímata e Estadista', photo: 'https://ui-avatars.com/api/?name=Benjamin+Franklin&background=8B5CF6&color=fff', category: 'contemporary' },
+    { name: 'Sarah Silverman', description: 'Comediante', photo: 'https://ui-avatars.com/api/?name=Sarah+Silverman&background=8B5CF6&color=fff', category: 'contemporary' },
+    { name: 'Adam Savage', description: 'Apresentador e Inventor', photo: 'https://ui-avatars.com/api/?name=Adam+Savage&background=8B5CF6&color=fff', category: 'contemporary' },
+    { name: 'Mark Twain', description: 'Escritor e Humorista', photo: 'https://ui-avatars.com/api/?name=Mark+Twain&background=8B5CF6&color=fff', category: 'contemporary' },
+    { name: 'Sacha Baron Cohen', description: 'Comediante e Ator', photo: 'https://ui-avatars.com/api/?name=Sacha+Baron+Cohen&background=8B5CF6&color=fff', category: 'contemporary' },
+    { name: 'Celine Dion', description: 'Cantora', photo: 'https://ui-avatars.com/api/?name=Celine+Dion&background=8B5CF6&color=fff', category: 'contemporary' },
+    { name: 'Neil Patrick Harris', description: 'Ator e Apresentador', photo: 'https://ui-avatars.com/api/?name=Neil+Patrick+Harris&background=8B5CF6&color=fff', category: 'contemporary' },
+    { name: 'Catherine the Great', description: 'Imperatriz da Rússia', photo: 'https://ui-avatars.com/api/?name=Catherine+the+Great&background=8B5CF6&color=fff', category: 'contemporary' },
   ],
 
   relationships: {

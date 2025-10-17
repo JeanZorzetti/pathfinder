@@ -274,16 +274,16 @@ O verdadeiro poder do ENFJ está em sua capacidade de enxergar o potencial que o
   },
 
   famousPeople: [
-    { name: 'Barack Obama', role: 'Político e Autor', avatar: 'https://ui-avatars.com/api/?name=Barack+Obama&background=F59E0B&color=fff' },
-    { name: 'Oprah Winfrey', role: 'Apresentadora e Filantropa', avatar: 'https://ui-avatars.com/api/?name=Oprah+Winfrey&background=F59E0B&color=fff' },
-    { name: 'Martin Luther King Jr.', role: 'Líder de Direitos Civis', avatar: 'https://ui-avatars.com/api/?name=Martin+Luther+King&background=F59E0B&color=fff' },
-    { name: 'Maya Angelou', role: 'Poeta e Ativista', avatar: 'https://ui-avatars.com/api/?name=Maya+Angelou&background=F59E0B&color=fff' },
-    { name: 'Jennifer Lawrence', role: 'Atriz', avatar: 'https://ui-avatars.com/api/?name=Jennifer+Lawrence&background=F59E0B&color=fff' },
-    { name: 'Matthew McConaughey', role: 'Ator', avatar: 'https://ui-avatars.com/api/?name=Matthew+McConaughey&background=F59E0B&color=fff' },
-    { name: 'Ben Affleck', role: 'Ator e Diretor', avatar: 'https://ui-avatars.com/api/?name=Ben+Affleck&background=F59E0B&color=fff' },
-    { name: 'John Cusack', role: 'Ator', avatar: 'https://ui-avatars.com/api/?name=John+Cusack&background=F59E0B&color=fff' },
-    { name: 'Morgan Freeman', role: 'Ator', avatar: 'https://ui-avatars.com/api/?name=Morgan+Freeman&background=F59E0B&color=fff' },
-    { name: 'Michael Moore', role: 'Documentarista', avatar: 'https://ui-avatars.com/api/?name=Michael+Moore&background=F59E0B&color=fff' },
+    { name: 'Barack Obama', description: 'Político e Autor', photo: 'https://ui-avatars.com/api/?name=Barack+Obama&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Oprah Winfrey', description: 'Apresentadora e Filantropa', photo: 'https://ui-avatars.com/api/?name=Oprah+Winfrey&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Martin Luther King Jr.', description: 'Líder de Direitos Civis', photo: 'https://ui-avatars.com/api/?name=Martin+Luther+King&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Maya Angelou', description: 'Poeta e Ativista', photo: 'https://ui-avatars.com/api/?name=Maya+Angelou&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Jennifer Lawrence', description: 'Atriz', photo: 'https://ui-avatars.com/api/?name=Jennifer+Lawrence&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Matthew McConaughey', description: 'Ator', photo: 'https://ui-avatars.com/api/?name=Matthew+McConaughey&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Ben Affleck', description: 'Ator e Diretor', photo: 'https://ui-avatars.com/api/?name=Ben+Affleck&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'John Cusack', description: 'Ator', photo: 'https://ui-avatars.com/api/?name=John+Cusack&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Morgan Freeman', description: 'Ator', photo: 'https://ui-avatars.com/api/?name=Morgan+Freeman&background=F59E0B&color=fff', category: 'contemporary' },
+    { name: 'Michael Moore', description: 'Documentarista', photo: 'https://ui-avatars.com/api/?name=Michael+Moore&background=F59E0B&color=fff', category: 'contemporary' },
   ],
 
   relationships: {
