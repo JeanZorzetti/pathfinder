@@ -447,8 +447,12 @@ export class GamificationController {
 - [x] Endpoint /dashboard funcionando (mockado)
 - [x] Endpoint /dashboard/stats funcionando
 - [x] Endpoint /dashboard/insights/daily funcionando
-- [ ] Lógica de desafios semanais (Challenges Module)
-- [ ] Integração completa com gamification
+- [x] ChallengesModule completo implementado
+- [x] Biblioteca de 40+ desafios personalizados por MBTI
+- [x] Endpoints: GET /challenges/current, POST /challenges/complete-day, GET /challenges/history, GET /challenges/stats
+- [x] Integração com gamification (+50 XP por desafio completo)
+- [x] Sistema de streaks (semanas consecutivas)
+- [ ] Criar migration para user_challenges table
 - [ ] Testes E2E
 
 ### Fase 4: Journal & Comparison (2 dias)
