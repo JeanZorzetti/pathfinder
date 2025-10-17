@@ -7,9 +7,10 @@ interface DailyInsightCardProps {
     insight_text: string;
     category: string;
   };
+  mbtiType?: string | null;
 }
 
-export const DailyInsightCard = ({ insight }: DailyInsightCardProps) => {
+export const DailyInsightCard = ({ insight, mbtiType }: DailyInsightCardProps) => {
   return (
     <Card className="md:col-span-2 shadow-elegant border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5 hover:shadow-glow transition-smooth">
       <CardHeader>
@@ -24,7 +25,10 @@ export const DailyInsightCard = ({ insight }: DailyInsightCardProps) => {
                 <Sparkles className="w-5 h-5 text-primary" />
               </CardTitle>
               <CardDescription className="text-sm mt-1">
-                Uma reflexão personalizada para sua jornada
+                {mbtiType
+                  ? `Uma reflexão personalizada para ${mbtiType}`
+                  : "Uma reflexão personalizada para sua jornada"
+                }
               </CardDescription>
             </div>
           </div>

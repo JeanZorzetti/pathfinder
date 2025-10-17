@@ -30,4 +30,9 @@ export interface Profile {
   full_name: string | null;
   created_at: string;
   updated_at: string;
+  // Sprint 1: Dashboard Core - Streak tracking
+  last_visit?: string | null;
+  streak_current?: number;
+  streak_longest?: number;
+  visit_history?: string[]; // Array de datas de visitas
 }

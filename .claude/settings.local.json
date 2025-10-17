@@ -22,7 +22,8 @@
       "Bash(git push:*)",
       "Bash(node -e:*)",
       "Bash(npm run build:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(touch:*)"
     ],
     "deny": [],
     "ask": []

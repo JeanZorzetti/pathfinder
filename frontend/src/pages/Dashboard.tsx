@@ -4,10 +4,14 @@ import { supabase } from "@/lib/supabase-client";
 import { User, Session } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brain, LogOut, BookOpen } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Brain, LogOut, BookOpen, Flame, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import { DailyInsightCard } from "@/components/DailyInsightCard";
-import { TestResult, DailyInsight } from "@/types/database";
+import { ProfileCard } from "@/components/dashboard/ProfileCard";
+import { TestResult, DailyInsight, Profile } from "@/types/database";
+import { calculateStreak, formatStreak } from "@/utils/streakCalculator";
+import { getColorScheme, getMBTINickname } from "@/data/mbti-colors";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -16,6 +20,9 @@ const Dashboard = () => {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [dailyInsight, setDailyInsight] = useState<DailyInsight | null>(null);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [mbtiType, setMbtiType] = useState<string | null>(null);
+  const [streak, setStreak] = useState<{ current: number; longest: number }>({ current: 0, longest: 0 });
 
   useEffect(() => {
     // Set up auth state listener
@@ -47,7 +54,42 @@ const Dashboard = () => {
 
   const loadDashboardData = async (userId: string) => {
     setLoading(true);
-    
+
+    // Load profile data
+    const { data: profileData } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", userId)
+      .single() as { data: Profile | null };
+
+    if (profileData) {
+      setProfile(profileData);
+
+      // Calculate and update streak
+      const calculatedStreak = calculateStreak(
+        profileData.last_visit,
+        profileData.visit_history
+      );
+      setStreak(calculatedStreak);
+
+      // Update last visit and streak in database
+      const now = new Date().toISOString();
+      const updatedVisitHistory = [
+        ...(profileData.visit_history || []),
+        now
+      ].slice(-30); // Keep last 30 visits
+
+      await supabase
+        .from("profiles")
+        .update({
+          last_visit: now,
+          streak_current: calculatedStreak.current,
+          streak_longest: calculatedStreak.longest,
+          visit_history: updatedVisitHistory
+        })
+        .eq("id", userId);
+    }
+
     // Load test results
     const { data: results } = await supabase
       .from("test_results")
@@ -65,6 +107,7 @@ const Dashboard = () => {
       const mbtiResult = results.find((r) => r.test_type === "mbti");
       if (mbtiResult?.result_data) {
         personalityKey = (mbtiResult.result_data as any).type;
+        setMbtiType(personalityKey); // Store MBTI type for ProfileCard
       } else {
         // Try Enneagram
         const enneagramResult = results.find((r) => r.test_type === "enneagram");
@@ -143,18 +186,57 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-6xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">
-            Bem-vindo de volta, {user?.user_metadata?.full_name || "Buscador"}
-          </h1>
-          <p className="text-muted-foreground">
+        {/* Hero Section - Enhanced */}
+        <div className="mb-8 space-y-4">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">
+              Bem-vindo de volta, {user?.user_metadata?.full_name || profile?.full_name || "Buscador"}! 👋
+            </h1>
+            {mbtiType && (
+              <div className="flex items-center gap-3 flex-wrap">
+                <Badge
+                  className="text-base px-4 py-1"
+                  style={{
+                    backgroundColor: getColorScheme(mbtiType).primary,
+                    color: getColorScheme(mbtiType).contrast
+                  }}
+                >
+                  {mbtiType} - {getMBTINickname(mbtiType)}
+                </Badge>
+                {streak.current > 0 && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <Flame className="w-5 h-5 text-orange-500" />
+                    <span className="font-semibold">{formatStreak(streak.current)}</span>
+                  </div>
+                )}
+                {profile?.created_at && (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Calendar className="w-4 h-4" />
+                    <span>
+                      Membro desde {new Date(profile.created_at).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          <p className="text-muted-foreground text-lg">
             Continue sua jornada de autoconhecimento
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Daily Insight */}
-          {dailyInsight && <DailyInsightCard insight={dailyInsight} />}
+          {dailyInsight && <DailyInsightCard insight={dailyInsight} mbtiType={mbtiType} />}
+
+          {/* Profile Card - MBTI */}
+          {mbtiType && (
+            <ProfileCard
+              mbtiType={mbtiType}
+              nickname={getMBTINickname(mbtiType)}
+              colorScheme={getColorScheme(mbtiType)}
+            />
+          )}
 
           {/* Test Results */}
           <Card className="shadow-sm">
