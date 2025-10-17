@@ -10,6 +10,10 @@ export default function CareerPathsGrid({
   careers,
   showDetailed = false,
 }: CareerPathsGridProps) {
+  if (!careers || careers.length === 0) {
+    return null;
+  }
+
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {careers.map((career, index) => (
@@ -53,19 +57,21 @@ function CareerCard({
       </p>
 
       {/* Why It Fits */}
-      <div className="mb-4">
-        <h4 className="text-xs font-semibold text-gray-600 mb-2 uppercase">
-          Por que combina:
-        </h4>
-        <ul className="space-y-1">
-          {career.whyItFits.map((reason, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
-              <span className="text-green-600 flex-shrink-0">✓</span>
-              <span>{reason}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {career.whyItFits && career.whyItFits.length > 0 && (
+        <div className="mb-4">
+          <h4 className="text-xs font-semibold text-gray-600 mb-2 uppercase">
+            Por que combina:
+          </h4>
+          <ul className="space-y-1">
+            {career.whyItFits.map((reason, index) => (
+              <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
+                <span className="text-green-600 flex-shrink-0">✓</span>
+                <span>{reason}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Detailed Information (only for gated careers) */}
       {showDetailed && (

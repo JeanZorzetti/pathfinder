@@ -7,6 +7,10 @@ interface StrengthsListProps {
 }
 
 export default function StrengthsList({ strengths, title }: StrengthsListProps) {
+  if (!strengths || strengths.length === 0) {
+    return null;
+  }
+
   return (
     <div className="grid md:grid-cols-2 gap-6">
       {strengths.map((strength, index) => (

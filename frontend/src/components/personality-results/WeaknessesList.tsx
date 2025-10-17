@@ -10,6 +10,10 @@ export default function WeaknessesList({
   weaknesses,
   showMitigation = false,
 }: WeaknessesListProps) {
+  if (!weaknesses || weaknesses.length === 0) {
+    return null;
+  }
+
   return (
     <div className="grid md:grid-cols-2 gap-6">
       {weaknesses.map((weakness, index) => (

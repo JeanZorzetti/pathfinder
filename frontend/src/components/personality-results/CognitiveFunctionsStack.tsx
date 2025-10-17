@@ -27,6 +27,10 @@ export default function CognitiveFunctionsStack({
   functions,
   colorScheme,
 }: CognitiveFunctionsStackProps) {
+  if (!functions || functions.length === 0) {
+    return null;
+  }
+
   return (
     <section className="bg-white rounded-xl shadow-lg p-8 md:p-12">
       <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
