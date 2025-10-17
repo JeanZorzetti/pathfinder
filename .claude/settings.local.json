@@ -23,7 +23,8 @@
       "Bash(node -e:*)",
       "Bash(npm run build:*)",
       "Bash(git checkout:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(timeout /t 10)"
     ],
     "deny": [],
     "ask": []
