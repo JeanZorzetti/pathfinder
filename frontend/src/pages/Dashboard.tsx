@@ -443,21 +443,24 @@ const Dashboard = () => {
             />
           )}
 
-          {/* Test Results */}
-          <Card className="shadow-sm">
+          {/* Test Results - Enhanced */}
+          <Card
+            className="shadow-sm"
+            style={mbtiType ? { borderLeft: `4px solid ${getColorScheme(mbtiType).primary}` } : {}}
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Brain className="w-5 h-5" />
                 Meus Resultados
               </CardTitle>
               <CardDescription>
-                {testResults.length === 0 
+                {testResults.length === 0
                   ? "Nenhum teste realizado ainda"
                   : `${testResults.length} teste(s) concluído(s)`
                 }
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-4">
               {testResults.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-muted-foreground mb-4">
@@ -468,29 +471,139 @@ const Dashboard = () => {
                   </Button>
                 </div>
               ) : (
-                testResults.map((result: any) => (
-                  <div key={result.id} className="p-4 rounded-lg bg-accent/50 border border-accent">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
-                          {result.test_type === "mbti" ? "MBTI" : 
-                           result.test_type === "bigfive" ? "Big Five" :
-                           result.test_type === "enneagram" ? "Eneagrama" :
-                           result.test_type}
-                        </p>
-                        <p className="text-xl font-bold gradient-text">
-                          {result.test_type === "mbti" ? result.result_data.type :
-                           result.test_type === "enneagram" ? `Tipo ${result.result_data.type}` :
-                           result.test_type === "bigfive" ? "OCEAN" :
-                           "Resultado"}
-                        </p>
+                <>
+                  {/* MBTI Result - Featured */}
+                  {mbtiType && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg"
+                            style={{ backgroundColor: getColorScheme(mbtiType).primary }}
+                          >
+                            {mbtiType}
+                          </div>
+                          <div>
+                            <p className="font-bold text-lg">{mbtiType}</p>
+                            <p className="text-sm text-muted-foreground">{getMBTINickname(mbtiType)}</p>
+                            <p className="text-xs text-muted-foreground">
+                              Completado em {new Date(testResults.find(r => r.test_type === "mbti")?.completed_at || '').toLocaleDateString('pt-BR')}
+                            </p>
+                          </div>
+                        </div>
+                        <Button variant="outline" size="sm" onClick={() => navigate(`/result/mbti/${mbtiType}`)}>
+                          Ver Detalhes
+                        </Button>
                       </div>
-                      <Button variant="outline" size="sm">
-                        Ver Detalhes
-                      </Button>
+
+                      {/* Quick Stats - Top 3 Características */}
+                      <div className="grid grid-cols-3 gap-2 pt-3 border-t">
+                        <div className="text-center p-2 rounded-lg bg-accent/30">
+                          <p className="text-2xl mb-1">
+                            {mbtiType.includes('E') && mbtiType.includes('T') && mbtiType.includes('J') ? '👔' :
+                             mbtiType.includes('I') && mbtiType.includes('N') && mbtiType.includes('F') ? '💭' :
+                             mbtiType.includes('E') && mbtiType.includes('N') && mbtiType.includes('F') ? '💫' :
+                             mbtiType.includes('I') && mbtiType.includes('S') && mbtiType.includes('T') ? '🔧' :
+                             mbtiType.includes('E') && mbtiType.includes('S') && mbtiType.includes('T') ? '⚡' :
+                             mbtiType.includes('E') && mbtiType.includes('S') && mbtiType.includes('F') ? '🎉' :
+                             mbtiType.includes('I') && mbtiType.includes('S') && mbtiType.includes('F') ? '🤝' :
+                             mbtiType.includes('I') && mbtiType.includes('N') && mbtiType.includes('T') ? '🧠' :
+                             '🎯'}
+                          </p>
+                          <p className="text-xs font-semibold">
+                            {mbtiType.includes('E') && mbtiType.includes('T') && mbtiType.includes('J') ? 'Liderança' :
+                             mbtiType.includes('I') && mbtiType.includes('N') && mbtiType.includes('F') ? 'Empatia' :
+                             mbtiType.includes('E') && mbtiType.includes('N') && mbtiType.includes('F') ? 'Inspiração' :
+                             mbtiType.includes('I') && mbtiType.includes('S') && mbtiType.includes('T') ? 'Prático' :
+                             mbtiType.includes('E') && mbtiType.includes('S') && mbtiType.includes('T') ? 'Ação' :
+                             mbtiType.includes('E') && mbtiType.includes('S') && mbtiType.includes('F') ? 'Energia' :
+                             mbtiType.includes('I') && mbtiType.includes('S') && mbtiType.includes('F') ? 'Cuidado' :
+                             mbtiType.includes('I') && mbtiType.includes('N') && mbtiType.includes('T') ? 'Estratégia' :
+                             'Força 1'}
+                          </p>
+                        </div>
+                        <div className="text-center p-2 rounded-lg bg-accent/30">
+                          <p className="text-2xl mb-1">
+                            {mbtiType.includes('J') ? '🎯' : mbtiType.includes('P') ? '🌟' : '📊'}
+                          </p>
+                          <p className="text-xs font-semibold">
+                            {mbtiType.includes('J') ? 'Organização' : mbtiType.includes('P') ? 'Adaptação' : 'Análise'}
+                          </p>
+                        </div>
+                        <div className="text-center p-2 rounded-lg bg-accent/30">
+                          <p className="text-2xl mb-1">
+                            {mbtiType.includes('N') ? '💡' : '🔍'}
+                          </p>
+                          <p className="text-xs font-semibold">
+                            {mbtiType.includes('N') ? 'Visão' : 'Detalhe'}
+                          </p>
+                        </div>
+                      </div>
                     </div>
+                  )}
+
+                  {/* Progress - Outros Testes */}
+                  <div className="pt-3 border-t space-y-2">
+                    <p className="text-sm font-semibold">Complete sua jornada:</p>
+                    <div className="flex gap-2 flex-wrap">
+                      {testResults.some(r => r.test_type === "mbti") ? (
+                        <Badge variant="default" className="flex items-center gap-1">
+                          ✓ MBTI
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => navigate("/test/mbti")}>
+                          MBTI
+                        </Badge>
+                      )}
+                      {testResults.some(r => r.test_type === "enneagram") ? (
+                        <Badge variant="default" className="flex items-center gap-1">
+                          ✓ Eneagrama
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="opacity-50">
+                          Eneagrama (Em breve)
+                        </Badge>
+                      )}
+                      {testResults.some(r => r.test_type === "bigfive") ? (
+                        <Badge variant="default" className="flex items-center gap-1">
+                          ✓ Big Five
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="opacity-50">
+                          Big Five (Em breve)
+                        </Badge>
+                      )}
+                    </div>
+                    {testResults.length < 3 && (
+                      <p className="text-xs text-muted-foreground">
+                        💡 Complete mais testes para desbloquear conquistas e insights mais profundos
+                      </p>
+                    )}
                   </div>
-                ))
+
+                  {/* Outros Resultados (se houver) */}
+                  {testResults.filter(r => r.test_type !== "mbti").map((result: any) => (
+                    <div key={result.id} className="p-3 rounded-lg bg-accent/50 border border-accent">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
+                            {result.test_type === "bigfive" ? "Big Five" :
+                             result.test_type === "enneagram" ? "Eneagrama" :
+                             result.test_type}
+                          </p>
+                          <p className="text-lg font-bold">
+                            {result.test_type === "enneagram" ? `Tipo ${result.result_data.type}` :
+                             result.test_type === "bigfive" ? "OCEAN" :
+                             "Resultado"}
+                          </p>
+                        </div>
+                        <Button variant="outline" size="sm">
+                          Ver Detalhes
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </>
               )}
             </CardContent>
           </Card>
