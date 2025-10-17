@@ -40,4 +40,7 @@ export interface Profile {
   xp?: number;
   achievements?: any[]; // JSON array de conquistas
   last_xp_gain?: string | null;
+  // Sprint 3: Desafio Semanal
+  current_challenge?: any; // JSON do desafio atual
+  completed_challenges?: string[]; // IDs dos desafios completos
 }

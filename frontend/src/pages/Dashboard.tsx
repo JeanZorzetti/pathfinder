@@ -10,12 +10,16 @@ import { toast } from "sonner";
 import { DailyInsightCard } from "@/components/DailyInsightCard";
 import { ProfileCard } from "@/components/dashboard/ProfileCard";
 import { JourneyCard } from "@/components/dashboard/JourneyCard";
+import { WeeklyChallengeCard } from "@/components/dashboard/WeeklyChallengeCard";
 import { TestResult, DailyInsight, Profile } from "@/types/database";
 import { calculateStreak, formatStreak } from "@/utils/streakCalculator";
 import { getColorScheme, getMBTINickname } from "@/data/mbti-colors";
 import { Achievement } from "@/types/gamification";
 import { getAchievementsForType } from "@/data/achievements";
 import { useXP } from "@/hooks/useXP";
+import { WeeklyChallenge, shouldCreateNewChallenge, getCurrentWeekdayIndex } from "@/types/challenges";
+import { selectWeeklyChallenge, createWeeklyChallengeFromTemplate } from "@/data/weeklyChallenges";
+import { getDailyPrompt } from "@/data/journalPrompts";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -28,6 +32,8 @@ const Dashboard = () => {
   const [mbtiType, setMbtiType] = useState<string | null>(null);
   const [streak, setStreak] = useState<{ current: number; longest: number }>({ current: 0, longest: 0 });
   const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const [currentChallenge, setCurrentChallenge] = useState<WeeklyChallenge | null>(null);
+  const [isChallengeProcessing, setIsChallengeProcessing] = useState(false);
   const { addXP } = useXP();
 
   useEffect(() => {
@@ -137,6 +143,27 @@ const Dashboard = () => {
           } else {
             setAchievements(userAchievements);
           }
+
+          // Initialize or check weekly challenge
+          const storedChallenge = profileData.current_challenge;
+          const completedChallengeIds = profileData.completed_challenges || [];
+
+          if (!storedChallenge || shouldCreateNewChallenge(storedChallenge.weekStartDate)) {
+            // Create new weekly challenge
+            const template = selectWeeklyChallenge(personalityKey, completedChallengeIds);
+            if (template) {
+              const newChallenge = createWeeklyChallengeFromTemplate(template);
+              setCurrentChallenge(newChallenge);
+
+              // Save to database
+              await supabase
+                .from("profiles")
+                .update({ current_challenge: newChallenge })
+                .eq("id", userId);
+            }
+          } else {
+            setCurrentChallenge(storedChallenge);
+          }
         }
       } else {
         // Try Enneagram
@@ -178,6 +205,69 @@ const Dashboard = () => {
     }
     
     setLoading(false);
+  };
+
+  const handleMarkChallengeComplete = async () => {
+    if (!currentChallenge || !user || !profile) return;
+
+    setIsChallengeProcessing(true);
+
+    try {
+      const todayIndex = getCurrentWeekdayIndex();
+      if (todayIndex === null) {
+        toast.error("Desafios só podem ser marcados de segunda a sexta");
+        return;
+      }
+
+      // Update days completed
+      const updatedDays = [...currentChallenge.daysCompleted];
+      updatedDays[todayIndex] = true;
+
+      // Check if challenge is now complete (all 5 days)
+      const isNowCompleted = updatedDays.every((day) => day === true);
+
+      const updatedChallenge: WeeklyChallenge = {
+        ...currentChallenge,
+        daysCompleted: updatedDays,
+        isCompleted: isNowCompleted,
+      };
+
+      setCurrentChallenge(updatedChallenge);
+
+      // Prepare database updates
+      const updates: any = {
+        current_challenge: updatedChallenge,
+      };
+
+      // If completed, add to completed challenges and give XP + badge
+      if (isNowCompleted) {
+        const completedChallenges = profile.completed_challenges || [];
+        updates.completed_challenges = [...completedChallenges, currentChallenge.id];
+
+        // Add XP for challenge completion
+        const newXP = (profile.xp || 0) + currentChallenge.xpReward;
+        updates.xp = newXP;
+
+        toast.success(`🎉 Desafio Completado!`, {
+          description: `+${currentChallenge.xpReward} XP ${currentChallenge.badgeReward || ''}`,
+        });
+
+        // Update local profile state
+        setProfile({ ...profile, xp: newXP, completed_challenges: updates.completed_challenges });
+      } else {
+        toast.success("✓ Dia marcado como completo!", {
+          description: `${updatedDays.filter((d) => d).length}/5 dias completos`,
+        });
+      }
+
+      // Save to database
+      await supabase.from("profiles").update(updates).eq("id", user.id);
+    } catch (error) {
+      console.error("Error marking challenge complete:", error);
+      toast.error("Erro ao marcar desafio. Tente novamente.");
+    } finally {
+      setIsChallengeProcessing(false);
+    }
   };
 
   const handleSignOut = async () => {
@@ -280,6 +370,15 @@ const Dashboard = () => {
             />
           )}
 
+          {/* Weekly Challenge - Sprint 3 */}
+          {currentChallenge && mbtiType && (
+            <WeeklyChallengeCard
+              challenge={currentChallenge}
+              onMarkComplete={handleMarkChallengeComplete}
+              isProcessing={isChallengeProcessing}
+            />
+          )}
+
           {/* Test Results */}
           <Card className="shadow-sm">
             <CardHeader>
@@ -344,12 +443,31 @@ const Dashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8">
-                <p className="text-muted-foreground mb-4">
+              {mbtiType && getDailyPrompt(mbtiType) && (
+                <div className="mb-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                  <p className="text-sm font-semibold mb-2 flex items-center gap-2">
+                    <span className="text-lg">💭</span>
+                    Prompt de Hoje para {mbtiType}:
+                  </p>
+                  <p className="text-sm italic text-muted-foreground">
+                    "{getDailyPrompt(mbtiType)?.prompt}"
+                  </p>
+                  <Badge variant="secondary" className="mt-2 text-xs">
+                    {getDailyPrompt(mbtiType)?.category === 'reflection' && '🪞 Reflexão'}
+                    {getDailyPrompt(mbtiType)?.category === 'growth' && '🌱 Crescimento'}
+                    {getDailyPrompt(mbtiType)?.category === 'emotions' && '💙 Emoções'}
+                    {getDailyPrompt(mbtiType)?.category === 'relationships' && '🤝 Relacionamentos'}
+                    {getDailyPrompt(mbtiType)?.category === 'goals' && '🎯 Objetivos'}
+                  </Badge>
+                </div>
+              )}
+              <div className="text-center py-4">
+                <p className="text-muted-foreground mb-4 text-sm">
                   Um espaço seguro para suas reflexões diárias
                 </p>
-                <Button onClick={() => navigate("/journal")}>
-                  Abrir Diário
+                <Button onClick={() => navigate("/journal")} className="w-full">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Escrever Reflexão (+10 XP)
                 </Button>
               </div>
             </CardContent>

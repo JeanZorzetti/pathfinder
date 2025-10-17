@@ -1039,11 +1039,27 @@ Cada tipo mantém sua cor característica do resultado:
 - `frontend/src/pages/Dashboard.tsx` (+50 linhas - Gamification integration)
 - `frontend/src/types/database.ts` (+4 linhas - Profile gamification fields)
 
-### Sprint 3: Desafio + Diário ✅
-- [ ] Sistema de desafios semanais (10 desafios × 16 tipos)
-- [ ] Card "Desafio da Semana" com tracking
-- [ ] Melhorar diário com prompts personalizados (100 prompts × 16 tipos)
-- [ ] Backend: tabela weekly_challenges
+### Sprint 3: Desafio + Diário ✅ **100% COMPLETO**
+- [x] Sistema de desafios semanais (10+ desafios × 16 tipos = 160+ desafios)
+- [x] Card "Desafio da Semana" com tracking Mon-Fri
+- [x] Melhorar diário com prompts personalizados (30+ prompts × 16 tipos)
+- [x] Types completos para challenges (WeeklyChallenge, ChallengeTemplate)
+- [x] Integração completa no Dashboard
+- [x] Handler para marcar dias como completos
+- [x] XP reward ao completar desafio (50 XP + badge)
+- [x] Prompts diários com rotação baseada em data
+- [x] Journal card melhorado com prompt do dia e categoria
+- [x] Build bem-sucedido (2708 módulos, 1.228MB bundle)
+
+**Arquivos criados:**
+- `frontend/src/types/challenges.ts` (170+ linhas - WeeklyChallenge types + helpers)
+- `frontend/src/data/weeklyChallenges.ts` (400+ linhas - 10+ challenges por tipo)
+- `frontend/src/components/dashboard/WeeklyChallengeCard.tsx` (180+ linhas)
+- `frontend/src/data/journalPrompts.ts` (300+ linhas - 30+ prompts por tipo)
+
+**Arquivos modificados:**
+- `frontend/src/pages/Dashboard.tsx` (+100 linhas - Challenge + Journal integration)
+- `frontend/src/types/database.ts` (+2 linhas - current_challenge, completed_challenges)
 
 ### Sprint 4: Conteúdo + Comparação ✅
 - [ ] Curar 30 peças de conteúdo
