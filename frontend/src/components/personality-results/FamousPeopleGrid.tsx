@@ -18,11 +18,12 @@ export default function FamousPeopleGrid({ people }: FamousPeopleGridProps) {
 function PersonCard({ person }: { person: FamousPerson }) {
   return (
     <div className="bg-white rounded-lg p-4 shadow-md hover:shadow-xl transition-all text-center group hover:scale-105">
-      {/* Photo */}
-      <div className="mb-3 overflow-hidden rounded-lg">
+      {/* Photo with Lazy Loading */}
+      <div className="mb-3 overflow-hidden rounded-lg bg-gray-200">
         <img
           src={person.photo}
           alt={person.name}
+          loading="lazy"
           className="w-full h-32 object-cover group-hover:scale-110 transition-transform"
           onError={(e) => {
             // Fallback to placeholder if image fails to load

@@ -1,17 +1,27 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Lock } from 'lucide-react';
+import { useAnalytics } from '../../hooks/useAnalytics';
 
 interface UnlockCTAProps {
   title: string;
   preview: string;
   benefits: string[];
+  ctaLocation?: string; // 'strengths', 'weaknesses', 'careers', etc.
 }
 
-export default function UnlockCTA({ title, preview, benefits }: UnlockCTAProps) {
+export default function UnlockCTA({ title, preview, benefits, ctaLocation = 'unknown' }: UnlockCTAProps) {
   const navigate = useNavigate();
+  const { type } = useParams<{ type: string }>();
+  const { trackUnlockCTAClick } = useAnalytics();
 
   const handleUnlock = () => {
+    // Track CTA click
+    if (type) {
+      trackUnlockCTAClick(ctaLocation, type.toUpperCase());
+    }
+
+    // Navigate to auth
     navigate('/auth?redirect=' + encodeURIComponent(window.location.pathname));
   };
 

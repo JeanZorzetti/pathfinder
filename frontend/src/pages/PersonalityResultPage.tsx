@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { isMBTICode } from '../types/personality';
 import { getPersonalityType, isTypeImplemented } from '../data/mbti-types';
+import { useAnalytics } from '../hooks/useAnalytics';
+import MetaTags from '../components/MetaTags';
+import SocialShareButtons from '../components/SocialShareButtons';
 import HeroSection from '../components/personality-results/HeroSection';
 import OverviewSection from '../components/personality-results/OverviewSection';
 import CognitiveFunctionsStack from '../components/personality-results/CognitiveFunctionsStack';
@@ -23,6 +26,18 @@ export default function PersonalityResultPage() {
   // TODO: Implementar hook useAuth para verificar se usuário está logado
   // Por enquanto, simulando com localStorage
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Analytics hook
+  const {
+    trackResultView,
+    trackScrollDepth,
+    trackTimeOnPage,
+    trackGatedContentPreview,
+  } = useAnalytics();
+
+  // Refs para tracking de scroll e tempo
+  const scrollDepthsTracked = useRef<Set<number>>(new Set());
+  const startTime = useRef<number>(Date.now());
 
   useEffect(() => {
     // Simular verificação de autenticação
@@ -55,9 +70,82 @@ export default function PersonalityResultPage() {
     setPersonalityType(data);
     setIsLoading(false);
 
+    // Track result view
+    trackResultView(upperType, isAuthenticated);
+
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [type, navigate]);
+  }, [type, navigate, isAuthenticated, trackResultView]);
+
+  // Track scroll depth
+  useEffect(() => {
+    if (!personalityType) return;
+
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const scrollPercentage = Math.round(
+        (scrollTop / (documentHeight - windowHeight)) * 100
+      );
+
+      // Track milestones: 25%, 50%, 75%, 100%
+      const milestones = [25, 50, 75, 100];
+      milestones.forEach((milestone) => {
+        if (
+          scrollPercentage >= milestone &&
+          !scrollDepthsTracked.current.has(milestone)
+        ) {
+          scrollDepthsTracked.current.add(milestone);
+          trackScrollDepth(milestone, personalityType.code);
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [personalityType, trackScrollDepth]);
+
+  // Track time on page
+  useEffect(() => {
+    if (!personalityType) return;
+
+    const interval = setInterval(() => {
+      const timeSpent = Math.floor((Date.now() - startTime.current) / 1000);
+
+      // Track at 30s, 60s, 120s, 300s
+      if ([30, 60, 120, 300].includes(timeSpent)) {
+        trackTimeOnPage(timeSpent, personalityType.code);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [personalityType, trackTimeOnPage]);
+
+  // Track gated content previews visibility
+  useEffect(() => {
+    if (!personalityType || isAuthenticated) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const section = entry.target.getAttribute('data-section');
+            if (section) {
+              trackGatedContentPreview(section, personalityType.code);
+            }
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    // Observe gated content sections
+    const gatedSections = document.querySelectorAll('[data-gated-section]');
+    gatedSections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, [personalityType, isAuthenticated, trackGatedContentPreview]);
 
   // Loading State
   if (isLoading) {
@@ -103,6 +191,9 @@ export default function PersonalityResultPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Dynamic Meta Tags for SEO */}
+      <MetaTags personalityType={personalityType} />
+
       {/* Hero Section */}
       <HeroSection type={personalityType} />
 
@@ -138,6 +229,7 @@ export default function PersonalityResultPage() {
                   'Entenda como aplicá-las profissionalmente',
                   'Salve seus resultados permanentemente',
                 ]}
+                ctaLocation="strengths"
               />
             </div>
           )}
@@ -177,6 +269,7 @@ export default function PersonalityResultPage() {
                   'Exercícios diários de desenvolvimento',
                   'Evite armadilhas comuns do seu tipo',
                 ]}
+                ctaLocation="weaknesses"
               />
             </div>
           )}
@@ -216,6 +309,7 @@ export default function PersonalityResultPage() {
                   'Faixa salarial e progressão de carreira',
                   'Por que cada carreira combina com você',
                 ]}
+                ctaLocation="careers"
               />
             </div>
           )}
@@ -232,31 +326,37 @@ export default function PersonalityResultPage() {
         </section>
 
         {/* Relationships - GATED */}
-        <GatedContentCard
-          title="❤️ Relacionamentos e Compatibilidade"
-          preview={personalityType.relationships.preview}
-          isLocked={!isAuthenticated}
-          content={isAuthenticated ? personalityType.relationships.content : null}
-          type="relationships"
-        />
+        <div data-gated-section data-section="relationships">
+          <GatedContentCard
+            title="❤️ Relacionamentos e Compatibilidade"
+            preview={personalityType.relationships.preview}
+            isLocked={!isAuthenticated}
+            content={isAuthenticated ? personalityType.relationships.content : null}
+            type="relationships"
+          />
+        </div>
 
         {/* Growth - GATED */}
-        <GatedContentCard
-          title="🌱 Crescimento Pessoal"
-          preview={personalityType.growth.preview}
-          isLocked={!isAuthenticated}
-          content={isAuthenticated ? personalityType.growth.content : null}
-          type="growth"
-        />
+        <div data-gated-section data-section="growth">
+          <GatedContentCard
+            title="🌱 Crescimento Pessoal"
+            preview={personalityType.growth.preview}
+            isLocked={!isAuthenticated}
+            content={isAuthenticated ? personalityType.growth.content : null}
+            type="growth"
+          />
+        </div>
 
         {/* Workplace - GATED */}
-        <GatedContentCard
-          title="🏢 No Ambiente de Trabalho"
-          preview={personalityType.workplace.preview}
-          isLocked={!isAuthenticated}
-          content={isAuthenticated ? personalityType.workplace.content : null}
-          type="workplace"
-        />
+        <div data-gated-section data-section="workplace">
+          <GatedContentCard
+            title="🏢 No Ambiente de Trabalho"
+            preview={personalityType.workplace.preview}
+            isLocked={!isAuthenticated}
+            content={isAuthenticated ? personalityType.workplace.content : null}
+            type="workplace"
+          />
+        </div>
 
         {/* Famous People */}
         <section>
@@ -329,19 +429,24 @@ export default function PersonalityResultPage() {
           </section>
         )}
 
+        {/* Social Share Section */}
+        <section>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 text-center">
+            🔗 Compartilhe Seu Resultado
+          </h2>
+          <p className="text-gray-600 mb-6 text-center">
+            Mostre para seus amigos e família qual é seu tipo de personalidade!
+          </p>
+          <div className="flex justify-center">
+            <SocialShareButtons
+              personalityType={personalityType.code}
+              personalityNickname={personalityType.nickname}
+            />
+          </div>
+        </section>
+
         {/* Action Buttons */}
         <section className="flex flex-col md:flex-row gap-4 justify-center">
-          <button
-            onClick={() => {
-              // TODO: Implementar compartilhamento social
-              alert('Compartilhamento em desenvolvimento');
-            }}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition flex items-center justify-center gap-2"
-          >
-            <span>🔗</span>
-            <span>Compartilhar Resultado</span>
-          </button>
-
           <button
             onClick={() => navigate('/test/mbti')}
             className="px-6 py-3 bg-gray-800 text-white rounded-lg font-medium hover:bg-gray-900 transition flex items-center justify-center gap-2"
