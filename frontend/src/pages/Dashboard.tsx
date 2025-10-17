@@ -11,7 +11,12 @@ import { DailyInsightCard } from "@/components/DailyInsightCard";
 import { ProfileCard } from "@/components/dashboard/ProfileCard";
 import { JourneyCard } from "@/components/dashboard/JourneyCard";
 import { WeeklyChallengeCard } from "@/components/dashboard/WeeklyChallengeCard";
+import { ContentRecommendationCard } from "@/components/dashboard/ContentRecommendationCard";
+import { ComparisonCard } from "@/components/dashboard/ComparisonCard";
 import { TestResult, DailyInsight, Profile } from "@/types/database";
+import { Content } from "@/types/content";
+import { getRandomContentForType } from "@/data/contentLibrary";
+import { generateComparisonCode } from "@/types/comparison";
 import { calculateStreak, formatStreak } from "@/utils/streakCalculator";
 import { getColorScheme, getMBTINickname } from "@/data/mbti-colors";
 import { Achievement } from "@/types/gamification";
@@ -34,6 +39,8 @@ const Dashboard = () => {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [currentChallenge, setCurrentChallenge] = useState<WeeklyChallenge | null>(null);
   const [isChallengeProcessing, setIsChallengeProcessing] = useState(false);
+  const [recommendedContent, setRecommendedContent] = useState<Content[]>([]);
+  const [comparisonCode, setComparisonCode] = useState<string>('');
   const { addXP } = useXP();
 
   useEffect(() => {
@@ -164,6 +171,21 @@ const Dashboard = () => {
           } else {
             setCurrentChallenge(storedChallenge);
           }
+
+          // Sprint 4: Initialize comparison code
+          let userComparisonCode = profileData.comparison_code;
+          if (!userComparisonCode) {
+            userComparisonCode = generateComparisonCode(userId, personalityKey);
+            await supabase
+              .from("profiles")
+              .update({ comparison_code: userComparisonCode })
+              .eq("id", userId);
+          }
+          setComparisonCode(userComparisonCode);
+
+          // Sprint 4: Get recommended content
+          const content = getRandomContentForType(personalityKey, 4);
+          setRecommendedContent(content);
         }
       } else {
         // Try Enneagram
@@ -268,6 +290,48 @@ const Dashboard = () => {
     } finally {
       setIsChallengeProcessing(false);
     }
+  };
+
+  const handleContentClick = (content: Content) => {
+    // Track content view
+    console.log('Content viewed:', content.title);
+  };
+
+  const handleMarkContentConsumed = async (contentId: string) => {
+    if (!user || !profile) return;
+
+    try {
+      const consumedContent = profile.consumed_content || [];
+      const updatedConsumed = [...consumedContent, contentId];
+
+      // Find the content to get XP reward
+      const content = recommendedContent.find((c) => c.id === contentId);
+      if (content) {
+        const newXP = (profile.xp || 0) + content.xpReward;
+
+        await supabase
+          .from("profiles")
+          .update({
+            consumed_content: updatedConsumed,
+            xp: newXP,
+          })
+          .eq("id", user.id);
+
+        setProfile({ ...profile, xp: newXP, consumed_content: updatedConsumed });
+
+        toast.success(`+${content.xpReward} XP`, {
+          description: 'Conteúdo marcado como concluído',
+        });
+      }
+    } catch (error) {
+      console.error('Error marking content consumed:', error);
+      toast.error('Erro ao marcar conteúdo');
+    }
+  };
+
+  const handleCompare = (otherCode: string) => {
+    // Track comparison
+    console.log('Comparing with:', otherCode);
   };
 
   const handleSignOut = async () => {
@@ -472,6 +536,24 @@ const Dashboard = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Content Recommendation - Sprint 4 */}
+          {mbtiType && recommendedContent.length > 0 && (
+            <ContentRecommendationCard
+              content={recommendedContent}
+              onContentClick={handleContentClick}
+              onMarkConsumed={handleMarkContentConsumed}
+            />
+          )}
+
+          {/* Comparison - Sprint 4 */}
+          {mbtiType && comparisonCode && (
+            <ComparisonCard
+              userCode={comparisonCode}
+              userMbtiType={mbtiType}
+              onCompare={handleCompare}
+            />
+          )}
         </div>
       </main>
     </div>

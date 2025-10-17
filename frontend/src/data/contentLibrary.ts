@@ -1,0 +1,480 @@
+/**
+ * Content Library - Curated Content for Each MBTI Type
+ * Sprint 4: Content + Comparison
+ *
+ * 30+ pieces of content (articles, videos, books, exercises)
+ * curated specifically for MBTI types and their development areas
+ */
+
+import { Content } from '@/types/content';
+
+export const CONTENT_LIBRARY: Content[] = [
+  // ESTJ Content - Focus: Flexibility, Empathy, Listening
+  {
+    id: 'estj-delegation-1',
+    type: 'article',
+    title: 'Como Delegar sem Microgerenciar',
+    description: 'Aprenda a confiar na sua equipe e delegar tarefas de forma eficaz sem perder o controle.',
+    url: 'https://hbr.org/2013/07/you-cant-delegate-well-until-you-learn-to-let-go',
+    author: 'Harvard Business Review',
+    duration: '5 min',
+    category: 'leadership',
+    mbtiTypes: ['ESTJ', 'ENTJ', 'ISTJ'],
+    targetWeakness: 'Flexibilidade',
+    xpReward: 5,
+  },
+  {
+    id: 'estj-listening-1',
+    type: 'video',
+    title: 'Escuta Ativa: A Habilidade Mais Importante',
+    description: 'Simon Sinek explica como líderes excepcionais realmente escutam suas equipes.',
+    url: 'https://www.youtube.com/watch?v=S5WCg2DqMhg',
+    author: 'Simon Sinek',
+    duration: '12 min',
+    category: 'leadership',
+    mbtiTypes: ['ESTJ', 'ENTJ', 'ESTP'],
+    targetWeakness: 'Empatia',
+    xpReward: 5,
+  },
+  {
+    id: 'estj-flexibility-1',
+    type: 'book',
+    title: 'Who Moved My Cheese?',
+    description: 'Um clássico sobre adaptação e flexibilidade em tempos de mudança.',
+    author: 'Spencer Johnson',
+    category: 'personal-growth',
+    mbtiTypes: ['ESTJ', 'ISTJ', 'ESFJ'],
+    targetWeakness: 'Adaptabilidade',
+    xpReward: 5,
+  },
+
+  // INFP Content - Focus: Boundaries, Assertiveness, Structure
+  {
+    id: 'infp-boundaries-1',
+    type: 'article',
+    title: 'Como Dizer Não Sem Culpa',
+    description: 'Guia prático para INFPs estabelecerem limites saudáveis sem se sentirem egoístas.',
+    url: 'https://psychcentral.com/lib/learning-to-say-no',
+    duration: '6 min',
+    category: 'personal-growth',
+    mbtiTypes: ['INFP', 'INFJ', 'ISFP'],
+    targetWeakness: 'Estabelecer Limites',
+    xpReward: 5,
+  },
+  {
+    id: 'infp-assertiveness-1',
+    type: 'video',
+    title: 'Comunicação Assertiva para Pessoas Empáticas',
+    description: 'Como expressar suas necessidades sem abrir mão da sua sensibilidade.',
+    url: 'https://www.youtube.com/watch?v=vlwmfiCb-vc',
+    author: 'Therapy in a Nutshell',
+    duration: '15 min',
+    category: 'communication',
+    mbtiTypes: ['INFP', 'ISFP', 'ENFP'],
+    targetWeakness: 'Assertividade',
+    xpReward: 5,
+  },
+  {
+    id: 'infp-structure-1',
+    type: 'exercise',
+    title: 'Planilha de Rotina Matinal',
+    description: 'Exercício prático para INFPs criarem estrutura sem perder espontaneidade.',
+    category: 'personal-growth',
+    mbtiTypes: ['INFP', 'ENFP', 'ISFP'],
+    targetWeakness: 'Organização',
+    xpReward: 5,
+  },
+
+  // INTJ Content - Focus: Emotional Intelligence, Social Skills
+  {
+    id: 'intj-empathy-1',
+    type: 'article',
+    title: 'Inteligência Emocional para Mentes Analíticas',
+    description: 'Como INTJs podem desenvolver empatia sem comprometer sua lógica.',
+    url: 'https://www.psychologytoday.com/us/blog/the-introverts-corner/201902/intjs-and-emotional-intelligence',
+    duration: '7 min',
+    category: 'relationships',
+    mbtiTypes: ['INTJ', 'INTP', 'ISTJ'],
+    targetWeakness: 'Inteligência Emocional',
+    xpReward: 5,
+  },
+  {
+    id: 'intj-appreciation-1',
+    type: 'video',
+    title: 'O Poder da Gratidão nas Relações',
+    description: 'Por que expressar apreciação fortalece liderança e conexões.',
+    url: 'https://www.youtube.com/watch?v=oHv6vTKD6lg',
+    author: 'BrenΓ© Brown',
+    duration: '10 min',
+    category: 'relationships',
+    mbtiTypes: ['INTJ', 'ENTJ', 'ISTJ'],
+    targetWeakness: 'Expressão Emocional',
+    xpReward: 5,
+  },
+  {
+    id: 'intj-smalltalk-1',
+    type: 'article',
+    title: 'Small Talk: Por Que Importa Mais do Que Você Pensa',
+    description: 'Como conversas superficiais constroem conexões profundas ao longo do tempo.',
+    duration: '5 min',
+    category: 'communication',
+    mbtiTypes: ['INTJ', 'INTP', 'ISTJ'],
+    targetWeakness: 'Socialização',
+    xpReward: 5,
+  },
+
+  // ENFP Content - Focus: Focus, Follow-through, Discipline
+  {
+    id: 'enfp-focus-1',
+    type: 'article',
+    title: 'Como Mentes Criativas Podem Manter o Foco',
+    description: 'Estratégias práticas para ENFPs completarem o que começam.',
+    url: 'https://www.additudemag.com/how-to-focus-better-with-adhd/',
+    duration: '8 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ENFP', 'ENTP', 'INFP'],
+    targetWeakness: 'Foco',
+    xpReward: 5,
+  },
+  {
+    id: 'enfp-completion-1',
+    type: 'video',
+    title: 'A Arte de Finalizar Projetos',
+    description: 'Como vencer a resistência e completar o que você começa.',
+    url: 'https://www.youtube.com/watch?v=arj7oStGLkU',
+    author: 'Thomas Frank',
+    duration: '14 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ENFP', 'ENTP', 'ESFP'],
+    targetWeakness: 'Persistência',
+    xpReward: 5,
+  },
+  {
+    id: 'enfp-routine-1',
+    type: 'book',
+    title: 'Atomic Habits',
+    description: 'Como pequenos hábitos criam grandes mudanças para mentes espontâneas.',
+    author: 'James Clear',
+    category: 'personal-growth',
+    mbtiTypes: ['ENFP', 'ENTP', 'ESFP', 'INFP'],
+    targetWeakness: 'Disciplina',
+    xpReward: 5,
+  },
+
+  // ENTJ Content - Focus: Patience, Collaboration, Work-life Balance
+  {
+    id: 'entj-patience-1',
+    type: 'article',
+    title: 'Liderança Paciente: Quando Ir Devagar É Ir Mais Rápido',
+    description: 'Por que ENTJs precisam desacelerar para obter resultados melhores.',
+    duration: '6 min',
+    category: 'leadership',
+    mbtiTypes: ['ENTJ', 'ESTJ', 'ENTP'],
+    targetWeakness: 'Paciência',
+    xpReward: 5,
+  },
+  {
+    id: 'entj-collaboration-1',
+    type: 'video',
+    title: 'Colaboração vs Comando',
+    description: 'Como líderes eficazes constroem consenso em vez de impor decisões.',
+    url: 'https://www.youtube.com/watch?v=ReRcHdeUG9Y',
+    author: 'Patrick Lencioni',
+    duration: '11 min',
+    category: 'leadership',
+    mbtiTypes: ['ENTJ', 'ESTJ', 'INTJ'],
+    targetWeakness: 'Colaboração',
+    xpReward: 5,
+  },
+
+  // ISFJ Content - Focus: Self-advocacy, Change, Risk-taking
+  {
+    id: 'isfj-advocacy-1',
+    type: 'article',
+    title: 'Como Pedir o Que Você Merece no Trabalho',
+    description: 'Guia para ISFJs defenderem suas conquistas e valor.',
+    duration: '7 min',
+    category: 'career',
+    mbtiTypes: ['ISFJ', 'ISFP', 'INFJ'],
+    targetWeakness: 'Auto-advocacia',
+    xpReward: 5,
+  },
+  {
+    id: 'isfj-change-1',
+    type: 'video',
+    title: 'Abraçando a Mudança Como Oportunidade',
+    description: 'Como tipos tradicionais podem ver mudanças como crescimento.',
+    url: 'https://www.youtube.com/watch?v=LBvHI1awWaI',
+    duration: '9 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ISFJ', 'ISTJ', 'ESFJ'],
+    targetWeakness: 'Adaptação',
+    xpReward: 5,
+  },
+
+  // ENTP Content - Focus: Follow-through, Sensitivity, Organization
+  {
+    id: 'entp-completion-1',
+    type: 'article',
+    title: 'Por Que Ideias Sem Execução Valem Zero',
+    description: 'Como ENTPs podem transformar brainstorming em resultados concretos.',
+    duration: '6 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ENTP', 'ENFP', 'INTP'],
+    targetWeakness: 'Execução',
+    xpReward: 5,
+  },
+  {
+    id: 'entp-tact-1',
+    type: 'video',
+    title: 'Debate vs Diálogo: Quando Argumentar Prejudica',
+    description: 'Como ENTPs podem discordar sem alienar as pessoas.',
+    url: 'https://www.youtube.com/watch?v=NXm2gAgv7Gk',
+    duration: '13 min',
+    category: 'communication',
+    mbtiTypes: ['ENTP', 'ENTJ', 'ESTP'],
+    targetWeakness: 'Tato',
+    xpReward: 5,
+  },
+
+  // INTP Content - Focus: Social skills, Decision-making, Action
+  {
+    id: 'intp-social-1',
+    type: 'article',
+    title: 'Socialização para Introvertidos Analíticos',
+    description: 'Como INTPs podem construir conexões autênticas sem fingir.',
+    duration: '7 min',
+    category: 'relationships',
+    mbtiTypes: ['INTP', 'INTJ', 'ISTP'],
+    targetWeakness: 'Habilidades Sociais',
+    xpReward: 5,
+  },
+  {
+    id: 'intp-action-1',
+    type: 'video',
+    title: 'Parálise por Análise: Como Parar de Pensar e Agir',
+    description: 'Estratégias para INTPs saírem da teoria e entrarem na prática.',
+    url: 'https://www.youtube.com/watch?v=w9E66gFvVRs',
+    duration: '12 min',
+    category: 'personal-growth',
+    mbtiTypes: ['INTP', 'INFP', 'INTJ'],
+    targetWeakness: 'Ação',
+    xpReward: 5,
+  },
+
+  // ESFJ Content - Focus: Saying no, Objectivity, Self-focus
+  {
+    id: 'esfj-boundaries-1',
+    type: 'article',
+    title: 'Como Cuidar de Si Sem Culpa',
+    description: 'Por que ESFJs precisam priorizar suas próprias necessidades também.',
+    duration: '6 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ESFJ', 'ISFJ', 'ENFJ'],
+    targetWeakness: 'Auto-cuidado',
+    xpReward: 5,
+  },
+  {
+    id: 'esfj-criticism-1',
+    type: 'video',
+    title: 'Como Lidar com Críticas Sem Levar para o Pessoal',
+    description: 'Desenvolvendo resiliência emocional e separando valor próprio de aprovação.',
+    url: 'https://www.youtube.com/watch?v=NXTQaUslpmY',
+    duration: '10 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ESFJ', 'ENFJ', 'ISFJ'],
+    targetWeakness: 'Resiliência Emocional',
+    xpReward: 5,
+  },
+
+  // ISTP Content - Focus: Emotional expression, Long-term planning
+  {
+    id: 'istp-emotions-1',
+    type: 'article',
+    title: 'Como Expressar Emoções Quando Você É Naturalmente Reservado',
+    description: 'Guia para ISTPs se abrirem sem perder sua autenticidade.',
+    duration: '6 min',
+    category: 'relationships',
+    mbtiTypes: ['ISTP', 'ISTJ', 'INTP'],
+    targetWeakness: 'Expressão Emocional',
+    xpReward: 5,
+  },
+  {
+    id: 'istp-planning-1',
+    type: 'video',
+    title: 'Visão de Longo Prazo para Mentes Práticas',
+    description: 'Como tipos focados no presente podem planejar o futuro.',
+    url: 'https://www.youtube.com/watch?v=Jz9_4W8xHhg',
+    duration: '11 min',
+    category: 'career',
+    mbtiTypes: ['ISTP', 'ESTP', 'ISFP'],
+    targetWeakness: 'Planejamento',
+    xpReward: 5,
+  },
+
+  // ISFP Content - Focus: Assertiveness, Structure, Conflict
+  {
+    id: 'isfp-voice-1',
+    type: 'article',
+    title: 'Encontrando Sua Voz no Trabalho',
+    description: 'Como ISFPs podem contribuir com suas ideias sem se sentir desconfortáveis.',
+    duration: '7 min',
+    category: 'career',
+    mbtiTypes: ['ISFP', 'INFP', 'ISTP'],
+    targetWeakness: 'Assertividade',
+    xpReward: 5,
+  },
+  {
+    id: 'isfp-conflict-1',
+    type: 'video',
+    title: 'Conflito Saudável: Como Discordar Construtivamente',
+    description: 'Por que evitar conflito prejudica relacionamentos no longo prazo.',
+    url: 'https://www.youtube.com/watch?v=1BKfKxpAr-I',
+    duration: '14 min',
+    category: 'conflict-resolution',
+    mbtiTypes: ['ISFP', 'INFP', 'ISFJ'],
+    targetWeakness: 'Gestão de Conflitos',
+    xpReward: 5,
+  },
+
+  // ESTP Content - Focus: Planning, Sensitivity, Commitment
+  {
+    id: 'estp-planning-1',
+    type: 'article',
+    title: 'Como Improvisar E Planejar ao Mesmo Tempo',
+    description: 'Estratégias para ESTPs balancearem espontaneidade com direção.',
+    duration: '6 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ESTP', 'ESFP', 'ISTP'],
+    targetWeakness: 'Planejamento',
+    xpReward: 5,
+  },
+  {
+    id: 'estp-sensitivity-1',
+    type: 'video',
+    title: 'Leitura de Sala: Como Captar Emoções Não-Verbais',
+    description: 'Desenvolvendo sensibilidade emocional para tipos práticos.',
+    url: 'https://www.youtube.com/watch?v=1Evwgu369Jw',
+    duration: '10 min',
+    category: 'communication',
+    mbtiTypes: ['ESTP', 'ESTJ', 'ENTP'],
+    targetWeakness: 'Sensibilidade',
+    xpReward: 5,
+  },
+
+  // ESFP Content - Focus: Planning, Depth, Follow-through
+  {
+    id: 'esfp-depth-1',
+    type: 'article',
+    title: 'Conversas Profundas para Pessoas Sociais',
+    description: 'Como ESFPs podem ir além do superficial nos relacionamentos.',
+    duration: '6 min',
+    category: 'relationships',
+    mbtiTypes: ['ESFP', 'ESTP', 'ENFP'],
+    targetWeakness: 'Profundidade',
+    xpReward: 5,
+  },
+  {
+    id: 'esfp-commitment-1',
+    type: 'video',
+    title: 'O Valor do Compromisso de Longo Prazo',
+    description: 'Por que persistir em um caminho traz mais liberdade, não menos.',
+    url: 'https://www.youtube.com/watch?v=TBuIGBCF9jc',
+    duration: '12 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ESFP', 'ENFP', 'ESTP'],
+    targetWeakness: 'Comprometimento',
+    xpReward: 5,
+  },
+
+  // INFJ Content - Focus: Boundaries, Perfectionism, Letting go
+  {
+    id: 'infj-perfectionism-1',
+    type: 'article',
+    title: 'Perfeccionismo vs Excelência: A Diferença Crucial',
+    description: 'Como INFJs podem buscar qualidade sem se paralisar.',
+    duration: '7 min',
+    category: 'personal-growth',
+    mbtiTypes: ['INFJ', 'INTJ', 'INFP'],
+    targetWeakness: 'Perfeccionismo',
+    xpReward: 5,
+  },
+  {
+    id: 'infj-control-1',
+    type: 'video',
+    title: 'Deixando Ir: A Arte de Soltar o Controle',
+    description: 'Como INFJs podem aceitar o que não podem mudar.',
+    url: 'https://www.youtube.com/watch?v=FVqfUoix4hM',
+    duration: '11 min',
+    category: 'mindfulness',
+    mbtiTypes: ['INFJ', 'INTJ', 'ISTJ'],
+    targetWeakness: 'Controle',
+    xpReward: 5,
+  },
+
+  // ENFJ Content - Focus: Self-care, Boundaries, Objectivity
+  {
+    id: 'enfj-selfcare-1',
+    type: 'article',
+    title: 'Você Não Pode Doar de Um Copo Vazio',
+    description: 'Por que ENFJs precisam se priorizar para ajudar os outros melhor.',
+    duration: '6 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ENFJ', 'ESFJ', 'INFJ'],
+    targetWeakness: 'Auto-cuidado',
+    xpReward: 5,
+  },
+  {
+    id: 'enfj-objectivity-1',
+    type: 'video',
+    title: 'Como Tomar Decisões Lógicas Quando Você É Empático',
+    description: 'Balanceando coração e mente na tomada de decisão.',
+    url: 'https://www.youtube.com/watch?v=bxB_dDZqAZo',
+    duration: '13 min',
+    category: 'decision-making',
+    mbtiTypes: ['ENFJ', 'INFJ', 'ESFJ'],
+    targetWeakness: 'Objetividade',
+    xpReward: 5,
+  },
+
+  // ISTJ Content - Focus: Flexibility, Innovation, Emotional expression
+  {
+    id: 'istj-innovation-1',
+    type: 'article',
+    title: 'Como Mentes Tradicionais Podem Inovar',
+    description: 'Combinando experiência comprovada com novas ideias.',
+    duration: '7 min',
+    category: 'career',
+    mbtiTypes: ['ISTJ', 'ESTJ', 'ISFJ'],
+    targetWeakness: 'Inovação',
+    xpReward: 5,
+  },
+  {
+    id: 'istj-flexibility-1',
+    type: 'video',
+    title: 'Adaptabilidade: A Nova Estabilidade',
+    description: 'Por que flexibilidade é essencial em um mundo em mudança.',
+    url: 'https://www.youtube.com/watch?v=seiPJRVGEyU',
+    duration: '10 min',
+    category: 'personal-growth',
+    mbtiTypes: ['ISTJ', 'ESTJ', 'ISFJ'],
+    targetWeakness: 'Adaptabilidade',
+    xpReward: 5,
+  },
+];
+
+/**
+ * Get all content for a specific MBTI type
+ */
+export function getContentForType(mbtiType: string): Content[] {
+  return CONTENT_LIBRARY.filter((content) => content.mbtiTypes.includes(mbtiType));
+}
+
+/**
+ * Get random content for type (for variety)
+ */
+export function getRandomContentForType(mbtiType: string, limit: number = 4): Content[] {
+  const typeContent = getContentForType(mbtiType);
+  const shuffled = [...typeContent].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, limit);
+}

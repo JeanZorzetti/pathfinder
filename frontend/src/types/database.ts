@@ -43,4 +43,8 @@ export interface Profile {
   // Sprint 3: Desafio Semanal
   current_challenge?: any; // JSON do desafio atual
   completed_challenges?: string[]; // IDs dos desafios completos
+  // Sprint 4: Conteúdo + Comparação
+  comparison_code?: string; // Código único para comparação (e.g., "ESTJ-A7K9M2")
+  consumed_content?: string[]; // IDs de conteúdo consumido
+  content_history?: any[]; // Histórico de conteúdo consumido com timestamps
 }
