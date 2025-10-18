@@ -6,7 +6,7 @@ export const ESFJ: PersonalityType = {
   tagline: 'Pessoas atenciosas e populares, sempre dispostas a ajudar',
   tags: ['Atencioso', 'Sociável', 'Organizado', 'Leal'],
   population: '9-13% da população',
-  group: 'sentinels',
+  group: 'Sentinels',
 
   colorScheme: {
     primary: '#BE185D',
@@ -37,7 +37,7 @@ O verdadeiro poder do ESFJ está em sua capacidade de nutrir talentos nos outros
       fullName: 'Sentimento Extrovertido',
       icon: '❤️',
       description: 'A função dominante Fe cria harmonia e conexão emocional com outros. ESFJs leem naturalmente as atmosferas sociais e ajustam seu comportamento para promover bem-estar coletivo e unidade.',
-      manifestation: 'Se manifesta como consciência aguçada das emoções alheias, necessidade de aprovação social, e habilidade natural de fazer outros se sentirem valorizados e confortáveis. ESFJs sabem instintivamente o que dizer para elevar o ânimo.',
+      details: 'Se manifesta como consciência aguçada das emoções alheias, necessidade de aprovação social, e habilidade natural de fazer outros se sentirem valorizados e confortáveis. ESFJs sabem instintivamente o que dizer para elevar o ânimo.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro poder do ESFJ está em sua capacidade de nutrir talentos nos outros
       fullName: 'Sensação Introvertida',
       icon: '📚',
       description: 'A função auxiliar Si armazena experiências passadas e valoriza tradições comprovadas. Ela fornece ao Fe um framework estável de "como as coisas devem ser feitas" baseado no que funcionou antes.',
-      manifestation: 'Aparece como respeito por tradições, apreciação por rituais familiares, atenção aos detalhes práticos, e preferência por métodos testados. ESFJs criam estabilidade através de rotinas e costumes.',
+      details: 'Aparece como respeito por tradições, apreciação por rituais familiares, atenção aos detalhes práticos, e preferência por métodos testados. ESFJs criam estabilidade através de rotinas e costumes.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro poder do ESFJ está em sua capacidade de nutrir talentos nos outros
       fullName: 'Intuição Extrovertida',
       icon: '✨',
       description: 'A função terciária Ne permite ver possibilidades e conexões alternativas. Em ESFJs, está menos desenvolvida, mas pode fornecer criatividade ocasional e flexibilidade.',
-      manifestation: 'Pode aparecer como brainstorming de ideias para eventos, consideração de perspectivas diferentes, ou capacidade de adaptar planos quando necessário. ESFJs maduros usam Ne para evitar rigidez excessiva.',
+      details: 'Pode aparecer como brainstorming de ideias para eventos, consideração de perspectivas diferentes, ou capacidade de adaptar planos quando necessário. ESFJs maduros usam Ne para evitar rigidez excessiva.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro poder do ESFJ está em sua capacidade de nutrir talentos nos outros
       fullName: 'Pensamento Introvertido',
       icon: '🧠',
       description: 'A função inferior Ti lida com lógica impessoal e análise objetiva. Para ESFJs, esta é a função mais desafiadora e menos desenvolvida.',
-      manifestation: 'ESFJs podem sentir-se inseguros em discussões puramente lógicas, preferem decisões baseadas em valores humanos sobre análise fria, e podem levar críticas lógicas como ataques pessoais.',
+      details: 'ESFJs podem sentir-se inseguros em discussões puramente lógicas, preferem decisões baseadas em valores humanos sobre análise fria, e podem levar críticas lógicas como ataques pessoais.',
     },
   ],
 

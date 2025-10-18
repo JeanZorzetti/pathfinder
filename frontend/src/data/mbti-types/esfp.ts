@@ -6,7 +6,7 @@ export const ESFP: PersonalityType = {
   tagline: 'Artistas espontâneos e energéticos que nunca deixam a vida ficar chata',
   tags: ['Espontâneo', 'Entusiasta', 'Sociável', 'Divertido'],
   population: '4-9% da população',
-  group: 'explorers',
+  group: 'Explorers',
 
   colorScheme: {
     primary: '#F59E0B',
@@ -37,7 +37,7 @@ O verdadeiro dom do ESFP está em sua capacidade de fazer os outros se sentirem 
       fullName: 'Sensação Extrovertida',
       icon: '🎨',
       description: 'A função dominante Se busca experiências sensoriais diretas e vive totalmente no momento presente. ESFPs são mestres em perceber e responder ao ambiente físico imediato com precisão e graça.',
-      manifestation: 'Se manifesta como consciência aguçada do presente, habilidades físicas naturais, senso estético refinado, e capacidade de responder instantaneamente a mudanças no ambiente. ESFPs notam tudo - cores, texturas, energias, oportunidades de ação.',
+      details: 'Se manifesta como consciência aguçada do presente, habilidades físicas naturais, senso estético refinado, e capacidade de responder instantaneamente a mudanças no ambiente. ESFPs notam tudo - cores, texturas, energias, oportunidades de ação.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro dom do ESFP está em sua capacidade de fazer os outros se sentirem 
       fullName: 'Sentimento Introvertido',
       icon: '❤️',
       description: 'A função auxiliar Fi cria um sistema interno profundo de valores pessoais e autenticidade. Ela guia o Se com um senso forte do que é verdadeiro para si mesmo e como tratar os outros.',
-      manifestation: 'Aparece como forte senso de identidade pessoal, decisões baseadas em valores profundos, empatia genuína, e resistência a falsidade ou hipocrisia. ESFPs sabem quem são e o que sentem, e não fingem ser outra pessoa.',
+      details: 'Aparece como forte senso de identidade pessoal, decisões baseadas em valores profundos, empatia genuína, e resistência a falsidade ou hipocrisia. ESFPs sabem quem são e o que sentem, e não fingem ser outra pessoa.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro dom do ESFP está em sua capacidade de fazer os outros se sentirem 
       fullName: 'Pensamento Extrovertido',
       icon: '⚡',
       description: 'A função terciária Te fornece capacidade de organização prática e eficiência quando motivados. Em ESFPs está menos desenvolvida, mas pode ser ativada quando necessário.',
-      manifestation: 'Pode aparecer como surtos de produtividade organizada, habilidade de fazer coisas acontecerem rapidamente quando motivados, ou soluções práticas diretas para problemas. ESFPs podem ser surpreendentemente eficientes em áreas que lhes importam.',
+      details: 'Pode aparecer como surtos de produtividade organizada, habilidade de fazer coisas acontecerem rapidamente quando motivados, ou soluções práticas diretas para problemas. ESFPs podem ser surpreendentemente eficientes em áreas que lhes importam.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro dom do ESFP está em sua capacidade de fazer os outros se sentirem 
       fullName: 'Intuição Introvertida',
       icon: '🔮',
       description: 'A função inferior Ni lida com visão de longo prazo, padrões abstratos e implicações futuras. Para ESFPs, esta é a função mais desafiadora e menos desenvolvida.',
-      manifestation: 'ESFPs frequentemente lutam com planejamento de longo prazo, podem ter ansiedade sobre o futuro desconhecido, e preferem lidar com o que é concreto e imediato ao invés de possibilidades abstratas distantes.',
+      details: 'ESFPs frequentemente lutam com planejamento de longo prazo, podem ter ansiedade sobre o futuro desconhecido, e preferem lidar com o que é concreto e imediato ao invés de possibilidades abstratas distantes.',
     },
   ],
 

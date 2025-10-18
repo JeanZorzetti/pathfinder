@@ -6,7 +6,7 @@ export const INFJ: PersonalityType = {
   tagline: 'Idealistas silenciosos mas inspiradores, sempre em busca de propósito',
   tags: ['Visionário', 'Empático', 'Idealista', 'Profundo'],
   population: '1-2% da população (mais raro)',
-  group: 'diplomats',
+  group: 'Diplomats',
 
   colorScheme: {
     primary: '#059669',
@@ -37,7 +37,7 @@ O verdadeiro poder do INFJ está em sua capacidade de inspirar mudança genuína
       fullName: 'Intuição Introvertida',
       icon: '🔮',
       description: 'A função dominante Ni busca padrões profundos e visões de futuro. INFJs processam informações inconscientemente, chegando a insights e "sabendo" coisas sem necessariamente entender como sabem.',
-      manifestation: 'Se manifesta como uma clareza súbita sobre situações complexas, visões de como eventos se desenrolarão, e uma capacidade de ver o "quadro maior" que outros não percebem. INFJs frequentemente têm pressentimentos precisos e enxergam através de máscaras sociais.',
+      details: 'Se manifesta como uma clareza súbita sobre situações complexas, visões de como eventos se desenrolarão, e uma capacidade de ver o "quadro maior" que outros não percebem. INFJs frequentemente têm pressentimentos precisos e enxergam através de máscaras sociais.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro poder do INFJ está em sua capacidade de inspirar mudança genuína
       fullName: 'Sentimento Extrovertido',
       icon: '❤️',
       description: 'A função auxiliar Fe cria harmonia e conexão emocional com os outros. Ela sintoniza os INFJs com as emoções e necessidades das pessoas ao seu redor, impulsionando seu desejo de ajudar.',
-      manifestation: 'Aparece como capacidade natural de ler o clima emocional de uma sala, forte desejo de manter harmonia, habilidade de fazer outros se sentirem compreendidos e valorizados. INFJs frequentemente colocam as necessidades dos outros antes das suas.',
+      details: 'Aparece como capacidade natural de ler o clima emocional de uma sala, forte desejo de manter harmonia, habilidade de fazer outros se sentirem compreendidos e valorizados. INFJs frequentemente colocam as necessidades dos outros antes das suas.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro poder do INFJ está em sua capacidade de inspirar mudança genuína
       fullName: 'Pensamento Introvertido',
       icon: '🧠',
       description: 'A função terciária Ti busca coerência lógica interna e compreensão profunda de sistemas. Em INFJs, fornece uma estrutura analítica que equilibra sua empatia.',
-      manifestation: 'Pode aparecer como perfeccionismo, necessidade de que suas ideias e ações sejam internamente consistentes, e períodos de análise profunda. INFJs podem se tornar críticos quando suas intuições e valores não se alinham logicamente.',
+      details: 'Pode aparecer como perfeccionismo, necessidade de que suas ideias e ações sejam internamente consistentes, e períodos de análise profunda. INFJs podem se tornar críticos quando suas intuições e valores não se alinham logicamente.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro poder do INFJ está em sua capacidade de inspirar mudança genuína
       fullName: 'Sensação Extrovertida',
       icon: '🌟',
       description: 'A função inferior Se lida com experiência sensorial imediata e presença no momento atual. Para INFJs, esta é a função mais desafiadora e menos desenvolvida.',
-      manifestation: 'INFJs frequentemente se sentem desconectados do mundo físico, negligenciam necessidades corporais, e lutam para permanecer presentes. Sob estresse, podem se perder em indulgências sensoriais ou se tornar hiperatentos a detalhes físicos.',
+      details: 'INFJs frequentemente se sentem desconectados do mundo físico, negligenciam necessidades corporais, e lutam para permanecer presentes. Sob estresse, podem se perder em indulgências sensoriais ou se tornar hiperatentos a detalhes físicos.',
     },
   ],
 

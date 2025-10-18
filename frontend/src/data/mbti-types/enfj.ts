@@ -6,7 +6,7 @@ export const ENFJ: PersonalityType = {
   tagline: 'Líderes carismáticos e inspiradores que cativam seus ouvintes',
   tags: ['Carismático', 'Inspirador', 'Empático', 'Motivador'],
   population: '2-5% da população',
-  group: 'diplomats',
+  group: 'Diplomats',
 
   colorScheme: {
     primary: '#F59E0B',
@@ -37,7 +37,7 @@ O verdadeiro poder do ENFJ está em sua capacidade de enxergar o potencial que o
       fullName: 'Sentimento Extrovertido',
       icon: '❤️',
       description: 'A função dominante Fe busca criar harmonia e conexão emocional com os outros. ENFJs são altamente sintonizados com o clima emocional ao seu redor e trabalham incansavelmente para criar ambientes positivos e de apoio.',
-      manifestation: 'Se manifesta como uma consciência aguda das emoções alheias, habilidade natural de liderar e motivar, e uma necessidade profunda de servir e elevar outros. ENFJs sentem as emoções do grupo como se fossem suas próprias.',
+      details: 'Se manifesta como uma consciência aguda das emoções alheias, habilidade natural de liderar e motivar, e uma necessidade profunda de servir e elevar outros. ENFJs sentem as emoções do grupo como se fossem suas próprias.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro poder do ENFJ está em sua capacidade de enxergar o potencial que o
       fullName: 'Intuição Introvertida',
       icon: '🔮',
       description: 'A função auxiliar Ni fornece visão de longo prazo e insights profundos sobre pessoas e situações. Ela permite que ENFJs vejam o potencial oculto em indivíduos e antecipem como as pessoas evoluirão.',
-      manifestation: 'Aparece como compreensão intuitiva profunda de motivações humanas, capacidade de ver onde uma pessoa pode chegar no futuro, e insights repentinos sobre padrões de comportamento e desenvolvimento pessoal.',
+      details: 'Aparece como compreensão intuitiva profunda de motivações humanas, capacidade de ver onde uma pessoa pode chegar no futuro, e insights repentinos sobre padrões de comportamento e desenvolvimento pessoal.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro poder do ENFJ está em sua capacidade de enxergar o potencial que o
       fullName: 'Sensação Extrovertida',
       icon: '✨',
       description: 'A função terciária Se conecta ENFJs ao momento presente e ao ambiente físico. Quando desenvolvida, dá presença carismática e habilidade de adaptar sua comunicação ao contexto imediato.',
-      manifestation: 'Pode aparecer como presença de palco magnética, atenção a detalhes estéticos, e capacidade de "ler a sala" e ajustar sua abordagem em tempo real. ENFJs desenvolvidos têm timing impecável.',
+      details: 'Pode aparecer como presença de palco magnética, atenção a detalhes estéticos, e capacidade de "ler a sala" e ajustar sua abordagem em tempo real. ENFJs desenvolvidos têm timing impecável.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro poder do ENFJ está em sua capacidade de enxergar o potencial que o
       fullName: 'Pensamento Introvertido',
       icon: '🧠',
       description: 'A função inferior Ti lida com análise lógica impessoal e consistência interna. Para ENFJs, esta é a função mais desafiadora e menos desenvolvida.',
-      manifestation: 'ENFJs podem lutar com lógica impessoal, ficam defensivos quando suas ideias são questionadas logicamente, e às vezes tomam críticas construtivas como ataques pessoais. Podem evitar análise fria quando decisões humanas estão envolvidas.',
+      details: 'ENFJs podem lutar com lógica impessoal, ficam defensivos quando suas ideias são questionadas logicamente, e às vezes tomam críticas construtivas como ataques pessoais. Podem evitar análise fria quando decisões humanas estão envolvidas.',
     },
   ],
 

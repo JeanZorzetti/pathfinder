@@ -6,7 +6,7 @@ export const ISFP: PersonalityType = {
   tagline: 'Artistas flexíveis e charmosos, sempre prontos para explorar algo novo',
   tags: ['Artístico', 'Sensível', 'Espontâneo', 'Adaptável'],
   population: '5-9% da população',
-  group: 'explorers',
+  group: 'Explorers',
 
   colorScheme: {
     primary: '#7C3AED',
@@ -37,7 +37,7 @@ O verdadeiro poder do ISFP está em sua capacidade de transformar o ordinário e
       fullName: 'Sentimento Introvertido',
       icon: '💜',
       description: 'A função dominante Fi cria um sistema de valores internos profundos e busca autenticidade acima de tudo. ISFPs têm uma bússola moral interna extraordinariamente sensível que guia todas as suas decisões.',
-      manifestation: 'Se manifesta como profunda empatia, necessidade de autenticidade, e aversão instintiva a qualquer coisa que viole seus valores pessoais. ISFPs "sentem" quando algo está certo ou errado em um nível visceral.',
+      details: 'Se manifesta como profunda empatia, necessidade de autenticidade, e aversão instintiva a qualquer coisa que viole seus valores pessoais. ISFPs "sentem" quando algo está certo ou errado em um nível visceral.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro poder do ISFP está em sua capacidade de transformar o ordinário e
       fullName: 'Sensação Extrovertida',
       icon: '🎨',
       description: 'A função auxiliar Se sintoniza com o ambiente físico imediato, absorvendo detalhes sensoriais e vivendo plenamente no momento presente. Ela alimenta o Fi com experiências ricas e concretas.',
-      manifestation: 'Aparece como consciência aguçada de estética, habilidade para trabalhar com as mãos, apreciação de beleza física, e tendência a agir impulsivamente baseado no que o momento oferece.',
+      details: 'Aparece como consciência aguçada de estética, habilidade para trabalhar com as mãos, apreciação de beleza física, e tendência a agir impulsivamente baseado no que o momento oferece.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro poder do ISFP está em sua capacidade de transformar o ordinário e
       fullName: 'Intuição Introvertida',
       icon: '✨',
       description: 'A função terciária Ni ocasionalmente oferece insights profundos sobre significados ocultos e direções futuras. Em ISFPs, aparece como flashes de intuição sobre pessoas e situações.',
-      manifestation: 'Pode aparecer como pressentimentos sobre o que está por vir, insights súbitos sobre o caráter de alguém, ou visões artísticas que "simplesmente aparecem" totalmente formadas.',
+      details: 'Pode aparecer como pressentimentos sobre o que está por vir, insights súbitos sobre o caráter de alguém, ou visões artísticas que "simplesmente aparecem" totalmente formadas.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro poder do ISFP está em sua capacidade de transformar o ordinário e
       fullName: 'Pensamento Extrovertido',
       icon: '📋',
       description: 'A função inferior Te lida com organização, planejamento sistemático e eficiência. Para ISFPs, esta é a função mais desafiadora e menos desenvolvida.',
-      manifestation: 'ISFPs frequentemente se sentem sobrecarregados por tarefas organizacionais, resistem a estruturas impostas externamente, e podem explodir com críticas severas quando extremamente estressados.',
+      details: 'ISFPs frequentemente se sentem sobrecarregados por tarefas organizacionais, resistem a estruturas impostas externamente, e podem explodir com críticas severas quando extremamente estressados.',
     },
   ],
 

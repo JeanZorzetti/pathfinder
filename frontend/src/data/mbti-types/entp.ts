@@ -6,7 +6,7 @@ export const ENTP: PersonalityType = {
   tagline: 'Pensadores audaciosos e criativos que nunca recusam um desafio intelectual',
   tags: ['Inovador', 'Debatedor', 'Criativo', 'Carismático'],
   population: '3-4% da população',
-  group: 'analysts',
+  group: 'Analysts',
 
   colorScheme: {
     primary: '#8B5CF6',
@@ -37,7 +37,7 @@ O verdadeiro poder do ENTP está em sua capacidade de ver oportunidades onde out
       fullName: 'Intuição Extrovertida',
       icon: '✨',
       description: 'A função dominante Ne busca possibilidades, padrões e conexões no mundo externo. ENTPs são movidos por um fluxo constante de ideias novas, sempre explorando o que poderia ser ao invés do que é.',
-      manifestation: 'Se manifesta como brainstorming perpétuo, entusiasmo contagiante por novas possibilidades, e habilidade de ver potencial em tudo. ENTPs não param de fazer conexões criativas entre conceitos diversos.',
+      details: 'Se manifesta como brainstorming perpétuo, entusiasmo contagiante por novas possibilidades, e habilidade de ver potencial em tudo. ENTPs não param de fazer conexões criativas entre conceitos diversos.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro poder do ENTP está em sua capacidade de ver oportunidades onde out
       fullName: 'Pensamento Introvertido',
       icon: '🧠',
       description: 'A função auxiliar Ti analisa e desconstrói sistemas internamente. Ela pega as possibilidades geradas por Ne e as submete a análise lógica rigorosa, identificando inconsistências e refinando conceitos.',
-      manifestation: 'Aparece como necessidade de entender "como" as coisas funcionam internamente, capacidade de encontrar falhas em argumentos, e busca por frameworks lógicos elegantes. ENTPs questionam pressupostos com precisão cirúrgica.',
+      details: 'Aparece como necessidade de entender "como" as coisas funcionam internamente, capacidade de encontrar falhas em argumentos, e busca por frameworks lógicos elegantes. ENTPs questionam pressupostos com precisão cirúrgica.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro poder do ENTP está em sua capacidade de ver oportunidades onde out
       fullName: 'Sentimento Extrovertido',
       icon: '❤️',
       description: 'A função terciária Fe sintoniza-se com a atmosfera social e as emoções dos outros. Em ENTPs, ela fornece charme natural e habilidade de ler pessoas, embora seja menos desenvolvida.',
-      manifestation: 'Pode aparecer como carisma social, capacidade de adaptar argumentos ao público, e desejo ocasional de harmonia social. ENTPs podem ser surpreendentemente persuasivos e encantadores quando querem.',
+      details: 'Pode aparecer como carisma social, capacidade de adaptar argumentos ao público, e desejo ocasional de harmonia social. ENTPs podem ser surpreendentemente persuasivos e encantadores quando querem.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro poder do ENTP está em sua capacidade de ver oportunidades onde out
       fullName: 'Sensação Introvertida',
       icon: '📚',
       description: 'A função inferior Si lida com memórias internas, rotinas e experiências passadas. Para ENTPs, esta é a função mais desafiadora e menos desenvolvida.',
-      manifestation: 'ENTPs frequentemente negligenciam rotinas, esquecem detalhes importantes, e resistem a métodos "comprovados" em favor de experimentação. Podem ter relação difícil com consistência e disciplina.',
+      details: 'ENTPs frequentemente negligenciam rotinas, esquecem detalhes importantes, e resistem a métodos "comprovados" em favor de experimentação. Podem ter relação difícil com consistência e disciplina.',
     },
   ],
 

@@ -6,7 +6,7 @@ export const ISTP: PersonalityType = {
   tagline: 'Mestres práticos e ousados de todas as ferramentas',
   tags: ['Prático', 'Analítico', 'Independente', 'Adaptável'],
   population: '5-6% da população',
-  group: 'explorers',
+  group: 'Explorers',
 
   colorScheme: {
     primary: '#0F766E',
@@ -37,7 +37,7 @@ O verdadeiro poder do ISTP está em sua capacidade de permanecer absolutamente p
       fullName: 'Pensamento Introvertido',
       icon: '🔧',
       description: 'A função dominante Ti busca compreender a lógica interna de como as coisas funcionam. ISTPs analisam sistemas, identificam princípios operacionais e criam modelos mentais precisos de mecânicas e processos.',
-      manifestation: 'Se manifesta como uma necessidade de entender o "como" e "por que" de sistemas físicos e mecânicos. ISTPs não confiam em explicações - precisam desmontar, explorar e validar por si mesmos.',
+      details: 'Se manifesta como uma necessidade de entender o "como" e "por que" de sistemas físicos e mecânicos. ISTPs não confiam em explicações - precisam desmontar, explorar e validar por si mesmos.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro poder do ISTP está em sua capacidade de permanecer absolutamente p
       fullName: 'Sensação Extrovertida',
       icon: '⚡',
       description: 'A função auxiliar Se mantém ISTPs firmemente ancorados no momento presente. Ela fornece consciência aguçada do ambiente físico, reflexos rápidos e habilidade de agir decisivamente.',
-      manifestation: 'Aparece como presença física excepcional, coordenação mão-olho superior, e capacidade de responder instantaneamente a mudanças no ambiente. ISTPs vivem e prosperam no aqui e agora.',
+      details: 'Aparece como presença física excepcional, coordenação mão-olho superior, e capacidade de responder instantaneamente a mudanças no ambiente. ISTPs vivem e prosperam no aqui e agora.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro poder do ISTP está em sua capacidade de permanecer absolutamente p
       fullName: 'Intuição Introvertida',
       icon: '🎯',
       description: 'A função terciária Ni fornece insights súbitos e compreensões profundas sobre como sistemas funcionam. Em ISTPs, está menos desenvolvida mas ocasionalmente oferece momentos de clareza.',
-      manifestation: 'Pode aparecer como "palpites" sobre problemas mecânicos ou técnicos, ou compreensão intuitiva de como peças se encaixam sem análise consciente.',
+      details: 'Pode aparecer como "palpites" sobre problemas mecânicos ou técnicos, ou compreensão intuitiva de como peças se encaixam sem análise consciente.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro poder do ISTP está em sua capacidade de permanecer absolutamente p
       fullName: 'Sentimento Extrovertido',
       icon: '❤️',
       description: 'A função inferior Fe lida com harmonia social e expressão emocional. Para ISTPs, esta é a função mais desafiadora e frequentemente negligenciada.',
-      manifestation: 'ISTPs podem se sentir desconfortáveis com displays emocionais, lutar para expressar sentimentos verbalmente, e preferir demonstrar cuidado através de ações práticas ao invés de palavras.',
+      details: 'ISTPs podem se sentir desconfortáveis com displays emocionais, lutar para expressar sentimentos verbalmente, e preferir demonstrar cuidado através de ações práticas ao invés de palavras.',
     },
   ],
 

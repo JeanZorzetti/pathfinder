@@ -6,7 +6,7 @@ export const ESTP: PersonalityType = {
   tagline: 'Pessoas espertas e energéticas que vivem no limite',
   tags: ['Energético', 'Perceptivo', 'Direto', 'Sociável'],
   population: '4-10% da população',
-  group: 'explorers',
+  group: 'Explorers',
 
   colorScheme: {
     primary: '#EA580C',
@@ -37,7 +37,7 @@ O verdadeiro poder do ESTP está em sua capacidade de transformar caos em oportu
       fullName: 'Sensação Extrovertida',
       icon: '⚡',
       description: 'A função dominante Se está totalmente sintonizada com o ambiente físico imediato. ESTPs processam uma quantidade extraordinária de informação sensorial em tempo real e agem instantaneamente com base nisso.',
-      manifestation: 'Se manifesta como consciência aguçada do momento presente, excelente coordenação física, e capacidade de notar detalhes que outros perdem. ESTPs são mestres em "ler a sala" e adaptar suas ações instantaneamente.',
+      details: 'Se manifesta como consciência aguçada do momento presente, excelente coordenação física, e capacidade de notar detalhes que outros perdem. ESTPs são mestres em "ler a sala" e adaptar suas ações instantaneamente.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro poder do ESTP está em sua capacidade de transformar caos em oportu
       fullName: 'Pensamento Introvertido',
       icon: '🔧',
       description: 'A função auxiliar Ti analisa logicamente o que Se observa. Ela permite aos ESTPs entender como as coisas funcionam, identificar padrões e criar estratégias práticas instantâneas.',
-      manifestation: 'Aparece como habilidade de troubleshooting excepcional, lógica prática aplicada, e capacidade de desmontar sistemas (físicos ou sociais) para entender sua mecânica. ESTPs fazem perguntas diretas e cortam através de bobagens.',
+      details: 'Aparece como habilidade de troubleshooting excepcional, lógica prática aplicada, e capacidade de desmontar sistemas (físicos ou sociais) para entender sua mecânica. ESTPs fazem perguntas diretas e cortam através de bobagens.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro poder do ESTP está em sua capacidade de transformar caos em oportu
       fullName: 'Sentimento Extrovertido',
       icon: '🎭',
       description: 'A função terciária Fe fornece consciência social e capacidade de ler pessoas. Em ESTPs, ela complementa Se, permitindo que percebam não apenas o ambiente físico, mas também o clima emocional.',
-      manifestation: 'Pode aparecer como charme natural, capacidade de entreter e envolver outros, e talento para saber exatamente o que dizer para conseguir o que querem. ESTPs podem ser surpreendentemente socialmente hábeis.',
+      details: 'Pode aparecer como charme natural, capacidade de entreter e envolver outros, e talento para saber exatamente o que dizer para conseguir o que querem. ESTPs podem ser surpreendentemente socialmente hábeis.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro poder do ESTP está em sua capacidade de transformar caos em oportu
       fullName: 'Intuição Introvertida',
       icon: '🔮',
       description: 'A função inferior Ni lida com visão de longo prazo e implicações futuras. Para ESTPs, esta é a função mais desafiadora e menos desenvolvida.',
-      manifestation: 'ESTPs frequentemente lutam com planejamento de longo prazo, podem se sentir ansiosos sobre o futuro, e têm dificuldade em ver as consequências distantes de suas ações presentes.',
+      details: 'ESTPs frequentemente lutam com planejamento de longo prazo, podem se sentir ansiosos sobre o futuro, e têm dificuldade em ver as consequências distantes de suas ações presentes.',
     },
   ],
 

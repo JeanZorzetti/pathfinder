@@ -6,7 +6,7 @@ export const ENTJ: PersonalityType = {
   tagline: 'Líderes ousados e determinados que sempre encontram ou criam soluções',
   tags: ['Decisivo', 'Estratégico', 'Líder', 'Eficiente'],
   population: '2-5% da população',
-  group: 'analysts',
+  group: 'Analysts',
 
   colorScheme: {
     primary: '#DC2626',
@@ -37,7 +37,7 @@ O verdadeiro poder do ENTJ está em sua capacidade de transformar visões ambici
       fullName: 'Pensamento Extrovertido',
       icon: '⚡',
       description: 'A função dominante Te organiza o mundo externo através de lógica objetiva e eficiência. ENTJs estruturam sistemas, tomam decisões baseadas em dados, e impõem ordem no caos ao seu redor.',
-      manifestation: 'Se manifesta como uma necessidade irresistível de organizar, otimizar e melhorar tudo que tocam. ENTJs não conseguem ver ineficiência sem querer corrigi-la imediatamente. Eles naturalente assumem controle de situações e direcionam pessoas e recursos para objetivos claros.',
+      details: 'Se manifesta como uma necessidade irresistível de organizar, otimizar e melhorar tudo que tocam. ENTJs não conseguem ver ineficiência sem querer corrigi-la imediatamente. Eles naturalente assumem controle de situações e direcionam pessoas e recursos para objetivos claros.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro poder do ENTJ está em sua capacidade de transformar visões ambici
       fullName: 'Intuição Introvertida',
       icon: '🎯',
       description: 'A função auxiliar Ni fornece visão estratégica de longo prazo e percepção de padrões subjacentes. Ela alimenta o Te com insights sobre onde focar esforços e como os eventos futuros provavelmente se desenvolverão.',
-      manifestation: 'Aparece como capacidade notável de ver o "quadro geral", antecipar tendências futuras, e identificar a essência de situações complexas. ENTJs têm "pressentimentos" estratégicos surpreendentemente precisos sobre direções a seguir.',
+      details: 'Aparece como capacidade notável de ver o "quadro geral", antecipar tendências futuras, e identificar a essência de situações complexas. ENTJs têm "pressentimentos" estratégicos surpreendentemente precisos sobre direções a seguir.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro poder do ENTJ está em sua capacidade de transformar visões ambici
       fullName: 'Sensação Extrovertida',
       icon: '🔥',
       description: 'A função terciária Se traz consciência do ambiente imediato e capacidade de agir decisivamente no momento presente. Em ENTJs saudáveis, adiciona adaptabilidade tática à estratégia de longo prazo.',
-      manifestation: 'Pode aparecer como presença física marcante, apreço por experiências de alta qualidade, e capacidade de ler a "sala" rapidamente. ENTJs podem aproveitar oportunidades imediatas quando surgem.',
+      details: 'Pode aparecer como presença física marcante, apreço por experiências de alta qualidade, e capacidade de ler a "sala" rapidamente. ENTJs podem aproveitar oportunidades imediatas quando surgem.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro poder do ENTJ está em sua capacidade de transformar visões ambici
       fullName: 'Sentimento Introvertido',
       icon: '💔',
       description: 'A função inferior Fi lida com valores pessoais profundos e autenticidade emocional interna. Para ENTJs, esta é a função mais desafiadora e menos desenvolvida.',
-      manifestation: 'ENTJs frequentemente desconsideram ou suprimem suas próprias necessidades emocionais, podem parecer insensíveis aos valores pessoais dos outros, e lutam para processar sentimentos complexos. Sob stress extremo, podem ter explosões emocionais intensas.',
+      details: 'ENTJs frequentemente desconsideram ou suprimem suas próprias necessidades emocionais, podem parecer insensíveis aos valores pessoais dos outros, e lutam para processar sentimentos complexos. Sob stress extremo, podem ter explosões emocionais intensas.',
     },
   ],
 

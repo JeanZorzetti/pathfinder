@@ -6,7 +6,7 @@ export const ISFJ: PersonalityType = {
   tagline: 'Protetores dedicados e calorosos, sempre prontos a defender seus entes queridos',
   tags: ['Protetor', 'Dedicado', 'Caloroso', 'Leal'],
   population: '9-14% da população (um dos mais comuns)',
-  group: 'sentinels',
+  group: 'Sentinels',
 
   colorScheme: {
     primary: '#0891B2',
@@ -37,7 +37,7 @@ O verdadeiro poder do ISFJ está em sua capacidade de criar estabilidade e harmo
       fullName: 'Sensação Introvertida',
       icon: '📚',
       description: 'A função dominante Si armazena experiências vividas com detalhes ricos, criando um vasto banco de dados interno de memórias, sensações e conhecimento prático. ISFJs confiam no que foi testado e comprovado.',
-      manifestation: 'Se manifesta como memória excepcional para detalhes, preferência por métodos estabelecidos, apreciação por tradições, e habilidade de notar mudanças sutis no ambiente ou nas pessoas. ISFJs aprendem profundamente com a experiência passada.',
+      details: 'Se manifesta como memória excepcional para detalhes, preferência por métodos estabelecidos, apreciação por tradições, e habilidade de notar mudanças sutis no ambiente ou nas pessoas. ISFJs aprendem profundamente com a experiência passada.',
     },
     {
       position: 'auxiliary',
@@ -45,7 +45,7 @@ O verdadeiro poder do ISFJ está em sua capacidade de criar estabilidade e harmo
       fullName: 'Sentimento Extrovertido',
       icon: '❤️',
       description: 'A função auxiliar Fe sintoniza ISFJs às necessidades emocionais dos outros e ao clima social do ambiente. Ela os motiva a criar harmonia e cuidar do bem-estar coletivo.',
-      manifestation: 'Aparece como empatia natural, habilidade de ler as emoções dos outros, desejo de manter a paz, e necessidade de ser útil e de contribuir positivamente para a vida das pessoas. ISFJs sentem-se realizados quando outros estão felizes.',
+      details: 'Aparece como empatia natural, habilidade de ler as emoções dos outros, desejo de manter a paz, e necessidade de ser útil e de contribuir positivamente para a vida das pessoas. ISFJs sentem-se realizados quando outros estão felizes.',
     },
     {
       position: 'tertiary',
@@ -53,7 +53,7 @@ O verdadeiro poder do ISFJ está em sua capacidade de criar estabilidade e harmo
       fullName: 'Pensamento Introvertido',
       icon: '🧠',
       description: 'A função terciária Ti fornece análise lógica interna e busca por consistência. Em ISFJs, está menos desenvolvida mas pode emergir em decisões pessoais importantes.',
-      manifestation: 'Pode aparecer como necessidade ocasional de entender "por que" algo funciona, desenvolvimento de sistemas pessoais organizados, ou questionamento interno de regras que parecem ilógicas.',
+      details: 'Pode aparecer como necessidade ocasional de entender "por que" algo funciona, desenvolvimento de sistemas pessoais organizados, ou questionamento interno de regras que parecem ilógicas.',
     },
     {
       position: 'inferior',
@@ -61,7 +61,7 @@ O verdadeiro poder do ISFJ está em sua capacidade de criar estabilidade e harmo
       fullName: 'Intuição Extrovertida',
       icon: '✨',
       description: 'A função inferior Ne lida com possibilidades futuras e mudanças. Para ISFJs, esta é a função mais desafiadora e menos desenvolvida, causando ansiedade sobre o desconhecido.',
-      manifestation: 'ISFJs frequentemente se sentem desconfortáveis com mudanças súbitas, podem ficar ansiosos sobre possibilidades futuras negativas, e preferem o conhecido e familiar ao novo e incerto.',
+      details: 'ISFJs frequentemente se sentem desconfortáveis com mudanças súbitas, podem ficar ansiosos sobre possibilidades futuras negativas, e preferem o conhecido e familiar ao novo e incerto.',
     },
   ],
 
