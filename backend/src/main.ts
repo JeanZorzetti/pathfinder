@@ -46,7 +46,12 @@ async function bootstrap() {
   const frontendUrl = configService.get<string>('FRONTEND_URL');
   const vercelUrl = configService.get<string>('VERCEL_FRONTEND_URL');
 
-  const allowedOrigins = [frontendUrl, vercelUrl].filter((url): url is string => Boolean(url));
+  const allowedOrigins = [
+    frontendUrl,
+    vercelUrl,
+    'https://pathfinder.roilabs.com.br',
+    'http://localhost:8080',
+  ].filter((url): url is string => Boolean(url));
 
   app.enableCors({
     origin: allowedOrigins.length > 0 ? allowedOrigins : '*',
