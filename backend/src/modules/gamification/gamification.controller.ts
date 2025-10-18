@@ -52,4 +52,35 @@ export class GamificationController {
     const userId = req.user?.id || '00000000-0000-0000-0000-000000000000';
     return this.gamificationService.getUserXPStats(userId);
   }
+
+  @Get('achievements')
+  @ApiOperation({
+    summary: 'Get user achievements',
+    description: 'Returns all unlocked and available achievements for the authenticated user',
+  })
+  @ApiResponse({ status: 200, description: 'Achievements retrieved successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getAchievements(@Req() req: any) {
+    const userId = req.user?.id || '00000000-0000-0000-0000-000000000000';
+    const mbtiType = req.user?.mbtiType; // Optional MBTI filtering
+    return this.gamificationService.getUserAchievements(userId, mbtiType);
+  }
+
+  @Post('achievements/check')
+  @ApiOperation({
+    summary: 'Check and unlock achievements',
+    description: 'Manually trigger achievement check for the authenticated user',
+  })
+  @ApiResponse({ status: 200, description: 'Achievements checked and unlocked if criteria met' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async checkAchievements(@Req() req: any) {
+    const userId = req.user?.id || '00000000-0000-0000-0000-000000000000';
+    const mbtiType = req.user?.mbtiType;
+    const unlockedAchievements = await this.gamificationService.checkAndUnlockAchievements(userId, mbtiType);
+    return {
+      success: true,
+      unlockedCount: unlockedAchievements.length,
+      newAchievements: unlockedAchievements,
+    };
+  }
 }

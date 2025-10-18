@@ -1,15 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsInt, IsPositive } from 'class-validator';
+import { IsEnum, IsInt, IsPositive, IsOptional, IsString } from 'class-validator';
+import { XpSource } from '../entities/xp-transaction.entity';
 
-export enum XpSource {
-  TEST_COMPLETED = 'test_completed',
-  JOURNAL_ENTRY = 'journal_entry',
-  STREAK_MILESTONE = 'streak_milestone',
-  CONTENT_READ = 'content_read',
-  CHALLENGE_COMPLETED = 'challenge_completed',
-  SHARE_RESULT = 'share_result',
-  ACHIEVEMENT_UNLOCKED = 'achievement_unlocked',
-}
+// Re-export for convenience
+export { XpSource };
 
 export class AddXpDto {
   @ApiProperty({
@@ -28,6 +22,15 @@ export class AddXpDto {
   @IsInt()
   @IsPositive()
   amount: number;
+
+  @ApiProperty({
+    description: 'Optional description of XP transaction',
+    example: 'Completed MBTI assessment',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  description?: string;
 }
 
 export class XpResponseDto {

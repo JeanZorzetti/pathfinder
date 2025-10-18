@@ -977,14 +977,14 @@ interface DashboardResponse {
 **Tarefas Backend:**
 
 1. **Gamification Tables**
-   - ❌ Tabela `xp_transactions`:
+   - ✅ Tabela `xp_transactions`:
      - `id` (UUID)
      - `user_id` (UUID FK)
      - `source` (ENUM: test_completed, journal_entry, challenge_day, etc.)
      - `amount` (INT)
      - `description` (TEXT)
      - `created_at`
-   - ❌ Tabela `achievements_catalog`:
+   - ✅ Tabela `achievements_catalog`:
      - `id` (UUID)
      - `achievement_id` (VARCHAR unique - ex: 'streak_7')
      - `title` (VARCHAR)
@@ -995,7 +995,7 @@ interface DashboardResponse {
      - `mbti_types` (JSONB array - null = universal)
      - `requirement_type` (VARCHAR - streak, journal_count, etc.)
      - `requirement_value` (INT)
-   - ❌ Tabela `user_achievements`:
+   - ✅ Tabela `user_achievements`:
      - `id` (UUID)
      - `user_id` (UUID FK)
      - `achievement_id` (VARCHAR FK)
@@ -1010,17 +1010,18 @@ interface DashboardResponse {
      - Auto-check de achievements
    - ✅ `GET /api/progress/xp/history` - Histórico de XP
    - ✅ `GET /api/progress/stats` - Stats de gamificação
-   - ❌ `GET /api/progress/achievements` - Todas as conquistas do usuário
-   - ❌ Auto-unlock de achievements quando requirements são atingidos
+   - ✅ `GET /api/progress/achievements` - Todas as conquistas do usuário
+   - ✅ `POST /api/progress/achievements/check` - Manual check achievements
+   - ✅ Auto-unlock de achievements quando requirements são atingidos
 
 3. **Achievement Auto-Check Logic**
-   - ❌ Verificar conquistas após cada ação:
+   - ✅ Verificar conquistas após cada ação:
      - Streak atingido (7, 30 dias)
      - Journal entries (10, 50)
      - Testes completados (3, todos)
      - Desafios completados
      - Conteúdo consumido
-   - ❌ Notificação ao desbloquear (via WebSocket ou polling)
+   - ⚠️ Notificação ao desbloquear (implementação futura - WebSocket)
 
 4. **Levels Calculation**
    - ✅ Algoritmo de níveis:
@@ -1036,15 +1037,16 @@ const LEVELS = [
    - ✅ Cálculo automático baseado em XP total
 
 **Status Atual:**
-- ✅ GamificationService e Controller existem
-- ✅ Endpoints /progress/xp e /progress/stats funcionais
-- ❌ Achievements ainda no frontend (não persistentes)
-- ❌ Falta criar tabelas e popular achievements_catalog
+- ✅ GamificationService e Controller completos
+- ✅ Endpoints /progress/xp, /progress/stats, /progress/achievements funcionais
+- ✅ Achievements no banco de dados com 23 conquistas
+- ✅ Migration CreateGamificationTables criada
+- ✅ Seed de 23 achievements (streak, journal, tests, challenges, content, XP, MBTI-specific)
 
 **Entregáveis:**
-- ❌ Sistema de XP com histórico persistente
-- ❌ 20+ achievements no banco de dados
-- ❌ Auto-unlock de conquistas baseado em ações
+- ✅ Sistema de XP com histórico persistente e description
+- ✅ 23 achievements no banco de dados (common, rare, epic, legendary)
+- ✅ Auto-unlock de conquistas baseado em ações
 
 ---
 
