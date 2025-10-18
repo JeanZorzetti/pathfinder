@@ -60,7 +60,7 @@ export function useProgress() {
 
 export function useDashboard() {
   const [dashboard, setDashboard] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchDashboard = useCallback(async () => {
@@ -71,23 +71,26 @@ export function useDashboard() {
       setDashboard(data);
       return data;
     } catch (err: any) {
-      setError(err.message);
-      throw err;
+      const errorMessage = err?.response?.data?.message || err.message || 'Erro ao carregar dashboard';
+      setError(errorMessage);
+      console.warn('Dashboard fetch failed:', errorMessage);
+      return null;
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => {
-    fetchDashboard();
-  }, [fetchDashboard]);
+  // Don't auto-fetch - let Dashboard component decide when to fetch
+  // useEffect(() => {
+  //   fetchDashboard();
+  // }, [fetchDashboard]);
 
-  return { dashboard, loading, error, refetch: fetchDashboard };
+  return { data: dashboard, loading, error, refetch: fetchDashboard };
 }
 
 export function useDashboardStats() {
   const [stats, setStats] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchStats = useCallback(async () => {
@@ -98,16 +101,19 @@ export function useDashboardStats() {
       setStats(data);
       return data;
     } catch (err: any) {
-      setError(err.message);
-      throw err;
+      const errorMessage = err?.response?.data?.message || err.message || 'Erro ao carregar estatísticas';
+      setError(errorMessage);
+      console.warn('Dashboard stats fetch failed:', errorMessage);
+      return null;
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => {
-    fetchStats();
-  }, [fetchStats]);
+  // Don't auto-fetch - let component decide when to fetch
+  // useEffect(() => {
+  //   fetchStats();
+  // }, [fetchStats]);
 
   return { stats, loading, error, refetch: fetchStats };
 }
@@ -116,7 +122,7 @@ export function useDashboardStats() {
 
 export function useChallenges() {
   const [challenge, setChallenge] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchCurrentChallenge = useCallback(async () => {
@@ -127,8 +133,10 @@ export function useChallenges() {
       setChallenge(data);
       return data;
     } catch (err: any) {
-      setError(err.message);
-      throw err;
+      const errorMessage = err?.response?.data?.message || err.message || 'Erro ao carregar desafio';
+      setError(errorMessage);
+      console.warn('Challenge fetch failed:', errorMessage);
+      return null;
     } finally {
       setLoading(false);
     }
@@ -142,8 +150,9 @@ export function useChallenges() {
       await fetchCurrentChallenge();
       return result;
     } catch (err: any) {
-      setError(err.message);
-      throw err;
+      const errorMessage = err?.response?.data?.message || err.message || 'Erro ao completar dia do desafio';
+      setError(errorMessage);
+      return null;
     }
   }, [fetchCurrentChallenge]);
 
@@ -153,8 +162,9 @@ export function useChallenges() {
       const result = await api.getChallengeHistory(limit);
       return result;
     } catch (err: any) {
-      setError(err.message);
-      throw err;
+      const errorMessage = err?.response?.data?.message || err.message || 'Erro ao carregar histórico';
+      setError(errorMessage);
+      return null;
     }
   }, []);
 
@@ -164,23 +174,25 @@ export function useChallenges() {
       const result = await api.getChallengeStats();
       return result;
     } catch (err: any) {
-      setError(err.message);
-      throw err;
+      const errorMessage = err?.response?.data?.message || err.message || 'Erro ao carregar estatísticas';
+      setError(errorMessage);
+      return null;
     }
   }, []);
 
-  useEffect(() => {
-    fetchCurrentChallenge();
-  }, [fetchCurrentChallenge]);
+  // Don't auto-fetch - let Dashboard component decide when to fetch
+  // useEffect(() => {
+  //   fetchCurrentChallenge();
+  // }, [fetchCurrentChallenge]);
 
   return {
-    challenge,
+    currentChallenge: challenge,
     loading,
     error,
     completeDay,
     getHistory,
     getStats,
-    refetch: fetchCurrentChallenge,
+    getCurrentChallenge: fetchCurrentChallenge,
   };
 }
 

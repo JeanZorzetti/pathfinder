@@ -260,13 +260,18 @@ export class ChallengesService {
     const daysCompleted = this.parseDaysCompleted(userChallenge.days_completed);
     const completedDaysCount = daysCompleted.filter((day) => day === true).length;
 
+    // Handle date serialization: TypeORM may return dates as strings or Date objects
+    const weekStartDate = typeof userChallenge.week_start_date === 'string'
+      ? userChallenge.week_start_date
+      : userChallenge.week_start_date.toISOString();
+
     return {
       id: userChallenge.id,
       title: template.title,
       description: template.description,
       emoji: template.emoji,
       daysCompleted,
-      weekStartDate: userChallenge.week_start_date.toISOString(),
+      weekStartDate,
       xpReward: template.xpReward,
       isCompleted: userChallenge.is_completed,
       completedDaysCount,

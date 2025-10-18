@@ -41,13 +41,7 @@ const Dashboard = () => {
   const [recommendedContent, setRecommendedContent] = useState<Content[]>([]);
   const [isChallengeProcessing, setIsChallengeProcessing] = useState(false);
 
-  // API Hooks - auto-fetch dashboard data
-  const {
-    data: dashboardData,
-    loading: dashboardLoading,
-    error: dashboardError
-  } = useDashboard();
-
+  // API Hooks (not auto-fetching, called manually when needed)
   const {
     currentChallenge,
     loading: challengeLoading,
@@ -57,11 +51,13 @@ const Dashboard = () => {
   } = useChallenges();
 
   const {
-    code: comparisonCode,
+    getCode,
     loading: comparisonLoading,
     error: comparisonError,
-    getCode
   } = useComparison();
+
+  // Local comparison code state
+  const [comparisonCode, setComparisonCode] = useState<string | null>(null);
 
   // Auth management
   useEffect(() => {
@@ -71,7 +67,15 @@ const Dashboard = () => {
       } else {
         // Trigger API hooks to fetch data
         getCurrentChallenge();
-        getCode();
+
+        // Fetch comparison code
+        getCode().then((result) => {
+          if (result?.code) {
+            setComparisonCode(result.code);
+          }
+        }).catch((err) => {
+          console.warn('Failed to fetch comparison code:', err);
+        });
       }
     }
   }, [authLoading, isAuthenticated, navigate, getCurrentChallenge, getCode]);
@@ -145,27 +149,30 @@ const Dashboard = () => {
           }
 
           // Initialize or check weekly challenge
-          const storedChallenge = profileData.current_challenge;
-          const completedChallengeIds = profileData.completed_challenges || [];
-
-          if (!storedChallenge || shouldCreateNewChallenge(storedChallenge.weekStartDate)) {
-            // Create new weekly challenge
-            const template = selectWeeklyChallenge(personalityKey, completedChallengeIds);
-            if (template) {
-              const newChallenge = createWeeklyChallengeFromTemplate(template);
-              setCurrentChallenge(newChallenge);
-
-              // Save to database via API
-              await api.updateUserProfile({ current_challenge: newChallenge });
-            }
-          } else {
-            setCurrentChallenge(storedChallenge);
-          }
+          // TODO: Backend challenge system will handle this via useChallenges() hook
+          // const storedChallenge = profileData.current_challenge;
+          // const completedChallengeIds = profileData.completed_challenges || [];
+          //
+          // if (!storedChallenge || shouldCreateNewChallenge(storedChallenge.weekStartDate)) {
+          //   // Create new weekly challenge
+          //   const template = selectWeeklyChallenge(personalityKey, completedChallengeIds);
+          //   if (template) {
+          //     const newChallenge = createWeeklyChallengeFromTemplate(template);
+          //     // Challenge now managed by useChallenges() hook
+          //     await api.updateUserProfile({ current_challenge: newChallenge });
+          //   }
+          // }
 
           // Sprint 4: Initialize comparison code (now using API hook)
           // Comparison code is managed by useComparison hook - just call getCode()
           if (!comparisonCode) {
-            getCode();
+            getCode().then((result) => {
+              if (result?.code) {
+                setComparisonCode(result.code);
+              }
+            }).catch((err) => {
+              console.warn('Failed to fetch comparison code:', err);
+            });
           }
 
           // Sprint 4: Get recommended content

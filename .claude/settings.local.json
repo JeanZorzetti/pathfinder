@@ -27,7 +27,15 @@
       "Bash(timeout /t 10)",
       "Bash(node check-data.js:*)",
       "Bash(node check-data.cjs:*)",
-      "Bash(node test-compatibility-algorithm.cjs:*)"
+      "Bash(node test-compatibility-algorithm.cjs:*)",
+      "Bash(node test-journal-e2e.cjs:*)",
+      "Bash(node test-challenges-e2e.cjs:*)",
+      "Bash(node test-comparison-e2e.cjs:*)",
+      "Bash(node test-performance.cjs:*)",
+      "Bash(node test-swagger-docs.cjs:*)",
+      "Bash(npm run typeorm:*)",
+      "Bash(npm run migration:run:*)",
+      "Bash(node test-auth-production.cjs)"
     ],
     "deny": [],
     "ask": []

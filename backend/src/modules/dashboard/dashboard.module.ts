@@ -3,10 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DashboardController } from './dashboard.controller';
 import { DashboardService } from './dashboard.service';
 import { GamificationModule } from '../gamification/gamification.module';
+import { DailyInsight } from './entities/daily-insight.entity';
+import { User } from '../users/entities/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([]),
+    TypeOrmModule.forFeature([DailyInsight, User]),
     GamificationModule,
   ],
   controllers: [DashboardController],
