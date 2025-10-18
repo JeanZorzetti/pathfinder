@@ -954,13 +954,16 @@ interface DashboardResponse {
 **Status Atual:**
 - ✅ Dashboard Controller e Service básicos criados
 - ✅ Streak calculation implementado
-- ❌ Daily Insights ainda usando dados mockados/fallback
-- ❌ Falta popular banco com insights reais
+- ✅ Daily Insights usando dados do banco de dados
+- ✅ Migration e seed executados em produção
+- ⚠️ Banco populado com 10 insights (sample) - ideal seria 480+
 
 **Entregáveis:**
 - ✅ Endpoint `/api/dashboard` funcional
-- ❌ Banco de dados com 480+ insights (30 por tipo)
+- ⚠️ Banco de dados com 10 insights (sample) - expandir para 480+ no futuro
 - ✅ Sistema de streak automático
+- ✅ Migration `CreateDailyInsights` executada em produção
+- ✅ Seed inicial de insights funcionando
 
 ---
 
