@@ -55,7 +55,8 @@
       "Bash(do npx tsc --noEmit \"$type\")",
       "Bash(node add-icons-intp.cjs)",
       "Bash(npx tsc --noEmit frontend/src/data/mbti-types/istj.ts)",
-      "Bash(npx tsc --noEmit frontend/src/data/mbti-types/infj.ts)"
+      "Bash(npx tsc --noEmit frontend/src/data/mbti-types/infj.ts)",
+      "Read(//c//**)"
     ],
     "deny": [],
     "ask": []
