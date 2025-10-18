@@ -36,7 +36,14 @@
       "Bash(npm run typeorm:*)",
       "Bash(npm run migration:run:*)",
       "Bash(node test-auth-production.cjs)",
-      "Bash(npx tsc --noEmit src/data/mbti-types/estj.ts)"
+      "Bash(npx tsc --noEmit src/data/mbti-types/estj.ts)",
+      "Bash(npx tsc --noEmit frontend/src/data/mbti-types/estj.ts)",
+      "Bash(npx tsc --noEmit frontend/src/data/mbti-types/intp.ts)",
+      "Bash(for file in frontend/src/data/mbti-types/*.ts)",
+      "Bash(do)",
+      "Bash(then)",
+      "Bash(fi)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

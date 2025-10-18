@@ -74,6 +74,11 @@ export default function PersonalityResultPage() {
       return;
     }
 
+    console.log('🔍 DEBUG - Full personality type data:', JSON.stringify(data, null, 2));
+    console.log('🔍 DEBUG - strengths.gated type:', typeof data.strengths?.gated, Array.isArray(data.strengths?.gated));
+    console.log('🔍 DEBUG - careers.gated type:', typeof data.careers?.gated, Array.isArray(data.careers?.gated));
+    console.log('🔍 DEBUG - weaknesses.gated type:', typeof data.weaknesses?.gated);
+
     setPersonalityType(data);
     setIsLoading(false);
 
