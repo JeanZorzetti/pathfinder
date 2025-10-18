@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -22,6 +24,7 @@ const RESULT_KEY = 'mbti_test_result';
 
 const Test = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [answers, setAnswers] = useState<Record<number, LikertValue>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -85,7 +88,6 @@ const Test = () => {
   };
 
   const handleSubmit = async () => {
-    // NO LOGIN REQUIRED - Guest users can see results immediately
     if (answeredCount < TOTAL_QUESTIONS) {
       toast.error("Por favor, responda todas as questões antes de finalizar");
       return;
@@ -93,25 +95,51 @@ const Test = () => {
 
     setIsSubmitting(true);
 
-    // Convert answers to LikertAnswer format
-    const likertAnswers: LikertAnswer[] = Object.entries(answers)
-      .filter(([_, value]) => value !== null && value !== undefined)
-      .map(([questionId, value]) => ({
-        questionId: parseInt(questionId),
-        value: value as Exclude<LikertValue, null>,
-      }));
+    try {
+      // Convert answers to LikertAnswer format
+      const likertAnswers: LikertAnswer[] = Object.entries(answers)
+        .filter(([_, value]) => value !== null && value !== undefined)
+        .map(([questionId, value]) => ({
+          questionId: parseInt(questionId),
+          value: value as Exclude<LikertValue, null>,
+        }));
 
-    const calculatedResult = calculateMBTIFromLikert(likertAnswers);
+      const calculatedResult = calculateMBTIFromLikert(likertAnswers);
 
-    // Save result to localStorage
-    localStorage.setItem(RESULT_KEY, JSON.stringify(calculatedResult));
+      // If user is authenticated, save to backend immediately
+      if (isAuthenticated) {
+        try {
+          await api.saveCalculatedTestResult({
+            framework: 'mbti',
+            typeCode: calculatedResult.type,
+            resultData: calculatedResult,
+          });
 
-    setIsSubmitting(false);
+          toast.success("✅ Resultado calculado e salvo no seu perfil!");
 
-    toast.success("Resultado calculado! Redirecionando...");
+          // Clear localStorage since it's saved in backend
+          localStorage.removeItem(RESULT_KEY);
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (error) {
+          console.error('Error saving to backend:', error);
+          // Fallback: save to localStorage if backend fails
+          localStorage.setItem(RESULT_KEY, JSON.stringify(calculatedResult));
+          toast.success("Resultado calculado! Redirecionando...");
+        }
+      } else {
+        // Guest user: save to localStorage for later
+        localStorage.setItem(RESULT_KEY, JSON.stringify(calculatedResult));
+        toast.success("Resultado calculado! Redirecionando...");
+      }
 
-    // Redirect to the new comprehensive result page
-    navigate(`/results/mbti/${calculatedResult.type.toLowerCase()}`);
+      // Redirect to the result page
+      navigate(`/results/mbti/${calculatedResult.type.toLowerCase()}`);
+    } catch (error) {
+      console.error('Error submitting test:', error);
+      toast.error("Erro ao processar resultado. Tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Test page
