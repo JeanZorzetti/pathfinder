@@ -4,6 +4,7 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
+// Build version: 2025-01-18-v2 (force cache bust)
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
