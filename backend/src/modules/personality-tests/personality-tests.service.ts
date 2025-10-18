@@ -216,7 +216,7 @@ export class PersonalityTestsService {
     const personalityType = await this.typesRepository.findOne({
       where: {
         frameworkId: framework.id,
-        typeCode: dto.typeCode,
+        code: dto.typeCode,
       },
     });
 

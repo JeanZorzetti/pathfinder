@@ -18,7 +18,7 @@ export class SaveCalculatedResultDto {
     example: {
       type: 'INTJ',
       scores: { I: 65, N: 78, T: 82, J: 71 },
-      dimensions: [...],
+      dimensions: [],
     },
   })
   @IsObject()
