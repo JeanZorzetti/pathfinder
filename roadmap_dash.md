@@ -867,6 +867,368 @@ interface WeeklyChallenge {
 
 ---
 
+## 🔧 BACKEND SPRINTS - Implementação de API e Banco de Dados
+
+> **Objetivo:** Implementar toda a infraestrutura backend necessária para suportar as features do dashboard, migrando dados do frontend para APIs REST com persistência em PostgreSQL.
+
+---
+
+### Sprint 5: Backend Core - Dashboard API & Daily Insights (Semana 5)
+
+**Objetivos:**
+- Implementar endpoint central do dashboard que retorna todos os dados
+- Sistema de Daily Insights com banco de dados
+- Cálculo automático de streak no backend
+
+**Tarefas Backend:**
+
+1. **Dashboard Service & Controller**
+   - ✅ `GET /api/dashboard` - Retorna todos os dados do dashboard
+   - ✅ Cálculo de streak baseado em `last_visit` e `visit_history` do metadata
+   - ✅ Integração com GamificationService para XP e level
+   - ✅ Tratamento de erros com fallbacks seguros
+   - ✅ JwtAuthGuard para autenticação
+
+2. **Daily Insights System**
+   - ❌ Tabela `daily_insights`:
+     - `id` (UUID)
+     - `personality_type` (VARCHAR - MBTI type)
+     - `insight_text` (TEXT)
+     - `category` (VARCHAR - leadership, relationships, career, etc.)
+     - `action_item` (TEXT - opcional)
+     - `deep_dive_link` (VARCHAR - opcional)
+     - `day_of_year` (INT - 1-365 para rotação)
+     - `created_at`, `updated_at`
+   - ❌ Seed inicial: 30 insights por tipo MBTI (480 total)
+   - ❌ Algoritmo de seleção: `dayOfYear % insights.length`
+   - ❌ Endpoint: `GET /api/dashboard/insights/daily`
+
+3. **User Metadata Enhancement**
+   - ✅ Usar campo JSONB `metadata` para armazenar:
+     - `last_visit` (string ISO date)
+     - `visit_history` (array de datas - últimas 30)
+     - `streak_current` (number)
+     - `streak_longest` (number)
+     - `xp` (number - sincronizado com gamification)
+     - `level` (number)
+     - `achievements` (array de Achievement)
+   - ✅ Auto-update de streak em cada chamada ao dashboard
+
+4. **Dashboard Response DTO**
+   - ✅ Criar interface completa de resposta:
+```typescript
+interface DashboardResponse {
+  success: boolean;
+  data: {
+    profile: {
+      id: string;
+      email: string;
+      fullName: string;
+      mbtiType: string;
+      createdAt: string;
+      metadata: {
+        xp: number;
+        level: number;
+        streak_current: number;
+        streak_longest: number;
+        achievements: Achievement[];
+        consumed_content: string[];
+      };
+    };
+    testResults: TestResult[];
+    currentChallenge: WeeklyChallenge | null;
+    dailyInsight: {
+      text: string;
+      category: string;
+    };
+    stats: {
+      level: number;
+      xp: number;
+      streak: { current: number; longest: number };
+      tests_completed: number;
+    };
+  };
+}
+```
+
+**Status Atual:**
+- ✅ Dashboard Controller e Service básicos criados
+- ✅ Streak calculation implementado
+- ❌ Daily Insights ainda usando dados mockados/fallback
+- ❌ Falta popular banco com insights reais
+
+**Entregáveis:**
+- ✅ Endpoint `/api/dashboard` funcional
+- ❌ Banco de dados com 480+ insights (30 por tipo)
+- ✅ Sistema de streak automático
+
+---
+
+### Sprint 6: Backend Gamification - XP, Levels & Achievements (Semana 6)
+
+**Objetivos:**
+- Sistema completo de gamificação no backend
+- Tracking de XP com histórico
+- Sistema de conquistas (achievements) persistente
+
+**Tarefas Backend:**
+
+1. **Gamification Tables**
+   - ❌ Tabela `xp_transactions`:
+     - `id` (UUID)
+     - `user_id` (UUID FK)
+     - `source` (ENUM: test_completed, journal_entry, challenge_day, etc.)
+     - `amount` (INT)
+     - `description` (TEXT)
+     - `created_at`
+   - ❌ Tabela `achievements_catalog`:
+     - `id` (UUID)
+     - `achievement_id` (VARCHAR unique - ex: 'streak_7')
+     - `title` (VARCHAR)
+     - `description` (TEXT)
+     - `icon` (VARCHAR)
+     - `xp_reward` (INT)
+     - `rarity` (ENUM: common, rare, epic, legendary)
+     - `mbti_types` (JSONB array - null = universal)
+     - `requirement_type` (VARCHAR - streak, journal_count, etc.)
+     - `requirement_value` (INT)
+   - ❌ Tabela `user_achievements`:
+     - `id` (UUID)
+     - `user_id` (UUID FK)
+     - `achievement_id` (VARCHAR FK)
+     - `unlocked_at` (TIMESTAMP)
+     - `progress_current` (INT)
+     - `progress_total` (INT)
+
+2. **Gamification Service**
+   - ✅ `POST /api/progress/xp` - Adicionar XP
+     - Validação de source
+     - Cooldown por source (evitar spam)
+     - Auto-check de achievements
+   - ✅ `GET /api/progress/xp/history` - Histórico de XP
+   - ✅ `GET /api/progress/stats` - Stats de gamificação
+   - ❌ `GET /api/progress/achievements` - Todas as conquistas do usuário
+   - ❌ Auto-unlock de achievements quando requirements são atingidos
+
+3. **Achievement Auto-Check Logic**
+   - ❌ Verificar conquistas após cada ação:
+     - Streak atingido (7, 30 dias)
+     - Journal entries (10, 50)
+     - Testes completados (3, todos)
+     - Desafios completados
+     - Conteúdo consumido
+   - ❌ Notificação ao desbloquear (via WebSocket ou polling)
+
+4. **Levels Calculation**
+   - ✅ Algoritmo de níveis:
+```typescript
+const LEVELS = [
+  { level: 1, title: 'Descobridor', xpRequired: 0 },
+  { level: 2, title: 'Explorador', xpRequired: 100 },
+  { level: 3, title: 'Líder em Formação', xpRequired: 300 },
+  { level: 4, title: 'Mestre do Autoconhecimento', xpRequired: 600 },
+  { level: 5, title: 'Guia Iluminado', xpRequired: 1000 },
+];
+```
+   - ✅ Cálculo automático baseado em XP total
+
+**Status Atual:**
+- ✅ GamificationService e Controller existem
+- ✅ Endpoints /progress/xp e /progress/stats funcionais
+- ❌ Achievements ainda no frontend (não persistentes)
+- ❌ Falta criar tabelas e popular achievements_catalog
+
+**Entregáveis:**
+- ❌ Sistema de XP com histórico persistente
+- ❌ 20+ achievements no banco de dados
+- ❌ Auto-unlock de conquistas baseado em ações
+
+---
+
+### Sprint 7: Backend Challenges & Journal (Semana 7)
+
+**Objetivos:**
+- Sistema de desafios semanais com tracking no banco
+- API de journal (diário) com prompts e estatísticas
+
+**Tarefas Backend:**
+
+1. **Weekly Challenges System**
+   - ❌ Tabela `challenge_templates`:
+     - `id` (UUID)
+     - `challenge_id` (VARCHAR unique)
+     - `mbti_type` (VARCHAR)
+     - `title` (VARCHAR)
+     - `description` (TEXT)
+     - `how_to` (TEXT)
+     - `why` (TEXT)
+     - `xp_reward` (INT - default 50)
+     - `badge_reward` (VARCHAR - nullable)
+   - ❌ Tabela `user_challenges`:
+     - `id` (UUID)
+     - `user_id` (UUID FK)
+     - `challenge_id` (VARCHAR FK)
+     - `week_start_date` (DATE)
+     - `days_completed` (JSONB array [false, false, false, false, false])
+     - `completed` (BOOLEAN)
+     - `completed_at` (TIMESTAMP nullable)
+   - ❌ Seed: 10 desafios × 16 tipos = 160 templates
+
+2. **Challenges Service & Endpoints**
+   - ✅ `GET /api/challenges/current` - Desafio ativo do usuário
+     - Auto-create novo desafio se:
+       - Usuário não tem desafio ativo
+       - Semana mudou (segunda-feira)
+   - ✅ `POST /api/challenges/complete-day` - Marcar dia como completo
+     - Body: `{ day: 0-4 }` (Mon=0, Fri=4)
+     - Validação: apenas dias úteis
+     - Auto-complete challenge se todos os dias marcados
+     - Award XP ao completar
+   - ✅ `GET /api/challenges/history` - Histórico de desafios
+   - ✅ `GET /api/challenges/stats` - Estatísticas
+
+3. **Journal System**
+   - ❌ Tabela `journal_entries`:
+     - `id` (UUID)
+     - `user_id` (UUID FK)
+     - `content` (TEXT)
+     - `mood` (VARCHAR nullable - happy, sad, neutral, etc.)
+     - `tags` (JSONB array)
+     - `prompt_used` (VARCHAR nullable)
+     - `created_at`, `updated_at`
+   - ❌ Tabela `journal_prompts`:
+     - `id` (UUID)
+     - `mbti_type` (VARCHAR)
+     - `prompt` (TEXT)
+     - `category` (VARCHAR - reflection, growth, emotions, etc.)
+     - `day_of_year` (INT - para rotação)
+
+4. **Journal Service & Endpoints**
+   - ✅ `POST /api/journal/entries` - Criar entrada
+     - Award +10 XP
+     - Check achievement: 10 entradas, 50 entradas
+   - ✅ `GET /api/journal/entries` - Listar entradas (paginado)
+   - ✅ `GET /api/journal/entries/:id` - Entry específica
+   - ✅ `PATCH /api/journal/entries/:id` - Editar
+   - ✅ `DELETE /api/journal/entries/:id` - Deletar
+   - ✅ `GET /api/journal/prompts/daily` - Prompt do dia
+   - ✅ `GET /api/journal/stats` - Estatísticas
+     - Total entries
+     - Entries este mês
+     - Temas recorrentes (tags)
+     - Streak de journaling
+
+**Status Atual:**
+- ✅ ChallengesService e Controller existem
+- ✅ JournalService e Controller existem
+- ❌ Challenges ainda usando dados mockados do frontend
+- ❌ Journal não tem entradas persistentes
+- ❌ Falta popular challenge_templates e journal_prompts
+
+**Entregáveis:**
+- ❌ 160 desafios semanais no banco
+- ❌ Sistema de tracking de desafios persistente
+- ❌ API de journal completa com prompts
+
+---
+
+### Sprint 8: Backend Content & Comparison (Semana 8)
+
+**Objetivos:**
+- Sistema de conteúdo recomendado com tracking
+- API de comparação de compatibilidade
+
+**Tarefas Backend:**
+
+1. **Content Library System**
+   - ❌ Tabela `content_library`:
+     - `id` (UUID)
+     - `content_id` (VARCHAR unique)
+     - `title` (VARCHAR)
+     - `type` (ENUM: article, video, book, exercise)
+     - `url` (VARCHAR)
+     - `description` (TEXT)
+     - `duration_minutes` (INT nullable)
+     - `xp_reward` (INT - default 5)
+     - `mbti_types` (JSONB array - tipos recomendados)
+     - `categories` (JSONB array - leadership, relationships, etc.)
+     - `difficulty` (VARCHAR - beginner, intermediate, advanced)
+     - `created_at`
+   - ❌ Seed: 40+ peças de conteúdo curado
+
+2. **Content Service & Endpoints**
+   - ❌ `GET /api/content/recommended` - Conteúdo recomendado
+     - Query params: `?mbtiType=ESTJ&limit=4`
+     - Algoritmo:
+       1. Filtrar por mbti_types contains user type
+       2. Priorizar categorias relacionadas a fraquezas do tipo
+       3. Excluir conteúdo já consumido
+       4. Ordenar por relevância
+   - ❌ `POST /api/content/mark-consumed` - Marcar como consumido
+     - Body: `{ contentId: string }`
+     - Award XP (+5)
+     - Salvar em user.metadata.consumed_content
+     - Check achievement: leitor ávido (10 conteúdos)
+   - ❌ `GET /api/content/history` - Histórico de conteúdo consumido
+
+3. **Comparison System**
+   - ❌ Tabela `comparison_codes`:
+     - `user_id` (UUID PK FK)
+     - `code` (VARCHAR unique - formato: MBTI-XXXXXX)
+     - `created_at`
+   - ❌ Tabela `comparison_history`:
+     - `id` (UUID)
+     - `user_id` (UUID FK)
+     - `compared_with_user_id` (UUID FK)
+     - `compatibility_score` (INT - 0-100)
+     - `created_at`
+
+4. **Comparison Service & Endpoints**
+   - ✅ `GET /api/comparison/code` - Obter ou criar código único
+     - Formato: `{MBTI}-{6 random alphanumeric}`
+     - Ex: `ESTJ-X7K9M2`, `INFP-A3B7C9`
+   - ✅ `POST /api/comparison/compare` - Comparar com outro código
+     - Body: `{ code: string }`
+     - Retorna:
+       - Tipos MBTI de ambos
+       - Score de compatibilidade (%)
+       - Análise de pontos fortes
+       - Desafios potenciais
+       - Dicas de comunicação
+   - ✅ `GET /api/comparison/history` - Histórico de comparações
+   - ✅ `GET /api/comparison/stats` - Estatísticas
+
+5. **Compatibility Algorithm**
+   - ❌ Baseado em dimensões MBTI:
+```typescript
+// Scoring por dimensão (0-25 pontos cada)
+E/I: opposite = 25, same = 15
+S/N: same = 25, opposite = 10
+T/F: same/opposite = 20 (complementar)
+J/P: same = 25, opposite = 15
+
+// Bônus por funções cognitivas complementares
+// Exemplo: ESTJ (Te-Si-Ne-Fi) + INFP (Fi-Ne-Si-Te)
+// Compartilham Ne e Si = +10 pontos
+```
+   - ❌ Análise textual baseada em combinações:
+     - Pontos fortes: "Ambos valorizam X"
+     - Desafios: "Conflito potencial em Y"
+     - Dicas: "Para melhor comunicação..."
+
+**Status Atual:**
+- ✅ ComparisonService e Controller existem
+- ❌ Content ainda usando dados hardcoded do frontend
+- ❌ Comparison não tem histórico persistente
+- ❌ Falta popular content_library
+
+**Entregáveis:**
+- ❌ 40+ conteúdos no banco de dados
+- ❌ Sistema de recomendação inteligente
+- ❌ API de comparação com histórico
+
+---
+
 ## 📊 Métricas de Sucesso
 
 ### KPIs Primários:
