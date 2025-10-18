@@ -153,14 +153,17 @@ O verdadeiro poder do INTP está em sua capacidade de ver padrões onde outros v
       {
         title: 'Procrastinação Crônica',
         description: 'Tendência a atrasar tarefas práticas enquanto se perdem em explorações teóricas intermináveis.',
+        icon: '⏰',
       },
       {
         title: 'Dificuldade com Implementação',
         description: 'Excelentes em gerar ideias brilhantes, mas lutam para traduzi-las em ação concreta e resultados tangíveis.',
+        icon: '🚧',
       },
       {
         title: 'Insensibilidade Não Intencional',
         description: 'Foco em lógica e verdade pode fazer com que pareçam frios ou desconsiderados com os sentimentos dos outros.',
+        icon: '❄️',
       },
     ],
     gated: {
@@ -168,26 +171,31 @@ O verdadeiro poder do INTP está em sua capacidade de ver padrões onde outros v
         {
           title: 'Desorganização e Caos Prático',
           description: 'Ambiente físico e vida administrativa frequentemente em desordem porque detalhes práticos parecem triviais comparados a ideias.',
+          icon: '🌪️',
           mitigation: 'Implementar sistemas simples e automatizados (alarmes, checklists digitais, "lugares fixos" para itens importantes). Aceitar ajuda de outros para organização.',
         },
         {
           title: 'Paralisia por Análise',
           description: 'Podem ficar presos em ciclos infinitos de análise, sempre precisando de "mais informações" antes de agir.',
+          icon: '♾️',
           mitigation: 'Estabelecer deadlines artificiais, usar regra "80/20" (agir com 80% de certeza), praticar "pensar fazendo".',
         },
         {
           title: 'Negligência de Necessidades Básicas',
           description: 'Podem esquecer de comer, dormir ou cuidar da saúde quando absortos em problemas intelectuais.',
+          icon: '😵',
           mitigation: 'Alarmes para refeições e sono, rotinas não-negociáveis de autocuidado, usar tecnologia como lembretes externos.',
         },
         {
           title: 'Dificuldade em Expressar Emoções',
           description: 'Sentem emoções profundamente mas lutam para identificá-las, processá-las e comunicá-las adequadamente.',
+          icon: '🤐',
           mitigation: 'Journaling para processar sentimentos, terapia para desenvolver vocabulário emocional, praticar vulnerabilidade com pessoas seguras.',
         },
         {
           title: 'Perfeccionismo Teórico',
           description: 'Nunca satisfeitos com suas teorias ou explicações, sempre vendo falhas e buscando maior elegância.',
+          icon: '🔬',
           mitigation: 'Aceitar que "melhor é inimigo do bom", publicar versões "beta" de ideias, buscar feedback iterativo.',
         },
       ],
