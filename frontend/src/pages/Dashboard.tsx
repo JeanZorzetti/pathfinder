@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useDashboard, useChallenges, useComparison } from "@/hooks/useAPI";
+// import { useDashboard, useChallenges, useComparison } from "@/hooks/useAPI";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,22 +41,23 @@ const Dashboard = () => {
   const [recommendedContent, setRecommendedContent] = useState<Content[]>([]);
   const [isChallengeProcessing, setIsChallengeProcessing] = useState(false);
 
-  // API Hooks (not auto-fetching, called manually when needed)
-  const {
-    currentChallenge,
-    loading: challengeLoading,
-    error: challengeError,
-    completeDay,
-    getCurrentChallenge
-  } = useChallenges();
+  // API Hooks - temporarily disabled until backend endpoints are ready
+  // const {
+  //   currentChallenge,
+  //   loading: challengeLoading,
+  //   error: challengeError,
+  //   completeDay,
+  //   getCurrentChallenge
+  // } = useChallenges();
+  //
+  // const {
+  //   getCode,
+  //   loading: comparisonLoading,
+  //   error: comparisonError,
+  // } = useComparison();
 
-  const {
-    getCode,
-    loading: comparisonLoading,
-    error: comparisonError,
-  } = useComparison();
-
-  // Local comparison code state
+  // Temporary placeholders until backend is ready
+  const currentChallenge = null;
   const [comparisonCode, setComparisonCode] = useState<string | null>(null);
 
   // Auth management
@@ -64,21 +65,11 @@ const Dashboard = () => {
     if (!authLoading) {
       if (!isAuthenticated) {
         navigate("/auth");
-      } else {
-        // Trigger API hooks to fetch data
-        getCurrentChallenge();
-
-        // Fetch comparison code
-        getCode().then((result) => {
-          if (result?.code) {
-            setComparisonCode(result.code);
-          }
-        }).catch((err) => {
-          console.warn('Failed to fetch comparison code:', err);
-        });
       }
+      // TODO: Call getCurrentChallenge() and getCode() when backend endpoints are ready
+      // For now, dashboard will load without these features to avoid 404/500 errors
     }
-  }, [authLoading, isAuthenticated, navigate, getCurrentChallenge, getCode]);
+  }, [authLoading, isAuthenticated, navigate]);
 
   const loadDashboardData = async (userId: string) => {
     setLoading(true);
@@ -164,16 +155,16 @@ const Dashboard = () => {
           // }
 
           // Sprint 4: Initialize comparison code (now using API hook)
-          // Comparison code is managed by useComparison hook - just call getCode()
-          if (!comparisonCode) {
-            getCode().then((result) => {
-              if (result?.code) {
-                setComparisonCode(result.code);
-              }
-            }).catch((err) => {
-              console.warn('Failed to fetch comparison code:', err);
-            });
-          }
+          // TODO: Enable when backend endpoint /comparison/code is implemented
+          // if (!comparisonCode) {
+          //   getCode().then((result) => {
+          //     if (result?.code) {
+          //       setComparisonCode(result.code);
+          //     }
+          //   }).catch((err) => {
+          //     console.warn('Failed to fetch comparison code:', err);
+          //   });
+          // }
 
           // Sprint 4: Get recommended content
           const content = getRandomContentForType(personalityKey, 4);
