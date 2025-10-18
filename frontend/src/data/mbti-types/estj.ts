@@ -40,7 +40,7 @@ O verdadeiro poder do ESTJ está em sua capacidade de transformar ideias em aç�
       fullName: 'Pensamento Extrovertido',
       icon: '⚡',
       description: 'A função dominante Te organiza o mundo externo de acordo com princípios lógicos e busca eficiência máxima. ESTJs naturalmente estruturam ambientes, processos e pessoas para alcançar objetivos de forma otimizada.',
-      manifestation: 'Se manifesta como uma necessidade compulsiva de organizar, otimizar e sistematizar tudo ao redor. ESTJs veem ineficiências imediatamente e sentem impulso irresistível de corrigi-las. Eles pensam em termos de "o que funciona" e "como fazer isso acontecer".',
+      details: 'Se manifesta como uma necessidade compulsiva de organizar, otimizar e sistematizar tudo ao redor. ESTJs veem ineficiências imediatamente e sentem impulso irresistível de corrigi-las. Eles pensam em termos de "o que funciona" e "como fazer isso acontecer".',
     },
     {
       position: 'auxiliary',
@@ -48,7 +48,7 @@ O verdadeiro poder do ESTJ está em sua capacidade de transformar ideias em aç�
       fullName: 'Sensação Introvertida',
       icon: '📋',
       description: 'A função auxiliar Si armazena experiências passadas e cria bibliotecas internas de "o que funciona". Ela fornece ao Te dados concretos baseados em precedentes e tradições comprovadas.',
-      manifestation: 'Aparece como respeito por tradição, preferência por métodos testados, e excelente memória para detalhes e procedimentos. ESTJs confiam em experiências passadas para guiar decisões presentes e valorizam estabilidade e consistência.',
+      details: 'Aparece como respeito por tradição, preferência por métodos testados, e excelente memória para detalhes e procedimentos. ESTJs confiam em experiências passadas para guiar decisões presentes e valorizam estabilidade e consistência.',
     },
     {
       position: 'tertiary',
@@ -56,7 +56,7 @@ O verdadeiro poder do ESTJ está em sua capacidade de transformar ideias em aç�
       fullName: 'Intuição Extrovertida',
       icon: '💡',
       description: 'A função terciária Ne explora possibilidades alternativas e padrões emergentes. Em ESTJs está menos desenvolvida, mas pode ser acessada quando necessário para brainstorming ou adaptação.',
-      manifestation: 'Pode aparecer como capacidade ocasional de ver novas possibilidades ou soluções criativas, especialmente em áreas de expertise. No entanto, ESTJs preferem retornar rapidamente ao concreto e comprovado.',
+      details: 'Pode aparecer como capacidade ocasional de ver novas possibilidades ou soluções criativas, especialmente em áreas de expertise. No entanto, ESTJs preferem retornar rapidamente ao concreto e comprovado.',
     },
     {
       position: 'inferior',
@@ -64,7 +64,7 @@ O verdadeiro poder do ESTJ está em sua capacidade de transformar ideias em aç�
       fullName: 'Sentimento Introvertido',
       icon: '❤️',
       description: 'A função inferior Fi lida com valores pessoais profundos e autenticidade emocional. Para ESTJs, esta é a função mais desafiadora e menos desenvolvida.',
-      manifestation: 'ESTJs frequentemente lutam para identificar e expressar suas próprias emoções. Podem parecer insensíveis quando estão apenas sendo práticos, e têm dificuldade em validar sentimentos (próprios ou alheios) que não parecem "lógicos".',
+      details: 'ESTJs frequentemente lutam para identificar e expressar suas próprias emoções. Podem parecer insensíveis quando estão apenas sendo práticos, e têm dificuldade em validar sentimentos (próprios ou alheios) que não parecem "lógicos".',
     },
   ],
 
