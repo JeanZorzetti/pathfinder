@@ -22,9 +22,7 @@ const Index = () => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
       setIsAuthenticated(!!session);
-      if (session) {
-        navigate("/dashboard");
-      }
+      // Removido redirecionamento automático - usuário pode visitar a home mesmo autenticado
     });
 
     return () => subscription.unsubscribe();
