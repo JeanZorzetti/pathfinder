@@ -170,17 +170,19 @@ function RelationshipsDisplay({ content }: { content: RelationshipsContent }) {
         </div>
       </div>
 
-      <div>
-        <h3 className="text-xl font-bold mb-3 text-gray-800">💡 Dicas para relacionamentos saudáveis</h3>
-        <ul className="space-y-2">
-          {content.tips.map((tip, index) => (
-            <li key={index} className="flex items-start gap-2">
-              <span className="text-green-600 font-bold flex-shrink-0">✓</span>
-              <span className="text-gray-700">{tip}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {content.tips && content.tips.length > 0 && (
+        <div>
+          <h3 className="text-xl font-bold mb-3 text-gray-800">💡 Dicas para relacionamentos saudáveis</h3>
+          <ul className="space-y-2">
+            {content.tips.map((tip, index) => (
+              <li key={index} className="flex items-start gap-2">
+                <span className="text-green-600 font-bold flex-shrink-0">✓</span>
+                <span className="text-gray-700">{tip}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
@@ -201,30 +203,34 @@ function GrowthDisplay({ content }: { content: GrowthContent }) {
           <h5 className="font-semibold text-sm text-gray-700 mb-2">
             Como desenvolver:
           </h5>
-          <ul className="space-y-1">
-            {content.inferiorFunction.development.map((item, index) => (
-              <li key={index} className="flex items-start gap-2 text-sm">
-                <span className="text-orange-600">•</span>
-                <span className="text-gray-700">{item}</span>
+          {content.inferiorFunction?.development && content.inferiorFunction.development.length > 0 && (
+            <ul className="space-y-1">
+              {content.inferiorFunction.development.map((item, index) => (
+                <li key={index} className="flex items-start gap-2 text-sm">
+                  <span className="text-orange-600">•</span>
+                  <span className="text-gray-700">{item}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      {content.dailyPractices && content.dailyPractices.length > 0 && (
+        <div>
+          <h3 className="text-xl font-bold mb-3 text-gray-800">
+            📅 Práticas diárias de crescimento
+          </h3>
+          <ul className="space-y-2">
+            {content.dailyPractices.map((practice, index) => (
+              <li key={index} className="flex items-start gap-2">
+                <span className="text-purple-600 font-bold flex-shrink-0">✓</span>
+                <span className="text-gray-700">{practice}</span>
               </li>
             ))}
           </ul>
         </div>
-      </div>
-
-      <div>
-        <h3 className="text-xl font-bold mb-3 text-gray-800">
-          📅 Práticas diárias de crescimento
-        </h3>
-        <ul className="space-y-2">
-          {content.dailyPractices.map((practice, index) => (
-            <li key={index} className="flex items-start gap-2">
-              <span className="text-purple-600 font-bold flex-shrink-0">✓</span>
-              <span className="text-gray-700">{practice}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      )}
     </div>
   );
 }
@@ -237,28 +243,32 @@ function WorkplaceDisplay({ content }: { content: WorkplaceContent }) {
         <h3 className="text-xl font-bold mb-2 text-gray-800">👔 Estilo de liderança</h3>
         <p className="text-gray-700 mb-3">{content.leadershipStyle.description}</p>
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="bg-green-50 p-4 rounded-lg">
-            <h4 className="font-semibold text-sm mb-2 text-gray-800">Forças</h4>
-            <ul className="space-y-1">
-              {content.leadershipStyle.strengths.map((strength, index) => (
-                <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
-                  <span className="text-green-600">✓</span>
-                  <span>{strength}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="bg-orange-50 p-4 rounded-lg">
-            <h4 className="font-semibold text-sm mb-2 text-gray-800">Áreas de atenção</h4>
-            <ul className="space-y-1">
-              {content.leadershipStyle.weaknesses.map((weakness, index) => (
-                <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
-                  <span className="text-orange-600">⚠</span>
-                  <span>{weakness}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {content.leadershipStyle?.strengths && content.leadershipStyle.strengths.length > 0 && (
+            <div className="bg-green-50 p-4 rounded-lg">
+              <h4 className="font-semibold text-sm mb-2 text-gray-800">Forças</h4>
+              <ul className="space-y-1">
+                {content.leadershipStyle.strengths.map((strength, index) => (
+                  <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span>{strength}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {content.leadershipStyle?.weaknesses && content.leadershipStyle.weaknesses.length > 0 && (
+            <div className="bg-orange-50 p-4 rounded-lg">
+              <h4 className="font-semibold text-sm mb-2 text-gray-800">Áreas de atenção</h4>
+              <ul className="space-y-1">
+                {content.leadershipStyle.weaknesses.map((weakness, index) => (
+                  <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-orange-600">⚠</span>
+                    <span>{weakness}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
 
