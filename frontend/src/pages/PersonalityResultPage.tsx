@@ -203,10 +203,12 @@ export default function PersonalityResultPage() {
         <OverviewSection overview={personalityType.overview} />
 
         {/* Cognitive Functions */}
-        <CognitiveFunctionsStack
-          functions={personalityType.cognitiveFunctions || []}
-          colorScheme={personalityType.colorScheme}
-        />
+        {personalityType.cognitiveFunctions && personalityType.cognitiveFunctions.length > 0 && (
+          <CognitiveFunctionsStack
+            functions={personalityType.cognitiveFunctions}
+            colorScheme={personalityType.colorScheme}
+          />
+        )}
 
         {/* Strengths Section */}
         <section>
@@ -216,7 +218,9 @@ export default function PersonalityResultPage() {
           <p className="text-gray-600 mb-8">
             Estas são as características que fazem você brilhar. Use-as com consciência e intencionalidade.
           </p>
-          <StrengthsList strengths={personalityType.strengths?.free || []} />
+          {personalityType.strengths?.free && personalityType.strengths.free.length > 0 && (
+            <StrengthsList strengths={personalityType.strengths.free} />
+          )}
 
           {/* Gated Strengths CTA */}
           {!isAuthenticated && (
@@ -253,10 +257,12 @@ export default function PersonalityResultPage() {
           <p className="text-gray-600 mb-8">
             Conhecer suas fraquezas é o primeiro passo para superá-las. Não são defeitos, são oportunidades de crescimento.
           </p>
-          <WeaknessesList
-            weaknesses={personalityType.weaknesses?.free || []}
-            showMitigation={false}
-          />
+          {personalityType.weaknesses?.free && personalityType.weaknesses.free.length > 0 && (
+            <WeaknessesList
+              weaknesses={personalityType.weaknesses.free}
+              showMitigation={false}
+            />
+          )}
 
           {/* Gated Weaknesses CTA */}
           {!isAuthenticated && (
@@ -296,7 +302,9 @@ export default function PersonalityResultPage() {
           <p className="text-gray-600 mb-8">
             Estas carreiras se alinham naturalmente com suas forças e preferências. Use como ponto de partida para exploração.
           </p>
-          <CareerPathsGrid careers={personalityType.careers?.free || []} showDetailed={false} />
+          {personalityType.careers?.free && personalityType.careers.free.length > 0 && (
+            <CareerPathsGrid careers={personalityType.careers.free} showDetailed={false} />
+          )}
 
           {/* Gated Careers CTA */}
           {!isAuthenticated && (
@@ -326,37 +334,44 @@ export default function PersonalityResultPage() {
         </section>
 
         {/* Relationships - GATED */}
-        <div data-gated-section data-section="relationships">
-          <GatedContentCard
-            title="❤️ Relacionamentos e Compatibilidade"
-            preview={personalityType.relationships.preview}
-            isLocked={!isAuthenticated}
-            content={isAuthenticated ? personalityType.relationships.content : null}
-            type="relationships"
-          />
+        {personalityType.relationships && (
+          <div data-gated-section data-section="relationships">
+            <GatedContentCard
+              title="❤️ Relacionamentos e Compatibilidade"
+              preview={personalityType.relationships.preview}
+              isLocked={!isAuthenticated}
+              content={isAuthenticated ? personalityType.relationships.content : null}
+              type="relationships"
+            />
+          </div>
+        )}
         </div>
 
         {/* Growth - GATED */}
-        <div data-gated-section data-section="growth">
-          <GatedContentCard
-            title="🌱 Crescimento Pessoal"
-            preview={personalityType.growth.preview}
-            isLocked={!isAuthenticated}
-            content={isAuthenticated ? personalityType.growth.content : null}
-            type="growth"
-          />
-        </div>
+        {personalityType.growth && (
+          <div data-gated-section data-section="growth">
+            <GatedContentCard
+              title="🌱 Crescimento Pessoal"
+              preview={personalityType.growth.preview}
+              isLocked={!isAuthenticated}
+              content={isAuthenticated ? personalityType.growth.content : null}
+              type="growth"
+            />
+          </div>
+        )}
 
         {/* Workplace - GATED */}
-        <div data-gated-section data-section="workplace">
-          <GatedContentCard
-            title="🏢 No Ambiente de Trabalho"
-            preview={personalityType.workplace.preview}
-            isLocked={!isAuthenticated}
-            content={isAuthenticated ? personalityType.workplace.content : null}
-            type="workplace"
-          />
-        </div>
+        {personalityType.workplace && (
+          <div data-gated-section data-section="workplace">
+            <GatedContentCard
+              title="🏢 No Ambiente de Trabalho"
+              preview={personalityType.workplace.preview}
+              isLocked={!isAuthenticated}
+              content={isAuthenticated ? personalityType.workplace.content : null}
+              type="workplace"
+            />
+          </div>
+        )}
 
         {/* Famous People */}
         <section>
