@@ -85,15 +85,16 @@ const Dashboard = () => {
         setProfile(profileData);
 
         // Calculate and update streak
+        const metadata = profileData.metadata || {};
         const calculatedStreak = calculateStreak(
-          profileData.last_visit,
-          profileData.visit_history
+          metadata.last_visit,
+          metadata.visit_history
         );
         setStreak(calculatedStreak);
 
         // Update last visit and streak in database via API
         const now = new Date().toISOString();
-        const existingMetadata = profileData.metadata || {};
+        const existingMetadata = metadata;
         const updatedVisitHistory = [
           ...(existingMetadata.visit_history || []),
           now
@@ -275,8 +276,11 @@ const Dashboard = () => {
         // Update local state
         setProfile({
           ...profile,
-          xp: (profile.xp || 0) + content.xpReward,
-          metadata: { ...(profile.metadata || {}), consumed_content: updatedConsumed },
+          metadata: {
+            ...(profile.metadata || {}),
+            xp: ((profile.metadata?.xp as number) || 0) + content.xpReward,
+            consumed_content: updatedConsumed,
+          },
         });
 
         toast.success(`+${content.xpReward} XP`, {
@@ -385,7 +389,7 @@ const Dashboard = () => {
           {/* Journey Card - Gamification */}
           {profile && (
             <JourneyCard
-              xp={profile.xp || 0}
+              xp={(profile.metadata?.xp as number) || 0}
               achievements={achievements}
               onViewAll={() => {
                 // TODO: Navigate to achievements page
