@@ -152,17 +152,14 @@ O verdadeiro poder do ISTP está em sua capacidade de permanecer absolutamente p
       {
         title: 'Resistência a Compromissos de Longo Prazo',
         description: 'Valorizam liberdade intensamente e podem evitar situações que limitem sua autonomia ou flexibilidade.',
-        impact: 'Dificuldade em manter relacionamentos ou carreiras que demandam comprometimento duradouro.',
       },
       {
         title: 'Dificuldade com Expressão Emocional',
         description: 'Lutam para identificar e comunicar seus próprios sentimentos ou responder adequadamente às emoções dos outros.',
-        impact: 'Relacionamentos podem sofrer por falta de comunicação emocional; outros podem vê-los como frios ou indiferentes.',
       },
       {
         title: 'Impaciência com Abstração',
         description: 'Preferem o concreto ao teórico e podem perder interesse em discussões ou planejamentos muito abstratos.',
-        impact: 'Podem subestimar a importância de planejamento de longo prazo ou considerações estratégicas.',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro poder do ISTP está em sua capacidade de permanecer absolutamente p
         {
           title: 'Tédio Crônico com Rotina',
           description: 'Necessidade constante de estimulação e novidade; rotinas repetitivas são sufocantes e desmotivadoras.',
-          impact: 'Abandonam projetos quando ficam "chatos", pulam de interesse em interesse, dificuldade em carreiras rotineiras.',
           mitigation: 'Buscar variedade dentro de estruturas necessárias, dividir tarefas longas em desafios menores, alternar entre projetos diferentes.',
         },
         {
           title: 'Tendência ao Risco Excessivo',
           description: 'Busca por adrenalina e novidade pode levar a assumir riscos físicos ou práticos desnecessários.',
-          impact: 'Acidentes, problemas financeiros por decisões impulsivas, consequências não previstas de ações arriscadas.',
           mitigation: 'Canalizar necessidade de risco para atividades controladas (esportes radicais, hobbies desafiadores), usar Ti para avaliar riscos antes de agir.',
         },
         {
           title: 'Insensibilidade Não Intencional',
           description: 'Foco em lógica e eficiência pode fazer com que ignorem ou minimizem necessidades emocionais dos outros.',
-          impact: 'Conflitos relacionais, reputação de "frio", dificuldade em formar conexões emocionais profundas.',
           mitigation: 'Reconhecer que emoções são dados válidos, praticar expressar apreciação verbalmente, pedir feedback sobre impacto emocional.',
         },
         {
           title: 'Dificuldade em Seguir Regras Arbitrárias',
           description: 'Questionam autoridade e regras que não fazem sentido lógico, podem ignorá-las completamente.',
-          impact: 'Conflitos com autoridades, problemas em ambientes hierárquicos, reputação de "difícil" ou "rebelde".',
           mitigation: 'Escolher ambientes com autonomia, entender quando conformidade estratégica é necessária, focar em princípios ao invés de regras.',
         },
         {
           title: 'Isolamento Social',
           description: 'Preferência por independência e desconforto com emoções pode levar a evitar conexões sociais profundas.',
-          impact: 'Solidão, falta de rede de suporte, dificuldade em pedir ajuda quando necessário.',
           mitigation: 'Cultivar amizades baseadas em atividades compartilhadas, praticar vulnerabilidade em pequenas doses, valorizar qualidade sobre quantidade.',
         },
       ],

@@ -152,17 +152,14 @@ O verdadeiro poder do ESFJ está em sua capacidade de nutrir talentos nos outros
       {
         title: 'Necessidade Excessiva de Aprovação',
         description: 'Dependência da validação externa para autoestima, dificuldade em tomar decisões que podem desagradar outros.',
-        impact: 'Sacrifício das próprias necessidades, exaustão emocional, ressentimento acumulado por não poder dizer não.',
       },
       {
         title: 'Sensibilidade Extrema a Críticas',
         description: 'Levam feedback negativo profundamente ao coração, mesmo quando é construtivo e bem-intencionado.',
-        impact: 'Defensividade, evitar situações onde podem ser criticados, dificuldade em crescer através de feedback.',
       },
       {
         title: 'Resistência a Mudanças',
         description: 'Preferência forte por tradições e métodos estabelecidos, desconforto com inovações que perturbem a ordem.',
-        impact: 'Perda de oportunidades, dificuldade em adaptar-se a novos ambientes, conflitos com tipos mais inovadores.',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro poder do ESFJ está em sua capacidade de nutrir talentos nos outros
         {
           title: 'Negligência das Próprias Necessidades',
           description: 'Tão focados em cuidar dos outros que ignoram sua própria saúde física, emocional e mental.',
-          impact: 'Burnout, ressentimento não expresso, deterioração da saúde, relacionamentos desequilibrados.',
           mitigation: 'Agendar "tempo para si" como compromisso não-negociável, praticar dizer "não", desenvolver hobbies pessoais que não envolvam cuidar de outros.',
         },
         {
           title: 'Dificuldade com Análise Impessoal',
           description: 'Lutam para separar questões lógicas de sentimentos pessoais, tornando decisões objetivas desafiadoras.',
-          impact: 'Decisões subótimas baseadas em quem pode ser magoado, dificuldade em ambientes corporativos frios.',
           mitigation: 'Desenvolver Ti consultando fontes objetivas, praticar análise de prós/contras sem considerar pessoas, buscar mentores que pensam analiticamente.',
         },
         {
           title: 'Tendência ao Controle',
           description: 'Quando ansiosos, podem tentar controlar ambientes e pessoas para manter harmonia e ordem.',
-          impact: 'Relacionamentos sufocados, conflitos sobre autonomia, reputação de "mandões" ou "controladores".',
           mitigation: 'Reconhecer ansiedade subjacente, confiar que outros podem cuidar de si mesmos, praticar soltar controle em áreas não-críticas.',
         },
         {
           title: 'Julgamento Rápido de Comportamento Social',
           description: 'Podem ser críticos de pessoas que violam normas sociais ou não seguem tradições valorizadas.',
-          impact: 'Conflitos com tipos mais não-convencionais, rigidez social, dificuldade em aceitar diferenças.',
           mitigation: 'Desenvolver Ne explorando perspectivas diferentes, questionar de onde vêm suas normas, praticar aceitação de diferentes estilos de vida.',
         },
         {
           title: 'Preocupação Excessiva com Status Social',
           description: 'Podem valorizar demais aparências, reputação e o que outros pensam, levando a decisões baseadas em imagem.',
-          impact: 'Autenticidade comprometida, stress sobre manter aparências, dificuldade em expressar opiniões impopulares.',
           mitigation: 'Cultivar círculo íntimo que aceita autenticidade, questionar "por que isso importa?", definir valores pessoais além de expectativas sociais.',
         },
       ],

@@ -153,17 +153,14 @@ O verdadeiro poder do INTP está em sua capacidade de ver padrões onde outros v
       {
         title: 'Procrastinação Crônica',
         description: 'Tendência a atrasar tarefas práticas enquanto se perdem em explorações teóricas intermináveis.',
-        impact: 'Projetos importantes podem ficar incompletos, prazos perdidos, e responsabilidades negligenciadas.',
       },
       {
         title: 'Dificuldade com Implementação',
         description: 'Excelentes em gerar ideias brilhantes, mas lutam para traduzi-las em ação concreta e resultados tangíveis.',
-        impact: 'Potencial desperdiçado, frustração com falta de progresso visível, e reputação de "só falar e não fazer".',
       },
       {
         title: 'Insensibilidade Não Intencional',
         description: 'Foco em lógica e verdade pode fazer com que pareçam frios ou desconsiderados com os sentimentos dos outros.',
-        impact: 'Relacionamentos tensos, mal-entendidos frequentes, e isolamento social não desejado.',
       },
     ],
     gated: {
@@ -171,31 +168,26 @@ O verdadeiro poder do INTP está em sua capacidade de ver padrões onde outros v
         {
           title: 'Desorganização e Caos Prático',
           description: 'Ambiente físico e vida administrativa frequentemente em desordem porque detalhes práticos parecem triviais comparados a ideias.',
-          impact: 'Perda de objetos importantes, esquecimento de compromissos, ambientes de trabalho caóticos.',
           mitigation: 'Implementar sistemas simples e automatizados (alarmes, checklists digitais, "lugares fixos" para itens importantes). Aceitar ajuda de outros para organização.',
         },
         {
           title: 'Paralisia por Análise',
           description: 'Podem ficar presos em ciclos infinitos de análise, sempre precisando de "mais informações" antes de agir.',
-          impact: 'Oportunidades perdidas, decisões que nunca são tomadas, projetos que nunca começam.',
           mitigation: 'Estabelecer deadlines artificiais, usar regra "80/20" (agir com 80% de certeza), praticar "pensar fazendo".',
         },
         {
           title: 'Negligência de Necessidades Básicas',
           description: 'Podem esquecer de comer, dormir ou cuidar da saúde quando absortos em problemas intelectuais.',
-          impact: 'Saúde deteriorada, burnout, exaustão física que prejudica capacidade cognitiva.',
           mitigation: 'Alarmes para refeições e sono, rotinas não-negociáveis de autocuidado, usar tecnologia como lembretes externos.',
         },
         {
           title: 'Dificuldade em Expressar Emoções',
           description: 'Sentem emoções profundamente mas lutam para identificá-las, processá-las e comunicá-las adequadamente.',
-          impact: 'Relacionamentos superficiais, acúmulo de stress emocional, explosões inesperadas quando reprimem muito.',
           mitigation: 'Journaling para processar sentimentos, terapia para desenvolver vocabulário emocional, praticar vulnerabilidade com pessoas seguras.',
         },
         {
           title: 'Perfeccionismo Teórico',
           description: 'Nunca satisfeitos com suas teorias ou explicações, sempre vendo falhas e buscando maior elegância.',
-          impact: 'Trabalho nunca finalizado, autocrítica excessiva, relutância em compartilhar ideias "imperfeitas".',
           mitigation: 'Aceitar que "melhor é inimigo do bom", publicar versões "beta" de ideias, buscar feedback iterativo.',
         },
       ],

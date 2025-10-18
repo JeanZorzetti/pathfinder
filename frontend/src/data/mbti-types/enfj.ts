@@ -152,17 +152,14 @@ O verdadeiro poder do ENFJ está em sua capacidade de enxergar o potencial que o
       {
         title: 'Idealismo Excessivo Sobre Pessoas',
         description: 'Tendência a ver o melhor nas pessoas a ponto de ignorar sinais de alerta reais e investir em quem não está pronto para mudar.',
-        impact: 'Decepções repetidas, relacionamentos tóxicos prolongados, e energia desperdiçada em pessoas que não reciprocam o investimento.',
       },
       {
         title: 'Dificuldade Extrema em Dizer Não',
         description: 'Lutam para estabelecer limites saudáveis, assumindo responsabilidades além de sua capacidade por medo de decepcionar.',
-        impact: 'Esgotamento crônico, ressentimento acumulado, e qualidade comprometida em todos os compromissos por sobrecarga.',
       },
       {
         title: 'Sensibilidade Profunda a Críticas',
         description: 'Levam feedback negativo profundamente a sério, interpretando críticas ao seu trabalho como rejeição pessoal.',
-        impact: 'Autocrítica excessiva, paralisia quando criticados, e tendência a evitar situações onde podem ser julgados.',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro poder do ENFJ está em sua capacidade de enxergar o potencial que o
         {
           title: 'Negligência das Próprias Necessidades',
           description: 'Tão focados em cuidar dos outros que sistematicamente ignoram seu próprio bem-estar físico, emocional e espiritual.',
-          impact: 'Burnout severo, problemas de saúde ignorados até se tornarem graves, e perda de conexão com sua própria identidade.',
           mitigation: 'Agendar "tempo não-negociável" para autocuidado. Tratar suas necessidades com a mesma seriedade que tratam as dos outros. Terapia para desenvolver auto-compaixão.',
         },
         {
           title: 'Tendências Manipulativas',
           description: 'Quando estressados ou convencidos de que "sabem melhor", podem usar seu dom de persuasão para manipular ao invés de guiar.',
-          impact: 'Perda de confiança quando descobertos, relacionamentos danificados, e culpa interna por violar seus próprios valores.',
           mitigation: 'Questionar motivações constantemente: "Estou fazendo isso para eles ou para minha visão do que deveriam ser?" Buscar consentimento genuíno, não apenas concordância.',
         },
         {
           title: 'Evitação de Conflitos Necessários',
           description: 'Priorizam harmonia a ponto de evitar confrontos difíceis mas necessários, deixando problemas apodrecerem.',
-          impact: 'Problemas que explodem eventualmente, ressentimentos ocultos que corroem relacionamentos, e situações que pioram por falta de intervenção.',
           mitigation: 'Reframe conflito como "cuidado corajoso". Praticar conversas difíceis em contextos de baixo risco. Lembrar que paz verdadeira requer honestidade.',
         },
         {
           title: 'Padrões Irrealisticamente Altos',
           description: 'Estabelecem expectativas de perfeição para si mesmos em todos os papéis, levando a autocrítica brutal quando inevitavelmente falham.',
-          impact: 'Síndrome do impostor crônica, perfeccionismo paralisante, e incapacidade de celebrar sucessos genuínos.',
           mitigation: 'Praticar auto-compaixão ativamente. Aceitar que "bom o suficiente" é frequentemente suficiente. Distinguir entre excelência e perfeição impossível.',
         },
         {
           title: 'Absorção de Emoções Alheias',
           description: 'Sentem as emoções dos outros tão intensamente que podem perder contato com seus próprios sentimentos autênticos.',
-          impact: 'Exaustão emocional, confusão sobre suas próprias necessidades, e dificuldade em tomar decisões alinhadas com seus valores.',
           mitigation: 'Práticas diárias de grounding. Journaling para processar e separar emoções próprias das absorvidas. Criar espaço físico e temporal entre si e demandas emocionais.',
         },
       ],

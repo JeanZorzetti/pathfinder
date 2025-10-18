@@ -152,17 +152,14 @@ O verdadeiro dom do ESFP está em sua capacidade de fazer os outros se sentirem 
       {
         title: 'Dificuldade com Planejamento de Longo Prazo',
         description: 'Tendência a focar no presente imediato sem considerar adequadamente consequências futuras ou preparação necessária.',
-        impact: 'Falta de economias, carreira sem direção, objetivos de longo prazo negligenciados.',
       },
       {
         title: 'Facilmente Entediado',
         description: 'Necessidade constante de novidade e estimulação torna difícil manter-se em tarefas rotineiras ou projetos de longo prazo.',
-        impact: 'Projetos abandonados, dificuldade com trabalhos repetitivos, busca constante por próxima experiência.',
       },
       {
         title: 'Sensibilidade Excessiva a Críticas',
         description: 'Levam críticas muito para o lado pessoal, especialmente sobre sua performance ou forma de ser.',
-        impact: 'Evitação de feedback necessário, reações emocionais defensivas, relutância em áreas onde podem falhar.',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro dom do ESFP está em sua capacidade de fazer os outros se sentirem 
         {
           title: 'Impulsividade Financeira',
           description: 'Tendência a gastar em experiências e itens que proporcionam gratificação imediata sem pensar nas consequências financeiras.',
-          impact: 'Dívidas, falta de economias para emergências, stress financeiro recorrente.',
           mitigation: 'Automatizar economias e pagamentos de contas, estabelecer "dinheiro de diversão" separado, trabalhar com parceiro ou consultor financeiro para planejamento.',
         },
         {
           title: 'Evitação de Conflito',
           description: 'Desconforto intenso com confrontações e tendência a evitar problemas ao invés de abordá-los diretamente.',
-          impact: 'Problemas não resolvidos que se acumulam, ressentimentos não expressos, relacionamentos superficiais.',
           mitigation: 'Praticar conversas difíceis em ambientes seguros, aprender que conflito saudável fortalece relacionamentos, desenvolver vocabulário para expressar necessidades.',
         },
         {
           title: 'Dificuldade com Abstração e Teoria',
           description: 'Preferência por concreto e prático pode tornar difícil engajar com conceitos abstratos ou planejamento estratégico.',
-          impact: 'Limitações em certas carreiras acadêmicas ou estratégicas, dificuldade em ver "quadro geral".',
           mitigation: 'Conectar conceitos abstratos a exemplos concretos, usar visualizações e metáforas, trabalhar com tipos N complementares.',
         },
         {
           title: 'Falta de Foco Sustentado',
           description: 'Atenção se dispersa facilmente para estímulos novos e mais interessantes no ambiente.',
-          impact: 'Tarefas importantes incompletas, dificuldade em atingir metas que requerem esforço consistente.',
           mitigation: 'Usar técnica Pomodoro, criar ambiente sem distrações, gamificar tarefas chatas, trabalhar em sprints curtos.',
         },
         {
           title: 'Preocupação Excessiva com Imagem',
           description: 'Consciência intensa de como são percebidos pelos outros pode levar a ansiedade social e decisões baseadas em aprovação externa.',
-          impact: 'Perda de autenticidade, exaustão de manter aparências, decisões que não alinham com valores verdadeiros.',
           mitigation: 'Desenvolver senso de self independente de validação externa, cultivar amizades onde podem ser autênticos, terapia para ansiedade social.',
         },
       ],

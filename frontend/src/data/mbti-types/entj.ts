@@ -152,17 +152,14 @@ O verdadeiro poder do ENTJ está em sua capacidade de transformar visões ambici
       {
         title: 'Dominância e Controle Excessivo',
         description: 'Tendência a assumir comando mesmo quando não solicitado e dificuldade em ceder controle ou aceitar liderança de outros.',
-        impact: 'Conflitos com colegas, ressentimento de subordinados, dificuldade em trabalhar sob supervisão de outros.',
       },
       {
         title: 'Impaciência com Incompetência',
         description: 'Baixíssima tolerância para ineficiência, erros repetidos ou pessoas que não atendem seus altos padrões.',
-        impact: 'Podem ser vistos como arrogantes ou intimidadores, criar ambientes de trabalho tensos, alienar potenciais aliados.',
       },
       {
         title: 'Insensibilidade Emocional',
         description: 'Foco extremo em lógica e resultados pode fazer com que ignorem ou minimizem preocupações emocionais legítimas.',
-        impact: 'Relacionamentos pessoais danificados, equipes desmotivadas, reputação de "frio" ou "sem coração".',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro poder do ENTJ está em sua capacidade de transformar visões ambici
         {
           title: 'Workaholismo e Desequilíbrio Vida-Trabalho',
           description: 'Obsessão com conquistas e metas pode consumir toda energia e tempo, negligenciando saúde, relacionamentos e bem-estar.',
-          impact: 'Burnout, problemas de saúde, relacionamentos destruídos, perda de perspectiva sobre o que realmente importa.',
           mitigation: 'Agendar tempo para relacionamentos e autocuidado como "compromissos não-negociáveis". Reconhecer que sustentabilidade de longo prazo requer equilíbrio. Desenvolver hobbies não relacionados a trabalho.',
         },
         {
           title: 'Teimosia e Dificuldade em Admitir Erros',
           description: 'Confiança pode se tornar arrogância; resistência em aceitar que estão errados ou que sua estratégia falhou.',
-          impact: 'Persistência em estratégias falhas, perda de credibilidade, dificuldade em aprender com erros.',
           mitigation: 'Cultivar humildade intelectual. Criar sistemas de feedback anônimo. Lembrar que mudar de opinião com base em evidências é sinal de força, não fraqueza.',
         },
         {
           title: 'Negligência de Necessidades Emocionais Próprias',
           description: 'Suprimem ou ignoram suas próprias emoções, focando apenas em objetivos externos, até que explodem.',
-          impact: 'Explosões emocionais inesperadas, decisões impulsivas em momentos de stress, deterioração de saúde mental.',
           mitigation: 'Desenvolver prática de check-ins emocionais regulares. Terapia ou coaching. Reconhecer emoções como dados válidos, não fraqueza.',
         },
         {
           title: 'Tendência a Atropelar Outros',
           description: 'Na pressa de executar sua visão, podem ignorar input valioso de outros ou não dar tempo para que equipe processe mudanças.',
-          impact: 'Resistência de equipe, perda de insights valiosos, implementações falhas por falta de buy-in.',
           mitigation: 'Forçar-se a solicitar e realmente ouvir feedback. Dar tempo para que outros processem ideias. Reconhecer que velocidade sem alinhamento gera retrabalho.',
         },
         {
           title: 'Julgamento Severo de Si e Outros',
           description: 'Padrões extremamente altos podem tornar-se perfeccionismo paralisante ou crítica destrutiva de equipe.',
-          impact: 'Autocrítica prejudicial, equipes com medo de errar, perda de talentos que se sentem constantemente inadequados.',
           mitigation: 'Distinguir entre excelência e perfeição. Celebrar progresso, não apenas resultados finais. Praticar feedback positivo conscientemente.',
         },
       ],

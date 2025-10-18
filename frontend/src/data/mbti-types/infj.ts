@@ -152,17 +152,14 @@ O verdadeiro poder do INFJ está em sua capacidade de inspirar mudança genuína
       {
         title: 'Perfeccionismo Paralisante',
         description: 'Padrões extremamente altos para si mesmos e seus projetos, nunca sentindo que algo está "bom o suficiente" para compartilhar.',
-        impact: 'Projetos abandonados, autocrítica constante, esgotamento por tentar alcançar ideais impossíveis.',
       },
       {
         title: 'Esgotamento por Excesso de Doação',
         description: 'Tendência a dar tanto de si mesmos ajudando outros que negligenciam suas próprias necessidades até o colapso.',
-        impact: 'Burnout físico e emocional, ressentimento não expresso, deterioração da saúde.',
       },
       {
         title: 'Sensibilidade Extrema a Críticas',
         description: 'Levam críticas muito a sério, ruminando sobre feedback negativo e questionando todo seu valor.',
-        impact: 'Autoestima frágil, evitação de situações onde podem ser julgados, retraimento social.',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro poder do INFJ está em sua capacidade de inspirar mudança genuína
         {
           title: 'O Famoso "Door Slam" (Batida de Porta)',
           description: 'Quando repetidamente feridos ou desrespeitados, INFJs podem cortar pessoas completamente de suas vidas sem aviso.',
-          impact: 'Relacionamentos terminados abruptamente, arrependimento posterior, padrão de tudo-ou-nada nos relacionamentos.',
           mitigation: 'Comunicar limites claramente antes de chegar ao ponto de ruptura. Praticar confronto saudável. Reconhecer que door slam é proteção extrema, não solução.',
         },
         {
           title: 'Dificuldade com Limites Saudáveis',
           description: 'Absorvem emoções dos outros como esponjas, lutando para separar sentimentos próprios dos alheios.',
-          impact: 'Sobrecarga emocional, responsabilidade excessiva por problemas dos outros, perda de senso de si mesmo.',
           mitigation: 'Praticar "check-ins" regulares: "isso é meu sentimento ou de outra pessoa?". Estabelecer tempo sozinho não-negociável. Aprender a dizer não sem culpa.',
         },
         {
           title: 'Idealismo que Leva à Desilusão',
           description: 'Visão de como as coisas "deveriam ser" tão forte que a realidade constantemente decepciona.',
-          impact: 'Cinismo crescente, depressão quando realidade não corresponde à visão, relacionamentos idealizados que desmoronam.',
           mitigation: 'Praticar aceitação radical do que é, enquanto trabalha pelo que poderia ser. Celebrar progresso incremental. Buscar equilíbrio entre idealismo e pragmatismo.',
         },
         {
           title: 'Tendência a Internalizar Conflitos',
           description: 'Evitam confronto direto para manter harmonia, acumulando frustrações até explodir ou se afastar.',
-          impact: 'Ressentimentos não resolvidos, explosões emocionais inesperadas, relacionamentos superficiais por medo de conflito.',
           mitigation: 'Reconhecer que conflito saudável fortalece relacionamentos. Praticar assertividade compassiva. Expressar desconforto quando pequeno, não quando insuportável.',
         },
         {
           title: 'Perfeccionismo em Sistemas Morais',
           description: 'Padrões morais extremamente elevados podem torná-los críticos ou julgadores de outros (e especialmente de si mesmos).',
-          impact: 'Julgamento excessivo, dificuldade em aceitar imperfeições humanas, autocrítica brutal.',
           mitigation: 'Cultivar compaixão por imperfeição humana (incluindo a própria). Reconhecer que crescimento é processo. Praticar perdão ativo.',
         },
       ],

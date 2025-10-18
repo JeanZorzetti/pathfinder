@@ -152,17 +152,14 @@ O verdadeiro poder do ISFP está em sua capacidade de transformar o ordinário e
       {
         title: 'Aversão Extrema a Conflitos',
         description: 'Tendência a evitar confrontos necessários e suprimir necessidades próprias para manter a harmonia superficial.',
-        impact: 'Ressentimentos acumulados, necessidades não atendidas, e explosões emocionais inesperadas quando a pressão se torna insuportável.',
       },
       {
         title: 'Dificuldade com Planejamento de Longo Prazo',
         description: 'Foco intenso no presente dificulta visualizar e planejar para o futuro, levando a improvisar constantemente.',
-        impact: 'Oportunidades perdidas que requeriam preparação antecipada, instabilidade financeira, falta de direção de vida clara.',
       },
       {
         title: 'Sensibilidade Excessiva a Críticas',
         description: 'Levam feedback negativo muito pessoalmente, mesmo quando é construtivo ou não intencional.',
-        impact: 'Autoestima frágil, evitar situações onde podem ser julgados, dificuldade em crescer profissionalmente.',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro poder do ISFP está em sua capacidade de transformar o ordinário e
         {
           title: 'Competitividade Oculta',
           description: 'Embora pareçam descontraídos, ISFPs podem ser surpreendentemente competitivos, especialmente em áreas relacionadas aos seus valores ou habilidades.',
-          impact: 'Stress interno quando outros se destacam em "suas" áreas, dificuldade em celebrar sucessos alheios, comportamento passivo-agressivo.',
           mitigation: 'Reconhecer que sucesso não é um jogo de soma zero. Canalizar competitividade para auto-aperfeiçoamento. Praticar apreciação genuína das conquistas dos outros.',
         },
         {
           title: 'Independência Teimosa',
           description: 'Forte resistência a conselhos ou ajuda de outros, mesmo quando seria claramente benéfico, por necessidade de fazer as coisas à sua maneira.',
-          impact: 'Aprender da maneira mais difícil repetidamente, alienar pessoas que querem ajudar, progresso mais lento do que necessário.',
           mitigation: 'Reconhecer que aceitar ajuda não compromete autenticidade. Escolher conscientemente quando ser independente vs. quando ser colaborativo.',
         },
         {
           title: 'Imprevisibilidade Frustrante',
           description: 'Mudanças súbitas de humor, planos ou prioridades baseadas em sentimentos do momento podem confundir e frustrar outros.',
-          impact: 'Reputação de não serem confiáveis, dificuldade em manter compromissos, tensão em relacionamentos que precisam de previsibilidade.',
           mitigation: 'Comunicar mudanças de sentimento antes de mudar comportamento. Distinguir entre impulsos passageiros e necessidades reais. Honrar compromissos importantes.',
         },
         {
           title: 'Vulnerabilidade ao Stress',
           description: 'Ambientes caóticos, prazos apertados ou conflitos prolongados podem rapidamente sobrecarregá-los emocionalmente e fisicamente.',
-          impact: 'Burnout frequente, problemas de saúde relacionados ao stress, fuga de responsabilidades quando sobrecarregados.',
           mitigation: 'Criar espaços seguros para recuperação regular. Estabelecer limites claros antes de chegar ao esgotamento. Desenvolver práticas de regulação emocional.',
         },
         {
           title: 'Procrastinação por Perfeccionismo',
           description: 'Adiam tarefas até "sentirem-se prontos" ou terem a inspiração perfeita, especialmente em projetos criativos importantes.',
-          impact: 'Projetos nunca concluídos, potencial artístico não realizado, frustração crônica consigo mesmos.',
           mitigation: 'Aceitar que "feito é melhor que perfeito". Criar versões de "rascunho" sem expectativas. Estabelecer prazos externos com accountability.',
         },
       ],

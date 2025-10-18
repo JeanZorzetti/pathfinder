@@ -152,17 +152,14 @@ O verdadeiro poder do ENTP está em sua capacidade de ver oportunidades onde out
       {
         title: 'Dificuldade Extrema em Finalizar Projetos',
         description: 'Tendência crônica de iniciar múltiplos projetos empolgantes mas abandoná-los quando surgem ideias mais novas e brilhantes.',
-        impact: 'Potencial desperdiçado, reputação de não entregar, frustração de ver ideias brilhantes nunca realizadas.',
       },
       {
         title: 'Argumentatividade Excessiva',
         description: 'Compulsão de debater tudo, mesmo quando seria mais sábio deixar passar ou concordar por harmonia social.',
-        impact: 'Relacionamentos desgastados, reputação de ser confrontador, conflitos desnecessários em situações sociais e profissionais.',
       },
       {
         title: 'Negligência de Detalhes e Rotinas',
         description: 'Foco em grandes ideias às custas de detalhes práticos e tarefas administrativas essenciais.',
-        impact: 'Erros evitáveis, compromissos esquecidos, caos organizacional, dependência de outros para questões práticas.',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro poder do ENTP está em sua capacidade de ver oportunidades onde out
         {
           title: 'Síndrome do Advogado do Diabo',
           description: 'Necessidade compulsiva de argumentar o lado oposto de qualquer questão, mesmo quando machuca sentimentos ou danifica relacionamentos.',
-          impact: 'Pessoas se sentem atacadas ou não valorizadas, dificuldade em demonstrar apoio genuíno, isolamento social.',
           mitigation: 'Pergunte-se: "Esse debate vai adicionar valor ou só satisfazer meu ego?" Pratique validar ideias antes de criticá-las. Desenvolva consciência de quando outros precisam de apoio, não de desafio.',
         },
         {
           title: 'Procrastinação por Exploração',
           description: 'Postergar execução indefinidamente porque sempre há mais possibilidades para explorar, mais pesquisa para fazer, mais ângulos para considerar.',
-          impact: 'Deadlines perdidos, oportunidades desperdiçadas, projetos nunca lançados apesar de anos de "preparação".',
           mitigation: 'Estabeleça limites claros para fase de exploração. Use regra "70% de certeza = hora de agir". Arranje parceiros ou sistemas que forcem execução.',
         },
         {
           title: 'Tédio Crônico e Necessidade de Novidade',
           description: 'Incapacidade de tolerar rotina ou repetição; necessidade constante de estimulação nova leva a comportamento errático.',
-          impact: 'Carreira instável, relacionamentos interrompidos prematuramente, incapacidade de desenvolver expertise profunda.',
           mitigation: 'Encontre carreira com variedade embutida (consultoria, empreendedorismo). Gamifique tarefas repetitivas. Alterne entre múltiplos projetos em ciclos estruturados.',
         },
         {
           title: 'Insensibilidade Não Intencional',
           description: 'Foco em lógica e precisão conceitual pode fazer com que ignorem ou invalidem sentimentos legítimos dos outros.',
-          impact: 'Danos em relacionamentos íntimos, reputação de ser frio ou cruel, perda de confiança de pessoas próximas.',
           mitigation: 'Antes de corrigir alguém, pergunte: "Isso é importante ou é meu ego?" Pratique empatia ativa. Reconheça que verdades emocionais são tão válidas quanto lógicas.',
         },
         {
           title: 'Dispersão de Foco e Energia',
           description: 'Tentam abraçar muitas oportunidades simultaneamente, espalhando recursos finos demais para causar impacto real.',
-          impact: 'Exaustão, burnout, sensação de estar sempre ocupado mas nunca progredindo realmente.',
           mitigation: 'Pratique "Hell Yes or No" - comprometa-se apenas com projetos que sejam absolutamente empolgantes. Use sistemas para dizer não (quota de projetos simultâneos).',
         },
       ],

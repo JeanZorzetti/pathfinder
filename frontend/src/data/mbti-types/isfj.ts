@@ -152,17 +152,14 @@ O verdadeiro poder do ISFJ está em sua capacidade de criar estabilidade e harmo
       {
         title: 'Negligência das Próprias Necessidades',
         description: 'Tendência crônica a priorizar o bem-estar dos outros sobre o próprio, levando ao esgotamento e ressentimento acumulado.',
-        impact: 'Saúde física e mental deteriorada, relações desequilibradas, sensação de ser aproveitado ou não valorizado.',
       },
       {
         title: 'Dificuldade Extrema em Dizer Não',
         description: 'Sentem-se obrigados a ajudar sempre que solicitados, mesmo quando já sobrecarregados ou quando o pedido é injusto.',
-        impact: 'Sobrecarga de responsabilidades, falta de tempo para prioridades pessoais, e aumento de stress e ansiedade.',
       },
       {
         title: 'Resistência a Mudanças',
         description: 'Forte preferência pelo familiar e testado pode fazer com que resistam a mudanças necessárias ou oportunidades de crescimento.',
-        impact: 'Estagnação pessoal e profissional, perda de oportunidades, dificuldade em se adaptar quando mudanças são inevitáveis.',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro poder do ISFJ está em sua capacidade de criar estabilidade e harmo
         {
           title: 'Internalização de Críticas',
           description: 'Levam críticas muito a sério e pessoalmente, ruminando sobre elas e questionando seu próprio valor.',
-          impact: 'Baixa autoestima, autocrítica excessiva, ansiedade sobre desempenho e aceitação.',
           mitigation: 'Praticar auto-compaixão, separar ações de identidade, buscar feedback equilibrado de pessoas confiáveis, lembrar que perfeição é impossível.',
         },
         {
           title: 'Relutância em Compartilhar Opiniões',
           description: 'Hesitam em expressar suas próprias necessidades, opiniões ou desacordos por medo de criar conflito ou desagradar.',
-          impact: 'Voz não ouvida, decisões que não refletem suas necessidades, acúmulo de frustração não expressa.',
           mitigation: 'Começar compartilhando opiniões sobre tópicos de baixo risco, lembrar que desacordo saudável fortalece relacionamentos, praticar assertividade gradualmente.',
         },
         {
           title: 'Sobrecarga com Responsabilidades',
           description: 'Assumem mais e mais até estarem completamente sobrecarregados, incapazes de pedir ajuda ou delegar.',
-          impact: 'Burnout severo, qualidade de trabalho reduzida, ressentimento com aqueles que "deveriam" ajudar.',
           mitigation: 'Estabelecer limites claros, praticar delegar, reconhecer que pedir ajuda não é fraqueza, avaliar capacidade honestamente antes de assumir mais.',
         },
         {
           title: 'Perfeccionismo Silencioso',
           description: 'Padrões internos extremamente altos para si mesmos, nunca sentindo que fazem o suficiente ou são suficientemente bons.',
-          impact: 'Exaustão constante, sensação perpétua de inadequação, dificuldade em celebrar conquistas.',
           mitigation: 'Definir padrões realistas, reconhecer que "bom o suficiente" é frequentemente suficiente, celebrar pequenas vitórias, aceitar imperfeições.',
         },
         {
           title: 'Retenção de Relacionamentos Tóxicos',
           description: 'Lealdade excessiva pode fazer com que permaneçam em relacionamentos prejudiciais muito além do saudável.',
-          impact: 'Abuso emocional ou físico prolongado, perda de autoestima, isolamento de outros sistemas de suporte.',
           mitigation: 'Reconhecer que lealdade não significa aceitar maus-tratos, buscar perspectivas externas, priorizar segurança e bem-estar próprios, estabelecer limites firmes.',
         },
       ],

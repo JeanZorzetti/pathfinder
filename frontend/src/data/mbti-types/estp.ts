@@ -152,17 +152,14 @@ O verdadeiro poder do ESTP está em sua capacidade de transformar caos em oportu
       {
         title: 'Impulsividade',
         description: 'Tendência a agir antes de pensar completamente nas consequências, especialmente de longo prazo.',
-        impact: 'Decisões precipitadas que causam problemas futuros, oportunidades desperdiçadas por falta de planejamento.',
       },
       {
         title: 'Impaciência com Processos',
         description: 'Frustração intensa com procedimentos, burocracias ou qualquer coisa que desacelere a ação.',
-        impact: 'Conflitos com autoridade, atalhos que violam regras, reputação de ser "difícil de gerenciar".',
       },
       {
         title: 'Insensibilidade Não Intencional',
         description: 'Franqueza brutal e foco em lógica prática podem ferir sentimentos sem que percebam.',
-        impact: 'Relacionamentos danificados, reputação de ser "grosso" ou "insensível", isolamento social.',
       },
     ],
     gated: {
@@ -170,31 +167,26 @@ O verdadeiro poder do ESTP está em sua capacidade de transformar caos em oportu
         {
           title: 'Dificuldade com Compromisso de Longo Prazo',
           description: 'Resistência a qualquer coisa que pareça limitar liberdade ou exigir persistência prolongada sem variação.',
-          impact: 'Projetos abandonados no meio, relacionamentos que não aprofundam, carreira sem direção clara.',
           mitigation: 'Escolher caminhos que oferecem variedade dentro da estrutura. Quebrar metas grandes em marcos de curto prazo. Encontrar parceiros/colegas que complementam com visão de longo prazo.',
         },
         {
           title: 'Busca Excessiva por Estimulação',
           description: 'Necessidade constante de emoção e novidade pode levar a comportamentos de risco e tédio destrutivo.',
-          impact: 'Decisões financeiras ruins, acidentes físicos, relacionamentos caóticos, vícios em adrenalina.',
           mitigation: 'Canalizar necessidade de emoção para atividades produtivas (esportes, empreendedorismo, competições). Reconhecer sinais de tédio destrutivo e ter estratégias saudáveis preparadas.',
         },
         {
           title: 'Negligência de Consequências Futuras',
           description: 'Foco intenso no presente pode resultar em ignorar completamente como ações de hoje afetam o amanhã.',
-          impact: 'Problemas financeiros, saúde deteriorada, relacionamentos queimados, oportunidades perdidas.',
           mitigation: 'Consultar pessoas orientadas ao futuro antes de decisões grandes. Estabelecer "regras de segurança" não-negociáveis. Usar tecnologia para automatizar poupança e planejamento.',
         },
         {
           title: 'Desafio à Autoridade',
           description: 'Resistência natural a regras que parecem arbitrárias ou limitantes, especialmente de autoridades incompetentes.',
-          impact: 'Problemas com chefes, questões disciplinares, dificuldade em ambientes hierárquicos.',
           mitigation: 'Buscar ambientes com autonomia ou onde pode ganhar respeito através de competência. Aprender a escolher batalhas - nem toda regra precisa ser desafiada.',
         },
         {
           title: 'Superficialidade Emocional',
           description: 'Preferência por manter as coisas leves e evitar profundidade emocional ou vulnerabilidade.',
-          impact: 'Relacionamentos que não aprofundam, dificuldade em processar emoções complexas, explosões inesperadas.',
           mitigation: 'Praticar conversas mais profundas com pessoas seguras. Reconhecer que vulnerabilidade não é fraqueza. Buscar terapia se evitação emocional causa problemas.',
         },
       ],
