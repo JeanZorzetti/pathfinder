@@ -8,6 +8,11 @@ import { PersonalityType } from './entities/personality-type.entity';
 import { Question } from './entities/question.entity';
 import { Answer } from './entities/answer.entity';
 import { TestResult } from './entities/test-result.entity';
+import { EnneagramType } from './entities/enneagram-type.entity';
+import { EnneagramQuestion } from './entities/enneagram-question.entity';
+import { EnneagramQuestionTypeMapping } from './entities/enneagram-mapping.entity';
+import { EnneagramService } from './enneagram.service';
+import { EnneagramController } from './enneagram.controller';
 
 @Module({
   imports: [
@@ -17,10 +22,13 @@ import { TestResult } from './entities/test-result.entity';
       Question,
       Answer,
       TestResult,
+      EnneagramType,
+      EnneagramQuestion,
+      EnneagramQuestionTypeMapping,
     ]),
   ],
-  controllers: [PersonalityTestsController],
-  providers: [PersonalityTestsService, ScoringService],
-  exports: [PersonalityTestsService],
+  controllers: [PersonalityTestsController, EnneagramController],
+  providers: [PersonalityTestsService, ScoringService, EnneagramService],
+  exports: [PersonalityTestsService, EnneagramService],
 })
 export class PersonalityTestsModule {}
