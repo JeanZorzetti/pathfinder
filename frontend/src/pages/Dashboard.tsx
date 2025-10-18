@@ -133,14 +133,16 @@ const Dashboard = () => {
 
         // Initialize achievements for this type
         if (profileData) {
-          const userAchievements = profileData.achievements || [];
+          const userAchievements = (profileData.metadata?.achievements as Achievement[]) || [];
           if (userAchievements.length === 0) {
             // First time - initialize achievements
             const initialAchievements = getAchievementsForType(personalityKey);
             setAchievements(initialAchievements);
 
             // Save to database via API
-            await api.updateUserProfile({ achievements: initialAchievements });
+            await api.updateUserProfile({
+              metadata: { ...metadata, achievements: initialAchievements },
+            });
           } else {
             setAchievements(userAchievements);
           }
@@ -256,7 +258,7 @@ const Dashboard = () => {
     if (!user || !profile) return;
 
     try {
-      const consumedContent = profile.consumed_content || [];
+      const consumedContent = (profile.metadata?.consumed_content as string[]) || [];
       const updatedConsumed = [...consumedContent, contentId];
 
       // Find the content to get XP reward
@@ -267,11 +269,15 @@ const Dashboard = () => {
 
         // Update consumed content via API
         await api.updateUserProfile({
-          consumed_content: updatedConsumed,
+          metadata: { ...(profile.metadata || {}), consumed_content: updatedConsumed },
         });
 
         // Update local state
-        setProfile({ ...profile, xp: (profile.xp || 0) + content.xpReward, consumed_content: updatedConsumed });
+        setProfile({
+          ...profile,
+          xp: (profile.xp || 0) + content.xpReward,
+          metadata: { ...(profile.metadata || {}), consumed_content: updatedConsumed },
+        });
 
         toast.success(`+${content.xpReward} XP`, {
           description: 'Conteúdo marcado como concluído',
