@@ -31,6 +31,15 @@ export default function CognitiveFunctionsStack({
     return null;
   }
 
+  // Filter out any invalid functions
+  const validFunctions = functions.filter(func =>
+    func && func.name && func.fullName && func.description && func.details
+  );
+
+  if (validFunctions.length === 0) {
+    return null;
+  }
+
   return (
     <section className="bg-white rounded-xl shadow-lg p-8 md:p-12">
       <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
@@ -43,21 +52,21 @@ export default function CognitiveFunctionsStack({
 
       {/* Desktop: Grid de 4 colunas */}
       <div className="hidden md:grid md:grid-cols-4 gap-6 mb-8">
-        {functions.map((func, index) => (
+        {validFunctions.map((func, index) => (
           <FunctionCard key={index} func={func} />
         ))}
       </div>
 
       {/* Mobile: Stack vertical */}
       <div className="md:hidden space-y-4 mb-8">
-        {functions.map((func, index) => (
+        {validFunctions.map((func, index) => (
           <FunctionCard key={index} func={func} />
         ))}
       </div>
 
       {/* Details Explanation */}
       <div className="space-y-6 mt-8">
-        {functions.map((func, index) => (
+        {validFunctions.map((func, index) => (
           <div key={index} className="border-l-4 border-gray-300 pl-4">
             <h3 className="font-bold text-lg text-gray-800 mb-2">
               {func.name} ({func.fullName}) - {POSITION_LABELS[func.position]}
@@ -71,23 +80,30 @@ export default function CognitiveFunctionsStack({
 }
 
 function FunctionCard({ func }: { func: CognitiveFunction }) {
+  // Defensive check - should never happen due to filter above, but extra safety
+  if (!func || !func.name || !func.fullName || !func.description) {
+    return null;
+  }
+
   return (
     <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
       {/* Icon & Name */}
       <div className="text-center mb-4">
-        <div className="text-4xl mb-2">{func.icon}</div>
+        {func.icon && <div className="text-4xl mb-2">{func.icon}</div>}
         <div className="font-bold text-2xl text-gray-800">{func.name}</div>
         <div className="text-sm text-gray-600">{func.fullName}</div>
       </div>
 
       {/* Position Badge */}
-      <div
-        className={`text-center py-2 px-4 rounded-full text-white text-xs font-semibold mb-3 bg-gradient-to-r ${
-          POSITION_COLORS[func.position]
-        }`}
-      >
-        {POSITION_LABELS[func.position]}
-      </div>
+      {func.position && POSITION_LABELS[func.position] && (
+        <div
+          className={`text-center py-2 px-4 rounded-full text-white text-xs font-semibold mb-3 bg-gradient-to-r ${
+            POSITION_COLORS[func.position] || 'from-gray-600 to-gray-700'
+          }`}
+        >
+          {POSITION_LABELS[func.position]}
+        </div>
+      )}
 
       {/* Description */}
       <p className="text-sm text-gray-700 text-center">{func.description}</p>
