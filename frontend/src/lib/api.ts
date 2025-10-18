@@ -5,11 +5,27 @@
 
 import axios, { AxiosInstance, AxiosError } from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
+// Determine API URL based on environment
+const getApiBaseUrl = (): string => {
+  // Production: use pathback.roilabs.com.br
+  if (window.location.hostname === 'pathfinder.roilabs.com.br') {
+    return 'https://pathback.roilabs.com.br/api/v1';
+  }
+
+  // Environment variable (for custom deployments)
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+
+  // Development: localhost
+  return 'http://localhost:3001/api/v1';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 // Debug: Log the API URL being used
 console.log('🔧 API Base URL:', API_BASE_URL);
-console.log('🔧 VITE_API_URL env:', import.meta.env.VITE_API_URL);
+console.log('🔧 Hostname:', window.location.hostname);
 
 export type XPSource =
   | 'test_completed'
