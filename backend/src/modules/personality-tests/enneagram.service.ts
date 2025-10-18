@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EnneagramType } from './entities/enneagram-type.entity';
@@ -43,11 +43,19 @@ export class EnneagramService {
   }
 
   async getTypeById(id: string): Promise<EnneagramType> {
-    return this.typeRepository.findOne({ where: { id } });
+    const type = await this.typeRepository.findOne({ where: { id } });
+    if (!type) {
+      throw new NotFoundException(`Tipo Eneagrama com id ${id} não encontrado`);
+    }
+    return type;
   }
 
   async getTypeByNumber(number: number): Promise<EnneagramType> {
-    return this.typeRepository.findOne({ where: { number } });
+    const type = await this.typeRepository.findOne({ where: { number } });
+    if (!type) {
+      throw new NotFoundException(`Tipo Eneagrama número ${number} não encontrado`);
+    }
+    return type;
   }
 
   async getQuestions(): Promise<EnneagramQuestion[]> {
@@ -124,6 +132,10 @@ export class EnneagramService {
       where: { id: primaryTypeId }
     });
 
+    if (!primaryType) {
+      throw new NotFoundException(`Tipo primário ${primaryTypeId} não encontrado`);
+    }
+
     // 7. Calculate wing (adjacent type with higher score)
     const wing = this.calculateWing(primaryType.number, normalizedScores);
 
@@ -132,6 +144,9 @@ export class EnneagramService {
     const scores = await Promise.all(
       normalizedScores.map(async (item) => {
         const type = await this.typeRepository.findOne({ where: { id: item.typeId } });
+        if (!type) {
+          throw new NotFoundException(`Tipo ${item.typeId} não encontrado`);
+        }
         return {
           typeId: item.typeId,
           typeName: type.name,
