@@ -44,7 +44,18 @@
       "Bash(then)",
       "Bash(fi)",
       "Bash(done)",
-      "Bash(find frontend/src/components/personality-results -name \"*.tsx\" -exec basename {} ;)"
+      "Bash(find frontend/src/components/personality-results -name \"*.tsx\" -exec basename {} ;)",
+      "Bash(node comment-gated.js)",
+      "Bash(node fix-cognitive.cjs)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(find frontend/src/data/mbti-types -name \"*.ts\" -exec basename {} ;)",
+      "Bash(for type in enfj enfp entj entp esfj esfp estj estp infj infp intj intp isfj isfp istj istp)",
+      "Bash(do echo \"=== $type ===\" grep -A 10 \"weaknesses: {\" \"$type.ts\")",
+      "Bash(for type in frontend/src/data/mbti-types/{enfj,enfp,entj,entp,esfj,esfp,estp,infj,infp,intj,intp,isfj,isfp,istj,istp}.ts)",
+      "Bash(do npx tsc --noEmit \"$type\")",
+      "Bash(node add-icons-intp.cjs)",
+      "Bash(npx tsc --noEmit frontend/src/data/mbti-types/istj.ts)",
+      "Bash(npx tsc --noEmit frontend/src/data/mbti-types/infj.ts)"
     ],
     "deny": [],
     "ask": []
