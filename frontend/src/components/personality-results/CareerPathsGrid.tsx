@@ -30,10 +30,14 @@ function CareerCard({
   career: Career;
   showDetailed: boolean;
 }) {
+  if (!career || !career.title || !career.description) {
+    return null;
+  }
+
   return (
     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6 shadow-md hover:shadow-lg transition-all border border-blue-200 hover:scale-105">
       {/* Icon */}
-      <div className="text-4xl mb-3">{career.icon}</div>
+      {career.icon && <div className="text-4xl mb-3">{career.icon}</div>}
 
       {/* Title & Fit Score */}
       <div className="mb-3">

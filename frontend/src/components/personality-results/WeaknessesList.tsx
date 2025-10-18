@@ -34,11 +34,15 @@ function WeaknessCard({
   weakness: Weakness;
   showMitigation: boolean;
 }) {
+  if (!weakness || !weakness.title || !weakness.description) {
+    return null;
+  }
+
   return (
     <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border border-orange-200">
       {/* Icon & Title */}
       <div className="flex items-start gap-4 mb-3">
-        <div className="text-3xl flex-shrink-0">{weakness.icon}</div>
+        {weakness.icon && <div className="text-3xl flex-shrink-0">{weakness.icon}</div>}
         <div className="flex-1">
           <h3 className="font-bold text-lg text-gray-800">{weakness.title}</h3>
         </div>

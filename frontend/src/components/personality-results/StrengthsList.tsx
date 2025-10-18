@@ -27,11 +27,15 @@ function StrengthCard({
   strength: Strength;
   index: number;
 }) {
+  if (!strength || !strength.title || !strength.description) {
+    return null;
+  }
+
   return (
     <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow border border-green-200">
       {/* Icon & Title */}
       <div className="flex items-start gap-4 mb-3">
-        <div className="text-3xl flex-shrink-0">{strength.icon}</div>
+        {strength.icon && <div className="text-3xl flex-shrink-0">{strength.icon}</div>}
         <div className="flex-1">
           <h3 className="font-bold text-lg text-gray-800">{strength.title}</h3>
         </div>
