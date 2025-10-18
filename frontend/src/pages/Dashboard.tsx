@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase-client";
-import { User, Session } from "@supabase/supabase-js";
+import { useAuth } from "@/contexts/AuthContext";
 import { useDashboard, useChallenges, useComparison } from "@/hooks/useAPI";
+import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -28,8 +28,18 @@ import { getDailyPrompt } from "@/data/journalPrompts";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const { user, isAuthenticated, isLoading: authLoading, logout } = useAuth();
+
+  // Local state management
+  const [loading, setLoading] = useState(false);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [streak, setStreak] = useState({ current: 0, longest: 0 });
+  const [testResults, setTestResults] = useState<TestResult[]>([]);
+  const [mbtiType, setMbtiType] = useState<string | null>(null);
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const [dailyInsight, setDailyInsight] = useState<DailyInsight | null>(null);
+  const [recommendedContent, setRecommendedContent] = useState<Content[]>([]);
+  const [isChallengeProcessing, setIsChallengeProcessing] = useState(false);
 
   // API Hooks - auto-fetch dashboard data
   const {
@@ -53,93 +63,63 @@ const Dashboard = () => {
     getCode
   } = useComparison();
 
-  // Auth management (Supabase Auth)
+  // Auth management
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-
-        if (!session) {
-          navigate("/auth");
-        } else {
-          // Trigger API hooks to fetch data
-          getCurrentChallenge();
-          getCode();
-        }
-      }
-    );
-
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-
-      if (!session) {
+    if (!authLoading) {
+      if (!isAuthenticated) {
         navigate("/auth");
       } else {
-        // Trigger initial data load
+        // Trigger API hooks to fetch data
         getCurrentChallenge();
         getCode();
       }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate, getCurrentChallenge, getCode]);
+    }
+  }, [authLoading, isAuthenticated, navigate, getCurrentChallenge, getCode]);
 
   const loadDashboardData = async (userId: string) => {
     setLoading(true);
 
-    // Load profile data
-    const { data: profileData } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", userId)
-      .single() as { data: Profile | null };
+    try {
+      // Load profile data from API
+      const profileResponse = await api.getUserProfile();
+      const profileData = profileResponse.data as Profile;
 
-    if (profileData) {
-      setProfile(profileData);
+      if (profileData) {
+        setProfile(profileData);
 
-      // Calculate and update streak
-      const calculatedStreak = calculateStreak(
-        profileData.last_visit,
-        profileData.visit_history
-      );
-      setStreak(calculatedStreak);
+        // Calculate and update streak
+        const calculatedStreak = calculateStreak(
+          profileData.last_visit,
+          profileData.visit_history
+        );
+        setStreak(calculatedStreak);
 
-      // Initialize XP and level if not set
-      const currentXP = profileData.xp || 0;
-      const currentLevel = profileData.level || 1;
+        // Update last visit and streak in database via API
+        const now = new Date().toISOString();
+        const updatedVisitHistory = [
+          ...(profileData.visit_history || []),
+          now
+        ].slice(-30); // Keep last 30 visits
 
-      // Update last visit and streak in database
-      const now = new Date().toISOString();
-      const updatedVisitHistory = [
-        ...(profileData.visit_history || []),
-        now
-      ].slice(-30); // Keep last 30 visits
-
-      await supabase
-        .from("profiles")
-        .update({
+        await api.updateUserProfile({
           last_visit: now,
           streak_current: calculatedStreak.current,
           streak_longest: calculatedStreak.longest,
           visit_history: updatedVisitHistory,
-          xp: currentXP,
-          level: currentLevel
-        })
-        .eq("id", userId);
+        });
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+      toast.error('Erro ao carregar perfil');
     }
 
-    // Load test results
-    const { data: results } = await supabase
-      .from("test_results")
-      .select("*")
-      .eq("user_id", userId)
-      .order("completed_at", { ascending: false }) as { data: TestResult[] | null };
+    // Load test results from API
+    try {
+      const resultsResponse = await api.getMyTestResults();
+      const results = resultsResponse.data as TestResult[];
 
-    if (results) {
-      setTestResults(results);
+      if (results) {
+        setTestResults(results);
       
       // Determine personality type for insights
       let personalityKey = null;
@@ -158,11 +138,8 @@ const Dashboard = () => {
             const initialAchievements = getAchievementsForType(personalityKey);
             setAchievements(initialAchievements);
 
-            // Save to database
-            await supabase
-              .from("profiles")
-              .update({ achievements: initialAchievements })
-              .eq("id", userId);
+            // Save to database via API
+            await api.updateUserProfile({ achievements: initialAchievements });
           } else {
             setAchievements(userAchievements);
           }
@@ -178,26 +155,18 @@ const Dashboard = () => {
               const newChallenge = createWeeklyChallengeFromTemplate(template);
               setCurrentChallenge(newChallenge);
 
-              // Save to database
-              await supabase
-                .from("profiles")
-                .update({ current_challenge: newChallenge })
-                .eq("id", userId);
+              // Save to database via API
+              await api.updateUserProfile({ current_challenge: newChallenge });
             }
           } else {
             setCurrentChallenge(storedChallenge);
           }
 
-          // Sprint 4: Initialize comparison code
-          let userComparisonCode = profileData.comparison_code;
-          if (!userComparisonCode) {
-            userComparisonCode = generateComparisonCode(userId, personalityKey);
-            await supabase
-              .from("profiles")
-              .update({ comparison_code: userComparisonCode })
-              .eq("id", userId);
+          // Sprint 4: Initialize comparison code (now using API hook)
+          // Comparison code is managed by useComparison hook - just call getCode()
+          if (!comparisonCode) {
+            getCode();
           }
-          setComparisonCode(userComparisonCode);
 
           // Sprint 4: Get recommended content
           const content = getRandomContentForType(personalityKey, 4);
@@ -226,22 +195,27 @@ const Dashboard = () => {
       }
       
       if (personalityKey) {
-        // Get daily insight
-        const { data: insights } = await supabase
-          .from("daily_insights")
-          .select("insight_text, category")
-          .eq("personality_type", personalityKey) as { data: DailyInsight[] | null };
-        
-        if (insights && insights.length > 0) {
-          // Use date as seed to get same insight throughout the day
-          const today = new Date().toDateString();
-          const seed = today.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-          const dailyIndex = seed % insights.length;
-          setDailyInsight(insights[dailyIndex]);
+        // Get daily insight from API
+        try {
+          const insightData = await api.getDailyInsight();
+          if (insightData) {
+            setDailyInsight({
+              insight_text: insightData.text,
+              category: insightData.category,
+              personality_type: personalityKey
+            } as DailyInsight);
+          }
+        } catch (error) {
+          console.error('Error loading daily insight:', error);
+          // Não mostrar erro para o usuário - insight é opcional
         }
       }
+      }
+    } catch (error) {
+      console.error('Error loading test results:', error);
+      toast.error('Erro ao carregar resultados de testes');
     }
-    
+
     setLoading(false);
   };
 
@@ -284,17 +258,16 @@ const Dashboard = () => {
       // Find the content to get XP reward
       const content = recommendedContent.find((c) => c.id === contentId);
       if (content) {
-        const newXP = (profile.xp || 0) + content.xpReward;
+        // Add XP via API (with proper source tracking)
+        await api.addXP('content_consumed', content.xpReward);
 
-        await supabase
-          .from("profiles")
-          .update({
-            consumed_content: updatedConsumed,
-            xp: newXP,
-          })
-          .eq("id", user.id);
+        // Update consumed content via API
+        await api.updateUserProfile({
+          consumed_content: updatedConsumed,
+        });
 
-        setProfile({ ...profile, xp: newXP, consumed_content: updatedConsumed });
+        // Update local state
+        setProfile({ ...profile, xp: (profile.xp || 0) + content.xpReward, consumed_content: updatedConsumed });
 
         toast.success(`+${content.xpReward} XP`, {
           description: 'Conteúdo marcado como concluído',
@@ -311,8 +284,8 @@ const Dashboard = () => {
     console.log('Comparing with:', otherCode);
   };
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
+  const handleSignOut = () => {
+    logout();
     toast.success("Logout realizado com sucesso");
     navigate("/");
   };
