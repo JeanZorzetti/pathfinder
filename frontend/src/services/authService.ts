@@ -38,18 +38,18 @@ class AuthService {
    * Register new user
    */
   async register(data: RegisterData): Promise<AuthResponse> {
-    const response = await axiosInstance.post<AuthResponse>('/auth/register', data);
-    this.setSession(response.data);
-    return response.data;
+    const response = await axiosInstance.post<{ success: boolean; message: string; data: AuthResponse }>('/auth/register', data);
+    this.setSession(response.data.data);
+    return response.data.data;
   }
 
   /**
    * Login user
    */
   async login(data: LoginData): Promise<AuthResponse> {
-    const response = await axiosInstance.post<AuthResponse>('/auth/login', data);
-    this.setSession(response.data);
-    return response.data;
+    const response = await axiosInstance.post<{ success: boolean; message: string; data: AuthResponse }>('/auth/login', data);
+    this.setSession(response.data.data);
+    return response.data.data;
   }
 
   /**
@@ -106,11 +106,11 @@ class AuthService {
       throw new Error('No refresh token available');
     }
 
-    const response = await axiosInstance.post<{ access_token: string }>('/auth/refresh', {
+    const response = await axiosInstance.post<{ success: boolean; message: string; data: { access_token: string } }>('/auth/refresh', {
       refresh_token: refreshToken,
     });
 
-    const newToken = response.data.access_token;
+    const newToken = response.data.data.access_token;
     localStorage.setItem(this.TOKEN_KEY, newToken);
 
     return newToken;
