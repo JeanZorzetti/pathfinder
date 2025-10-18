@@ -61,15 +61,17 @@ const Dashboard = () => {
   const [comparisonCode, setComparisonCode] = useState<string | null>(null);
 
   // Auth management
+  // Auth management and data loading
   useEffect(() => {
     if (!authLoading) {
       if (!isAuthenticated) {
         navigate("/auth");
+      } else if (user?.id) {
+        // Load dashboard data when user is authenticated
+        loadDashboardData(user.id);
       }
-      // TODO: Call getCurrentChallenge() and getCode() when backend endpoints are ready
-      // For now, dashboard will load without these features to avoid 404/500 errors
     }
-  }, [authLoading, isAuthenticated, navigate]);
+  }, [authLoading, isAuthenticated, navigate, user]);
 
   const loadDashboardData = async (userId: string) => {
     setLoading(true);
