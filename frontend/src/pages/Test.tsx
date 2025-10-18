@@ -87,6 +87,18 @@ const Test = () => {
     }
   };
 
+  // DEBUG: Auto-fill test with random answers
+  const handleDebugAutoFill = () => {
+    const newAnswers: Record<number, LikertValue> = {};
+    mbtiQuestions60.forEach((q) => {
+      // Random value between -2 and 2
+      const values: Exclude<LikertValue, null>[] = [-2, -1, 0, 1, 2];
+      newAnswers[q.id] = values[Math.floor(Math.random() * values.length)];
+    });
+    setAnswers(newAnswers);
+    toast.success("🔧 Teste preenchido automaticamente (DEBUG)");
+  };
+
   const handleSubmit = async () => {
     if (answeredCount < TOTAL_QUESTIONS) {
       toast.error("Por favor, responda todas as questões antes de finalizar");
@@ -176,6 +188,16 @@ const Test = () => {
                 💾 Seu progresso é salvo automaticamente
               </p>
             )}
+
+            {/* DEBUG: Auto-fill button */}
+            <div className="mt-4 text-center">
+              <button
+                onClick={handleDebugAutoFill}
+                className="text-xs px-3 py-1 bg-yellow-100 text-yellow-800 rounded hover:bg-yellow-200 transition"
+              >
+                🔧 DEBUG: Auto-preencher teste
+              </button>
+            </div>
           </CardHeader>
         </Card>
 
