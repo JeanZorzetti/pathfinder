@@ -57,6 +57,15 @@ export const PERSONALITY_TYPES: Record<MBTICode, PersonalityType | null> = {
 export function getPersonalityType(code: MBTICode): PersonalityType | null {
   const result = PERSONALITY_TYPES[code];
   console.log(`🔍 getPersonalityType('${code}') =`, result ? 'FOUND' : 'NULL');
+  if (result) {
+    console.log(`🔍 ${code} has:`, {
+      overview: !!result.overview,
+      cognitiveFunctions: Array.isArray(result.cognitiveFunctions) ? `${result.cognitiveFunctions.length} items` : 'undefined',
+      strengths: !!result.strengths,
+      weaknesses: !!result.weaknesses,
+      careers: !!result.careers,
+    });
+  }
   return result;
 }
 
