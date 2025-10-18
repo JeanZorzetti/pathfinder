@@ -363,44 +363,6 @@ export default function PersonalityResultPage() {
           )}
         </section>
 
-        {/* Relationships - GATED - TEMPORARILY DISABLED FOR DEBUG */}
-        {/* {personalityType.relationships && (
-          <div data-gated-section data-section="relationships">
-            <GatedContentCard
-              title="❤️ Relacionamentos e Compatibilidade"
-              preview={personalityType.relationships.preview}
-              isLocked={!isAuthenticated}
-              content={isAuthenticated ? personalityType.relationships.content : null}
-              type="relationships"
-            />
-          </div>
-        )} */}
-
-        {/* Growth - GATED - TEMPORARILY DISABLED FOR DEBUG */}
-        /* {personalityType.growth && (
-          <div data-gated-section data-section="growth">
-            <GatedContentCard
-              title="🌱 Crescimento Pessoal"
-              preview={personalityType.growth.preview}
-              isLocked={!isAuthenticated}
-              content={isAuthenticated ? personalityType.growth.content : null}
-              type="growth"
-            />
-          </div>
-        )} */
-
-        {/* Workplace - GATED - TEMPORARILY DISABLED FOR DEBUG */}
-        /* {personalityType.workplace && (
-          <div data-gated-section data-section="workplace">
-            <GatedContentCard
-              title="🏢 No Ambiente de Trabalho"
-              preview={personalityType.workplace.preview}
-              isLocked={!isAuthenticated}
-              content={isAuthenticated ? personalityType.workplace.content : null}
-              type="workplace"
-            />
-          </div>
-        )} */
 
         {/* Famous People */}
         <section>
