@@ -7,6 +7,10 @@ import axios, { AxiosInstance, AxiosError } from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
 
+// Debug: Log the API URL being used
+console.log('🔧 API Base URL:', API_BASE_URL);
+console.log('🔧 VITE_API_URL env:', import.meta.env.VITE_API_URL);
+
 export type XPSource =
   | 'test_completed'
   | 'journal_entry'
