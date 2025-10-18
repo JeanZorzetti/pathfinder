@@ -127,19 +127,20 @@ class AuthService {
 
   /**
    * Verify if token is valid
+   * Note: Since /auth/verify endpoint doesn't exist, we just check if token exists
+   * The real validation will happen when making authenticated requests
    */
   async verifyToken(): Promise<boolean> {
+    const token = this.getToken();
+
+    // Simple check: if token exists and is not expired (basic JWT check)
+    if (!token) return false;
+
     try {
-      const token = this.getToken();
-      if (!token) return false;
-
-      await axiosInstance.get('/auth/verify', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      return true;
+      // Decode JWT and check expiration (basic validation)
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const isExpired = payload.exp * 1000 < Date.now();
+      return !isExpired;
     } catch {
       return false;
     }

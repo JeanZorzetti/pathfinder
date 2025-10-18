@@ -22,22 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const currentUser = authService.getCurrentUser();
 
       if (currentUser && authService.isAuthenticated()) {
-        // Verify token is still valid
-        const isValid = await authService.verifyToken();
-
-        if (isValid) {
-          setUser(currentUser);
-        } else {
-          // Token expired, try to refresh
-          try {
-            await authService.refreshToken();
-            setUser(currentUser);
-          } catch {
-            // Refresh failed, logout
-            authService.logout();
-            setUser(null);
-          }
-        }
+        setUser(currentUser);
       }
 
       setIsLoading(false);
