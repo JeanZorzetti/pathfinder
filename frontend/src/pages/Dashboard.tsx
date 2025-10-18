@@ -93,16 +93,20 @@ const Dashboard = () => {
 
         // Update last visit and streak in database via API
         const now = new Date().toISOString();
+        const existingMetadata = profileData.metadata || {};
         const updatedVisitHistory = [
-          ...(profileData.visit_history || []),
+          ...(existingMetadata.visit_history || []),
           now
         ].slice(-30); // Keep last 30 visits
 
         await api.updateUserProfile({
-          last_visit: now,
-          streak_current: calculatedStreak.current,
-          streak_longest: calculatedStreak.longest,
-          visit_history: updatedVisitHistory,
+          metadata: {
+            ...existingMetadata,
+            last_visit: now,
+            streak_current: calculatedStreak.current,
+            streak_longest: calculatedStreak.longest,
+            visit_history: updatedVisitHistory,
+          },
         });
       }
     } catch (error) {
