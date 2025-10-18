@@ -108,25 +108,30 @@ const Test = () => {
 
       // If user is authenticated, save to backend immediately
       if (isAuthenticated) {
+        console.log('🔐 User is authenticated, saving to backend...');
+        console.log('📊 Result data:', calculatedResult);
         try {
-          await api.saveCalculatedTestResult({
+          const response = await api.saveCalculatedTestResult({
             framework: 'mbti',
             typeCode: calculatedResult.type,
             resultData: calculatedResult,
           });
 
+          console.log('✅ Backend save successful:', response);
           toast.success("✅ Resultado calculado e salvo no seu perfil!");
 
           // Clear localStorage since it's saved in backend
           localStorage.removeItem(RESULT_KEY);
           localStorage.removeItem(STORAGE_KEY);
         } catch (error) {
-          console.error('Error saving to backend:', error);
+          console.error('❌ Error saving to backend:', error);
+          console.error('Error details:', error instanceof Error ? error.message : error);
           // Fallback: save to localStorage if backend fails
           localStorage.setItem(RESULT_KEY, JSON.stringify(calculatedResult));
-          toast.success("Resultado calculado! Redirecionando...");
+          toast.error("Erro ao salvar no backend. Resultado salvo localmente.");
         }
       } else {
+        console.log('👤 Guest user, saving to localStorage');
         // Guest user: save to localStorage for later
         localStorage.setItem(RESULT_KEY, JSON.stringify(calculatedResult));
         toast.success("Resultado calculado! Redirecionando...");
