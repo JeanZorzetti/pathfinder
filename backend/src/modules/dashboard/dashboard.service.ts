@@ -17,18 +17,31 @@ export class DashboardService {
   ) {}
 
   async getDashboard(userId: string): Promise<any> {
-    // Get user data
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    try {
+      // Get user data
+      const user = await this.userRepository.findOne({ where: { id: userId } });
 
-    if (!user) {
-      throw new Error('User not found');
-    }
+      if (!user) {
+        throw new Error('User not found');
+      }
 
-    // Get stats
-    const stats = await this.getStats(userId);
+      // Get stats (with error handling)
+      let stats;
+      try {
+        stats = await this.getStats(userId);
+      } catch (error) {
+        console.error('Error getting stats:', error);
+        stats = { level: 1, xp: 0, streak: { current: 0, longest: 0 }, tests_completed: 0 };
+      }
 
-    // Get daily insight
-    const dailyInsight = await this.getDailyInsight(userId);
+      // Get daily insight (with error handling)
+      let dailyInsight;
+      try {
+        dailyInsight = await this.getDailyInsight(userId);
+      } catch (error) {
+        console.error('Error getting daily insight:', error);
+        dailyInsight = { text: 'Bem-vindo ao Pathfinder!', category: 'motivação' };
+      }
 
     // Get test results (simplified - just return the mbtiType from user)
     const testResults: any[] = [];
@@ -95,35 +108,39 @@ export class DashboardService {
       metadata: updatedMetadata as any,
     });
 
-    return {
-      success: true,
-      data: {
-        profile: {
-          id: user.id,
-          email: user.email,
-          fullName: user.fullName,
-          mbtiType: user.mbti_type,
-          createdAt: user.createdAt?.toISOString() || new Date().toISOString(),
-          metadata: {
-            ...metadata,
-            xp: stats.xp,
-            level: stats.level,
-            streak_current: newStreakCurrent,
-            streak_longest: newStreakLongest,
+      return {
+        success: true,
+        data: {
+          profile: {
+            id: user.id,
+            email: user.email,
+            fullName: user.fullName,
+            mbtiType: user.mbti_type,
+            createdAt: user.createdAt?.toISOString() || new Date().toISOString(),
+            metadata: {
+              ...metadata,
+              xp: stats.xp,
+              level: stats.level,
+              streak_current: newStreakCurrent,
+              streak_longest: newStreakLongest,
+            },
+          },
+          testResults,
+          currentChallenge: null, // Will be implemented by challenges module
+          dailyInsight,
+          stats: {
+            ...stats,
+            streak: {
+              current: newStreakCurrent,
+              longest: newStreakLongest,
+            },
           },
         },
-        testResults,
-        currentChallenge: null, // Will be implemented by challenges module
-        dailyInsight,
-        stats: {
-          ...stats,
-          streak: {
-            current: newStreakCurrent,
-            longest: newStreakLongest,
-          },
-        },
-      },
-    };
+      };
+    } catch (error) {
+      console.error('Error in getDashboard:', error);
+      throw error;
+    }
   }
 
   async getStats(userId: string) {
