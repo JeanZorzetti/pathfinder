@@ -6,7 +6,7 @@ export const ESTJ: PersonalityType = {
   tagline: 'Administradores excelentes, incomparáveis em gerenciar pessoas e projetos',
   tags: ['Organizado', 'Direto', 'Tradicional', 'Gerente'],
   population: '8-12% da população',
-  group: 'sentinels',
+  group: 'Sentinels',
 
   colorScheme: {
     primary: '#991B1B',

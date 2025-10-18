@@ -35,7 +35,8 @@
       "Bash(node test-swagger-docs.cjs:*)",
       "Bash(npm run typeorm:*)",
       "Bash(npm run migration:run:*)",
-      "Bash(node test-auth-production.cjs)"
+      "Bash(node test-auth-production.cjs)",
+      "Bash(npx tsc --noEmit src/data/mbti-types/estj.ts)"
     ],
     "deny": [],
     "ask": []

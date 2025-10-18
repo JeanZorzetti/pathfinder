@@ -166,7 +166,7 @@ export default function PersonalityResultPage() {
     );
   }
 
-  // Type Not Implemented Yet
+  // Type Not Implemented Yet or Failed to Load
   if (!personalityType) {
     const upperType = type?.toUpperCase();
     return (
@@ -182,7 +182,7 @@ export default function PersonalityResultPage() {
           </p>
           <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
             <p className="text-sm text-purple-800">
-              <strong>Tipos já disponíveis:</strong> INTJ, INFP
+              <strong>Tipos já disponíveis:</strong> Todos os 16 tipos MBTI
             </p>
           </div>
           <button
@@ -196,6 +196,7 @@ export default function PersonalityResultPage() {
     );
   }
 
+  // Safe to render - personalityType is guaranteed to exist here
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Dynamic Meta Tags for SEO */}
