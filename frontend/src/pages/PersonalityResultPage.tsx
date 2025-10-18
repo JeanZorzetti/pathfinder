@@ -345,7 +345,6 @@ export default function PersonalityResultPage() {
             />
           </div>
         )}
-        </div>
 
         {/* Growth - GATED */}
         {personalityType.growth && (
