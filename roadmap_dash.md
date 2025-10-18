@@ -890,7 +890,7 @@ interface WeeklyChallenge {
    - ✅ JwtAuthGuard para autenticação
 
 2. **Daily Insights System**
-   - ❌ Tabela `daily_insights`:
+   - ✅ Tabela `daily_insights`:
      - `id` (UUID)
      - `personality_type` (VARCHAR - MBTI type)
      - `insight_text` (TEXT)
@@ -899,9 +899,9 @@ interface WeeklyChallenge {
      - `deep_dive_link` (VARCHAR - opcional)
      - `day_of_year` (INT - 1-365 para rotação)
      - `created_at`, `updated_at`
-   - ❌ Seed inicial: 30 insights por tipo MBTI (480 total)
-   - ❌ Algoritmo de seleção: `dayOfYear % insights.length`
-   - ❌ Endpoint: `GET /api/dashboard/insights/daily`
+   - ✅ Seed inicial: 489 insights (~30 por tipo MBTI × 16 tipos)
+   - ✅ Algoritmo de seleção: `dayOfYear % insights.length`
+   - ✅ Endpoint: `GET /api/dashboard/insights/daily` (retorna text, category, actionItem)
 
 3. **User Metadata Enhancement**
    - ✅ Usar campo JSONB `metadata` para armazenar:

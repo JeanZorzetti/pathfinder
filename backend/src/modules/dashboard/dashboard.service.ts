@@ -186,15 +186,20 @@ export class DashboardService {
       };
     }
 
-    // Usar data como seed para ter o mesmo insight durante o dia
-    const today = new Date().toDateString();
-    const seed = today.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const dailyIndex = seed % insights.length;
+    // Usar dia do ano para rotação consistente (1-365)
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff = now.getTime() - start.getTime();
+    const oneDay = 1000 * 60 * 60 * 24;
+    const dayOfYear = Math.floor(diff / oneDay);
+
+    const dailyIndex = dayOfYear % insights.length;
     const selectedInsight = insights[dailyIndex];
 
     return {
       text: selectedInsight.insightText,
       category: selectedInsight.category,
+      actionItem: selectedInsight.actionItem || undefined,
     };
   }
 }
