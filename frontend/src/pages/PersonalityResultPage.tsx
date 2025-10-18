@@ -67,6 +67,13 @@ export default function PersonalityResultPage() {
     }
 
     const data = getPersonalityType(upperType);
+
+    if (!data) {
+      console.error(`Failed to load personality type data for ${upperType}`);
+      setIsLoading(false);
+      return;
+    }
+
     setPersonalityType(data);
     setIsLoading(false);
 
@@ -200,7 +207,9 @@ export default function PersonalityResultPage() {
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-12 space-y-16">
         {/* Overview */}
-        <OverviewSection overview={personalityType.overview} />
+        {personalityType.overview && (
+          <OverviewSection overview={personalityType.overview} />
+        )}
 
         {/* Cognitive Functions */}
         {personalityType.cognitiveFunctions && personalityType.cognitiveFunctions.length > 0 && (
