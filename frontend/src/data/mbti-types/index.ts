@@ -57,23 +57,38 @@ export const PERSONALITY_TYPES: Record<MBTICode, PersonalityType | null> = {
 export function getPersonalityType(code: MBTICode): PersonalityType | null {
   const result = PERSONALITY_TYPES[code];
   console.log(`🔍 getPersonalityType('${code}') =`, result ? 'FOUND' : 'NULL');
-  if (result) {
-    console.log(`🔍 ${code} main fields:`, {
-      overview: !!result.overview,
-      cognitiveFunctions: Array.isArray(result.cognitiveFunctions) ? `${result.cognitiveFunctions.length} items` : 'undefined',
-      strengths: !!result.strengths,
-      weaknesses: !!result.weaknesses,
-      careers: !!result.careers,
-      tags: Array.isArray(result.tags) ? `${result.tags.length} items` : 'undefined',
+
+  if (!result) return null;
+
+  // Validate essential fields for HeroSection
+  if (!result.code || !result.nickname || !result.tagline || !Array.isArray(result.tags) || !result.population || !result.colorScheme) {
+    console.error(`❌ ${code} is missing essential HeroSection fields:`, {
+      code: !!result.code,
+      nickname: !!result.nickname,
+      tagline: !!result.tagline,
+      tags: Array.isArray(result.tags),
+      population: !!result.population,
+      colorScheme: !!result.colorScheme,
     });
-    console.log(`🔍 ${code} nested fields:`, {
-      'strengths.free': Array.isArray(result.strengths?.free) ? `${result.strengths.free.length} items` : 'undefined',
-      'weaknesses.free': Array.isArray(result.weaknesses?.free) ? `${result.weaknesses.free.length} items` : 'undefined',
-      'careers.free': Array.isArray(result.careers?.free) ? `${result.careers.free.length} items` : 'undefined',
-      'overview.description': typeof result.overview?.description,
-      'overview.quote': !!result.overview?.quote,
-    });
+    return null;
   }
+
+  console.log(`🔍 ${code} main fields:`, {
+    overview: !!result.overview,
+    cognitiveFunctions: Array.isArray(result.cognitiveFunctions) ? `${result.cognitiveFunctions.length} items` : 'undefined',
+    strengths: !!result.strengths,
+    weaknesses: !!result.weaknesses,
+    careers: !!result.careers,
+    tags: Array.isArray(result.tags) ? `${result.tags.length} items` : 'undefined',
+  });
+  console.log(`🔍 ${code} nested fields:`, {
+    'strengths.free': Array.isArray(result.strengths?.free) ? `${result.strengths.free.length} items` : 'undefined',
+    'weaknesses.free': Array.isArray(result.weaknesses?.free) ? `${result.weaknesses.free.length} items` : 'undefined',
+    'careers.free': Array.isArray(result.careers?.free) ? `${result.careers.free.length} items` : 'undefined',
+    'overview.description': typeof result.overview?.description,
+    'overview.quote': !!result.overview?.quote,
+  });
+
   return result;
 }
 
