@@ -6,6 +6,7 @@ import { Public } from '../auth/decorators/public.decorator';
 import { CurrentUser, CurrentUserData } from '../auth/decorators/current-user.decorator';
 import { CreateTestDto } from './dto/create-test.dto';
 import { SubmitAnswersDto } from './dto/submit-answers.dto';
+import { SaveCalculatedResultDto } from './dto/save-calculated-result.dto';
 import { FrameworkCode } from './entities/personality-framework.entity';
 
 @ApiTags('personality-tests')
@@ -140,6 +141,27 @@ export class PersonalityTestsController {
     const result = await this.testsService.getTestResult(user.id, testResultId);
     return {
       success: true,
+      data: result,
+    };
+  }
+
+  @Post('save-result')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Save a pre-calculated test result',
+    description: 'Used when user completes test client-side and later logs in/registers',
+  })
+  @ApiResponse({ status: 201, description: 'Result saved successfully' })
+  @ApiResponse({ status: 404, description: 'Personality type not found' })
+  async saveCalculatedResult(
+    @CurrentUser() user: CurrentUserData,
+    @Body() dto: SaveCalculatedResultDto,
+  ) {
+    const result = await this.testsService.saveCalculatedResult(user.id, dto);
+    return {
+      success: true,
+      message: 'Test result saved successfully',
       data: result,
     };
   }

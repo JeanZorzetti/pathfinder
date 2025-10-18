@@ -23,8 +23,7 @@ export default function PersonalityResultPage() {
     typeof getPersonalityType
   > | null>(null);
 
-  // TODO: Implementar hook useAuth para verificar se usuário está logado
-  // Por enquanto, simulando com localStorage
+  // Use AuthContext to check if user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Analytics hook
@@ -40,11 +39,12 @@ export default function PersonalityResultPage() {
   const startTime = useRef<number>(Date.now());
 
   useEffect(() => {
-    // Simular verificação de autenticação
+    // Check authentication using authService
     const checkAuth = () => {
-      // TODO: Integrar com Supabase
-      const user = localStorage.getItem('supabase.auth.token');
-      setIsAuthenticated(!!user);
+      // Import authService dynamically to avoid circular deps
+      import('@/services/authService').then(({ authService }) => {
+        setIsAuthenticated(authService.isAuthenticated());
+      });
     };
 
     checkAuth();

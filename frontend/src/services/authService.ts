@@ -33,6 +33,7 @@ class AuthService {
   private readonly TOKEN_KEY = 'pathfinder_token';
   private readonly REFRESH_TOKEN_KEY = 'pathfinder_refresh_token';
   private readonly USER_KEY = 'pathfinder_user';
+  private readonly PENDING_TEST_RESULT_KEY = 'mbti_test_result'; // Same key used by Test.tsx
 
   /**
    * Register new user
@@ -144,6 +145,34 @@ class AuthService {
     } catch {
       return false;
     }
+  }
+
+  /**
+   * Get pending test result from localStorage (if user did test before logging in)
+   */
+  getPendingTestResult(): any | null {
+    const resultStr = localStorage.getItem(this.PENDING_TEST_RESULT_KEY);
+    if (!resultStr) return null;
+
+    try {
+      return JSON.parse(resultStr);
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * Clear pending test result from localStorage
+   */
+  clearPendingTestResult(): void {
+    localStorage.removeItem(this.PENDING_TEST_RESULT_KEY);
+  }
+
+  /**
+   * Check if there's a pending test result to save
+   */
+  hasPendingTestResult(): boolean {
+    return !!this.getPendingTestResult();
   }
 }
 

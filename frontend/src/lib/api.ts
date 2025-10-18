@@ -208,6 +208,17 @@ class PathfinderAPIClient {
     return this.get(`/personality-tests/results/${testResultId}`);
   }
 
+  /**
+   * Save a pre-calculated test result (after user completes test client-side)
+   */
+  async saveCalculatedTestResult(data: {
+    framework: string;
+    typeCode: string;
+    resultData: any;
+  }) {
+    return this.post('/personality-tests/save-result', data);
+  }
+
   // ==================== Dashboard ====================
 
   /**

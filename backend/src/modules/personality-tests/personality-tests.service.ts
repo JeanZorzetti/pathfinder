@@ -206,6 +206,38 @@ export class PersonalityTestsService {
   }
 
   /**
+   * Save a pre-calculated test result (for guest users or after login)
+   * This is used when the test was completed client-side and we just need to save the result
+   */
+  async saveCalculatedResult(userId: string, dto: { framework: FrameworkCode; typeCode: string; resultData: any }) {
+    const framework = await this.getFramework(dto.framework);
+
+    // Find the personality type
+    const personalityType = await this.typesRepository.findOne({
+      where: {
+        frameworkId: framework.id,
+        typeCode: dto.typeCode,
+      },
+    });
+
+    if (!personalityType) {
+      throw new NotFoundException(`Personality type ${dto.typeCode} not found for framework ${dto.framework}`);
+    }
+
+    // Create a completed test result
+    const testResult = this.testResultsRepository.create({
+      userId,
+      frameworkId: framework.id,
+      personalityTypeId: personalityType.id,
+      status: TestStatus.COMPLETED,
+      resultData: dto.resultData,
+      completedAt: new Date(),
+    });
+
+    return this.testResultsRepository.save(testResult);
+  }
+
+  /**
    * Get all personality types for a framework (for SEO pages)
    */
   async getPersonalityTypes(frameworkCode: FrameworkCode) {

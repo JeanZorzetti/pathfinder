@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { authService } from "@/services/authService";
+import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +17,7 @@ const passwordSchema = z.string().min(6, { message: "A senha deve ter pelo menos
 
 const Auth = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { register: registerUser, login: loginUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [signUpData, setSignUpData] = useState({
@@ -26,6 +29,36 @@ const Auth = () => {
     email: "",
     password: "",
   });
+
+  /**
+   * Save pending test result if exists in localStorage
+   */
+  const savePendingTestResult = async () => {
+    const pendingResult = authService.getPendingTestResult();
+
+    if (!pendingResult) {
+      return false;
+    }
+
+    try {
+      console.log('Saving pending test result:', pendingResult);
+
+      await api.saveCalculatedTestResult({
+        framework: 'mbti',
+        typeCode: pendingResult.type,
+        resultData: pendingResult,
+      });
+
+      // Clear from localStorage after successful save
+      authService.clearPendingTestResult();
+      toast.success('✅ Resultado do teste salvo no seu perfil!');
+      return true;
+    } catch (error) {
+      console.error('Error saving pending test result:', error);
+      // Don't block the flow if saving fails
+      return false;
+    }
+  };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,8 +83,18 @@ const Auth = () => {
 
     try {
       await registerUser(signUpData.email, signUpData.password, signUpData.fullName);
-      toast.success("Conta criada com sucesso! Redirecionando...");
-      navigate("/dashboard");
+      toast.success("Conta criada com sucesso!");
+
+      // Save pending test result if exists
+      await savePendingTestResult();
+
+      // Check if there's a redirect URL
+      const redirectUrl = searchParams.get('redirect');
+      if (redirectUrl) {
+        navigate(redirectUrl);
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error: any) {
       console.error('Registration error:', error);
       const errorMessage = error?.response?.data?.message || error?.message || 'Erro ao criar conta';
@@ -80,7 +123,17 @@ const Auth = () => {
     try {
       await loginUser(signInData.email, signInData.password);
       toast.success("Login realizado com sucesso!");
-      navigate("/dashboard");
+
+      // Save pending test result if exists
+      await savePendingTestResult();
+
+      // Check if there's a redirect URL
+      const redirectUrl = searchParams.get('redirect');
+      if (redirectUrl) {
+        navigate(redirectUrl);
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error: any) {
       console.error('Login error:', error);
       const errorMessage = error?.response?.data?.message || error?.message || 'Email ou senha incorretos';
