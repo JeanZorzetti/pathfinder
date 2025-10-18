@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-// import { useDashboard, useChallenges, useComparison } from "@/hooks/useAPI";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,297 +13,171 @@ import { JourneyCard } from "@/components/dashboard/JourneyCard";
 import { WeeklyChallengeCard } from "@/components/dashboard/WeeklyChallengeCard";
 import { ContentRecommendationCard } from "@/components/dashboard/ContentRecommendationCard";
 import { ComparisonCard } from "@/components/dashboard/ComparisonCard";
-import { TestResult, DailyInsight, Profile } from "@/types/database";
-import { Content } from "@/types/content";
-import { getRandomContentForType } from "@/data/contentLibrary";
-import { generateComparisonCode } from "@/types/comparison";
-import { calculateStreak, formatStreak } from "@/utils/streakCalculator";
 import { getColorScheme, getMBTINickname } from "@/data/mbti-colors";
-import { Achievement } from "@/types/gamification";
-import { getAchievementsForType } from "@/data/achievements";
-import { WeeklyChallenge, shouldCreateNewChallenge, getCurrentWeekdayIndex } from "@/types/challenges";
-import { selectWeeklyChallenge, createWeeklyChallengeFromTemplate } from "@/data/weeklyChallenges";
+import { getRandomContentForType } from "@/data/contentLibrary";
 import { getDailyPrompt } from "@/data/journalPrompts";
+import { Content } from "@/types/content";
+import { Achievement } from "@/types/gamification";
+import { WeeklyChallenge } from "@/types/challenges";
+
+interface DashboardData {
+  profile: {
+    id: string;
+    email: string;
+    fullName: string | null;
+    mbtiType: string | null;
+    createdAt: string;
+    metadata: {
+      xp?: number;
+      level?: number;
+      achievements?: Achievement[];
+      streak_current?: number;
+      streak_longest?: number;
+      last_visit?: string;
+      consumed_content?: string[];
+    };
+  };
+  testResults: Array<{
+    id: string;
+    framework: string;
+    typeCode: string;
+    completedAt: string;
+    resultData: any;
+  }>;
+  currentChallenge: WeeklyChallenge | null;
+  dailyInsight: {
+    text: string;
+    category: string;
+  } | null;
+  stats: {
+    xp: number;
+    level: number;
+    streak: {
+      current: number;
+      longest: number;
+    };
+  };
+}
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, isLoading: authLoading, logout } = useAuth();
 
-  // Local state management
-  const [loading, setLoading] = useState(false);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [streak, setStreak] = useState({ current: 0, longest: 0 });
-  const [testResults, setTestResults] = useState<TestResult[]>([]);
-  const [mbtiType, setMbtiType] = useState<string | null>(null);
-  const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [dailyInsight, setDailyInsight] = useState<DailyInsight | null>(null);
-  const [recommendedContent, setRecommendedContent] = useState<Content[]>([]);
-  const [isChallengeProcessing, setIsChallengeProcessing] = useState(false);
-
-  // API Hooks - temporarily disabled until backend endpoints are ready
-  // const {
-  //   currentChallenge,
-  //   loading: challengeLoading,
-  //   error: challengeError,
-  //   completeDay,
-  //   getCurrentChallenge
-  // } = useChallenges();
-  //
-  // const {
-  //   getCode,
-  //   loading: comparisonLoading,
-  //   error: comparisonError,
-  // } = useComparison();
-
-  // Temporary placeholders until backend is ready
-  const currentChallenge = null;
+  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [comparisonCode, setComparisonCode] = useState<string | null>(null);
+  const [recommendedContent, setRecommendedContent] = useState<Content[]>([]);
 
-  // Auth management
-  // Auth management and data loading
+  // Redirect to auth if not authenticated
   useEffect(() => {
-    if (!authLoading) {
-      if (!isAuthenticated) {
-        navigate("/auth");
-      } else if (user?.id) {
-        // Load dashboard data when user is authenticated
-        loadDashboardData(user.id);
-      }
+    if (!authLoading && !isAuthenticated) {
+      navigate("/auth");
     }
-  }, [authLoading, isAuthenticated, navigate, user]);
+  }, [authLoading, isAuthenticated, navigate]);
 
-  const loadDashboardData = async (userId: string) => {
-    setLoading(true);
-
-    try {
-      // Load profile data from API
-      const profileResponse = await api.getUserProfile();
-      const profileData = profileResponse.data as Profile;
-
-      if (profileData) {
-        setProfile(profileData);
-
-        // Calculate and update streak
-        const metadata = profileData.metadata || {};
-        const calculatedStreak = calculateStreak(
-          metadata.last_visit,
-          metadata.visit_history
-        );
-        setStreak(calculatedStreak);
-
-        // Update last visit and streak in database via API
-        const now = new Date().toISOString();
-        const existingMetadata = metadata;
-        const updatedVisitHistory = [
-          ...(existingMetadata.visit_history || []),
-          now
-        ].slice(-30); // Keep last 30 visits
-
-        await api.updateUserProfile({
-          metadata: {
-            ...existingMetadata,
-            last_visit: now,
-            streak_current: calculatedStreak.current,
-            streak_longest: calculatedStreak.longest,
-            visit_history: updatedVisitHistory,
-          },
-        });
-      }
-    } catch (error) {
-      console.error('Error loading profile:', error);
-      toast.error('Erro ao carregar perfil');
+  // Load dashboard data
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      loadDashboard();
     }
+  }, [isAuthenticated, user]);
 
-    // Load test results from API
+  const loadDashboard = async () => {
     try {
-      const resultsResponse = await api.getMyTestResults();
-      const results = resultsResponse.data as TestResult[];
+      setLoading(true);
 
-      if (results) {
-        setTestResults(results);
-      
-      // Determine personality type for insights
-      let personalityKey = null;
-      
-      // Try MBTI first
-      const mbtiResult = results.find((r) => r.test_type === "mbti");
-      if (mbtiResult?.result_data) {
-        personalityKey = (mbtiResult.result_data as any).type;
-        setMbtiType(personalityKey); // Store MBTI type for ProfileCard
+      // Fetch complete dashboard data from backend
+      const response = await api.getDashboard();
+      const data = response.data as DashboardData;
 
-        // Initialize achievements for this type
-        if (profileData) {
-          const userAchievements = (profileData.metadata?.achievements as Achievement[]) || [];
-          if (userAchievements.length === 0) {
-            // First time - initialize achievements
-            const initialAchievements = getAchievementsForType(personalityKey);
-            setAchievements(initialAchievements);
+      setDashboardData(data);
 
-            // Save to database via API
-            await api.updateUserProfile({
-              metadata: { ...metadata, achievements: initialAchievements },
-            });
-          } else {
-            setAchievements(userAchievements);
-          }
+      // Load recommended content if we have MBTI type
+      if (data.profile.mbtiType) {
+        const content = getRandomContentForType(data.profile.mbtiType, 4);
+        setRecommendedContent(content);
 
-          // Initialize or check weekly challenge
-          // TODO: Backend challenge system will handle this via useChallenges() hook
-          // const storedChallenge = profileData.current_challenge;
-          // const completedChallengeIds = profileData.completed_challenges || [];
-          //
-          // if (!storedChallenge || shouldCreateNewChallenge(storedChallenge.weekStartDate)) {
-          //   // Create new weekly challenge
-          //   const template = selectWeeklyChallenge(personalityKey, completedChallengeIds);
-          //   if (template) {
-          //     const newChallenge = createWeeklyChallengeFromTemplate(template);
-          //     // Challenge now managed by useChallenges() hook
-          //     await api.updateUserProfile({ current_challenge: newChallenge });
-          //   }
-          // }
-
-          // Sprint 4: Initialize comparison code (now using API hook)
-          // TODO: Enable when backend endpoint /comparison/code is implemented
-          // if (!comparisonCode) {
-          //   getCode().then((result) => {
-          //     if (result?.code) {
-          //       setComparisonCode(result.code);
-          //     }
-          //   }).catch((err) => {
-          //     console.warn('Failed to fetch comparison code:', err);
-          //   });
-          // }
-
-          // Sprint 4: Get recommended content
-          const content = getRandomContentForType(personalityKey, 4);
-          setRecommendedContent(content);
-        }
-      } else {
-        // Try Enneagram
-        const enneagramResult = results.find((r) => r.test_type === "enneagram");
-        if (enneagramResult?.result_data) {
-          const type = (enneagramResult.result_data as any).type;
-          personalityKey = `enneagram_${type}`;
-        } else {
-          // Try Big Five (use dominant high trait)
-          const bigFiveResult = results.find((r) => r.test_type === "bigfive");
-          if (bigFiveResult?.result_data) {
-            const scores = (bigFiveResult.result_data as any).scores;
-            const highTraits = Object.entries(scores)
-              .filter(([, data]: [string, any]) => data.level === 'High')
-              .sort(([, a]: [string, any], [, b]: [string, any]) => b.score - a.score);
-            
-            if (highTraits.length > 0) {
-              personalityKey = `bigfive_high_${highTraits[0][0]}`;
-            }
-          }
-        }
-      }
-      
-      if (personalityKey) {
-        // Get daily insight from API
+        // Try to load comparison code
         try {
-          const insightData = await api.getDailyInsight();
-          if (insightData) {
-            setDailyInsight({
-              insight_text: insightData.text,
-              category: insightData.category,
-              personality_type: personalityKey
-            } as DailyInsight);
+          const codeResponse = await api.getComparisonCode();
+          if (codeResponse.data?.code) {
+            setComparisonCode(codeResponse.data.code);
           }
         } catch (error) {
-          console.error('Error loading daily insight:', error);
-          // Não mostrar erro para o usuário - insight é opcional
+          console.warn('Comparison code not available:', error);
         }
       }
-      }
-    } catch (error) {
-      console.error('Error loading test results:', error);
-      toast.error('Erro ao carregar resultados de testes');
-    }
 
-    setLoading(false);
-  };
-
-  const handleMarkChallengeComplete = async () => {
-    if (!currentChallenge || !user) return;
-
-    try {
-      const todayIndex = getCurrentWeekdayIndex();
-      if (todayIndex === null) {
-        toast.error("Desafios só podem ser marcados de segunda a sexta");
-        return;
-      }
-
-      // Use API to complete day
-      await completeDay(todayIndex);
-
-      // Success toast is shown by the hook
-      toast.success("✓ Dia marcado como completo!");
-
-      // Reload challenge data
-      getCurrentChallenge();
+      toast.success('Dashboard carregado com sucesso!');
     } catch (error: any) {
-      console.error("Error marking challenge complete:", error);
-      toast.error(error.message || "Erro ao marcar desafio. Tente novamente.");
+      console.error('Error loading dashboard:', error);
+      toast.error(error.response?.data?.message || 'Erro ao carregar dashboard');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleContentClick = (content: Content) => {
-    // Track content view
-    console.log('Content viewed:', content.title);
+  const handleMarkChallengeComplete = async (dayIndex: number) => {
+    try {
+      await api.completeChallengeDay(dayIndex);
+      toast.success('✓ Dia marcado como completo!');
+      // Reload dashboard to get updated challenge
+      loadDashboard();
+    } catch (error: any) {
+      console.error('Error marking challenge complete:', error);
+      toast.error(error.response?.data?.message || 'Erro ao marcar desafio');
+    }
   };
 
   const handleMarkContentConsumed = async (contentId: string) => {
-    if (!user || !profile) return;
-
     try {
-      const consumedContent = (profile.metadata?.consumed_content as string[]) || [];
-      const updatedConsumed = [...consumedContent, contentId];
-
       // Find the content to get XP reward
       const content = recommendedContent.find((c) => c.id === contentId);
-      if (content) {
-        // Add XP via API (with proper source tracking)
-        await api.addXP('content_consumed', content.xpReward);
+      if (!content) return;
 
-        // Update consumed content via API
-        await api.updateUserProfile({
-          metadata: { ...(profile.metadata || {}), consumed_content: updatedConsumed },
-        });
+      // Add XP via API
+      await api.addXP('content_consumed', content.xpReward);
 
-        // Update local state
-        setProfile({
-          ...profile,
-          metadata: {
-            ...(profile.metadata || {}),
-            xp: ((profile.metadata?.xp as number) || 0) + content.xpReward,
-            consumed_content: updatedConsumed,
-          },
-        });
+      // Update consumed content in metadata
+      const consumedContent = dashboardData?.profile.metadata.consumed_content || [];
+      await api.updateUserProfile({
+        metadata: {
+          ...dashboardData?.profile.metadata,
+          consumed_content: [...consumedContent, contentId],
+        } as any,
+      });
 
-        toast.success(`+${content.xpReward} XP`, {
-          description: 'Conteúdo marcado como concluído',
-        });
-      }
-    } catch (error) {
+      toast.success(`+${content.xpReward} XP`, {
+        description: 'Conteúdo marcado como concluído',
+      });
+
+      // Reload dashboard
+      loadDashboard();
+    } catch (error: any) {
       console.error('Error marking content consumed:', error);
-      toast.error('Erro ao marcar conteúdo');
+      toast.error(error.response?.data?.message || 'Erro ao marcar conteúdo');
     }
   };
 
-  const handleCompare = (otherCode: string) => {
-    // Track comparison
-    console.log('Comparing with:', otherCode);
+  const handleCompare = async (otherCode: string) => {
+    try {
+      const response = await api.compareWith(otherCode);
+      toast.success('Comparação realizada!');
+      console.log('Comparison result:', response.data);
+      // TODO: Navigate to comparison result page or show in modal
+    } catch (error: any) {
+      console.error('Error comparing:', error);
+      toast.error(error.response?.data?.message || 'Erro ao comparar');
+    }
   };
 
   const handleSignOut = () => {
     logout();
-    toast.success("Logout realizado com sucesso");
-    navigate("/");
+    toast.success('Logout realizado com sucesso');
+    navigate('/');
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin">
@@ -313,6 +186,21 @@ const Dashboard = () => {
       </div>
     );
   }
+
+  if (!dashboardData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground mb-4">Erro ao carregar dashboard</p>
+          <Button onClick={loadDashboard}>Tentar Novamente</Button>
+        </div>
+      </div>
+    );
+  }
+
+  const { profile, testResults, currentChallenge, dailyInsight, stats } = dashboardData;
+  const mbtiType = profile.mbtiType;
+  const achievements = (profile.metadata.achievements as Achievement[]) || [];
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
@@ -334,11 +222,11 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Hero Section - Enhanced */}
+        {/* Hero Section */}
         <div className="mb-8 space-y-4">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2">
-              Bem-vindo de volta, {user?.user_metadata?.full_name || profile?.full_name || "Buscador"}! 👋
+              Bem-vindo de volta, {profile.fullName || 'Buscador'}! 👋
             </h1>
             {mbtiType && (
               <div className="flex items-center gap-3 flex-wrap">
@@ -346,22 +234,28 @@ const Dashboard = () => {
                   className="text-base px-4 py-1"
                   style={{
                     backgroundColor: getColorScheme(mbtiType).primary,
-                    color: getColorScheme(mbtiType).contrast
+                    color: getColorScheme(mbtiType).contrast,
                   }}
                 >
                   {mbtiType} - {getMBTINickname(mbtiType)}
                 </Badge>
-                {streak.current > 0 && (
+                {stats.streak.current > 0 && (
                   <div className="flex items-center gap-2 text-sm">
                     <Flame className="w-5 h-5 text-orange-500" />
-                    <span className="font-semibold">{formatStreak(streak.current)}</span>
+                    <span className="font-semibold">
+                      {stats.streak.current} {stats.streak.current === 1 ? 'dia' : 'dias'}
+                    </span>
                   </div>
                 )}
-                {profile?.created_at && (
+                {profile.createdAt && (
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Calendar className="w-4 h-4" />
                     <span>
-                      Membro desde {new Date(profile.created_at).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}
+                      Membro desde{' '}
+                      {new Date(profile.createdAt).toLocaleDateString('pt-BR', {
+                        month: 'long',
+                        year: 'numeric',
+                      })}
                     </span>
                   </div>
                 )}
@@ -375,7 +269,16 @@ const Dashboard = () => {
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Daily Insight */}
-          {dailyInsight && <DailyInsightCard insight={dailyInsight} mbtiType={mbtiType} />}
+          {dailyInsight && mbtiType && (
+            <DailyInsightCard
+              insight={{
+                insight_text: dailyInsight.text,
+                category: dailyInsight.category,
+                personality_type: mbtiType,
+              }}
+              mbtiType={mbtiType}
+            />
+          )}
 
           {/* Profile Card - MBTI */}
           {mbtiType && (
@@ -387,30 +290,29 @@ const Dashboard = () => {
           )}
 
           {/* Journey Card - Gamification */}
-          {profile && (
-            <JourneyCard
-              xp={(profile.metadata?.xp as number) || 0}
-              achievements={achievements}
-              onViewAll={() => {
-                // TODO: Navigate to achievements page
-                toast.info('Página de conquistas em desenvolvimento');
-              }}
-            />
-          )}
+          <JourneyCard
+            xp={stats.xp}
+            achievements={achievements}
+            onViewAll={() => {
+              toast.info('Página de conquistas em desenvolvimento');
+            }}
+          />
 
-          {/* Weekly Challenge - Sprint 3 */}
+          {/* Weekly Challenge */}
           {currentChallenge && mbtiType && (
             <WeeklyChallengeCard
               challenge={currentChallenge}
               onMarkComplete={handleMarkChallengeComplete}
-              isProcessing={isChallengeProcessing}
+              isProcessing={false}
             />
           )}
 
-          {/* Test Results - Enhanced */}
+          {/* Test Results */}
           <Card
             className="shadow-sm"
-            style={mbtiType ? { borderLeft: `4px solid ${getColorScheme(mbtiType).primary}` } : {}}
+            style={
+              mbtiType ? { borderLeft: `4px solid ${getColorScheme(mbtiType).primary}` } : {}
+            }
           >
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -419,9 +321,8 @@ const Dashboard = () => {
               </CardTitle>
               <CardDescription>
                 {testResults.length === 0
-                  ? "Nenhum teste realizado ainda"
-                  : `${testResults.length} teste(s) concluído(s)`
-                }
+                  ? 'Nenhum teste realizado ainda'
+                  : `${testResults.length} teste(s) concluído(s)`}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -430,7 +331,7 @@ const Dashboard = () => {
                   <p className="text-muted-foreground mb-4">
                     Comece sua jornada fazendo seu primeiro teste de personalidade
                   </p>
-                  <Button onClick={() => navigate("/test/mbti")} variant="hero">
+                  <Button onClick={() => navigate('/test/mbti')} variant="hero">
                     Fazer Teste MBTI
                   </Button>
                 </div>
@@ -449,59 +350,25 @@ const Dashboard = () => {
                           </div>
                           <div>
                             <p className="font-bold text-lg">{mbtiType}</p>
-                            <p className="text-sm text-muted-foreground">{getMBTINickname(mbtiType)}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {getMBTINickname(mbtiType)}
+                            </p>
                             <p className="text-xs text-muted-foreground">
-                              Completado em {new Date(testResults.find(r => r.test_type === "mbti")?.completed_at || '').toLocaleDateString('pt-BR')}
+                              Completado em{' '}
+                              {new Date(
+                                testResults.find((r) => r.framework === 'mbti')
+                                  ?.completedAt || ''
+                              ).toLocaleDateString('pt-BR')}
                             </p>
                           </div>
                         </div>
-                        <Button variant="outline" size="sm" onClick={() => navigate(`/result/mbti/${mbtiType}`)}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => navigate(`/result/mbti/${mbtiType}`)}
+                        >
                           Ver Detalhes
                         </Button>
-                      </div>
-
-                      {/* Quick Stats - Top 3 Características */}
-                      <div className="grid grid-cols-3 gap-2 pt-3 border-t">
-                        <div className="text-center p-2 rounded-lg bg-accent/30">
-                          <p className="text-2xl mb-1">
-                            {mbtiType.includes('E') && mbtiType.includes('T') && mbtiType.includes('J') ? '👔' :
-                             mbtiType.includes('I') && mbtiType.includes('N') && mbtiType.includes('F') ? '💭' :
-                             mbtiType.includes('E') && mbtiType.includes('N') && mbtiType.includes('F') ? '💫' :
-                             mbtiType.includes('I') && mbtiType.includes('S') && mbtiType.includes('T') ? '🔧' :
-                             mbtiType.includes('E') && mbtiType.includes('S') && mbtiType.includes('T') ? '⚡' :
-                             mbtiType.includes('E') && mbtiType.includes('S') && mbtiType.includes('F') ? '🎉' :
-                             mbtiType.includes('I') && mbtiType.includes('S') && mbtiType.includes('F') ? '🤝' :
-                             mbtiType.includes('I') && mbtiType.includes('N') && mbtiType.includes('T') ? '🧠' :
-                             '🎯'}
-                          </p>
-                          <p className="text-xs font-semibold">
-                            {mbtiType.includes('E') && mbtiType.includes('T') && mbtiType.includes('J') ? 'Liderança' :
-                             mbtiType.includes('I') && mbtiType.includes('N') && mbtiType.includes('F') ? 'Empatia' :
-                             mbtiType.includes('E') && mbtiType.includes('N') && mbtiType.includes('F') ? 'Inspiração' :
-                             mbtiType.includes('I') && mbtiType.includes('S') && mbtiType.includes('T') ? 'Prático' :
-                             mbtiType.includes('E') && mbtiType.includes('S') && mbtiType.includes('T') ? 'Ação' :
-                             mbtiType.includes('E') && mbtiType.includes('S') && mbtiType.includes('F') ? 'Energia' :
-                             mbtiType.includes('I') && mbtiType.includes('S') && mbtiType.includes('F') ? 'Cuidado' :
-                             mbtiType.includes('I') && mbtiType.includes('N') && mbtiType.includes('T') ? 'Estratégia' :
-                             'Força 1'}
-                          </p>
-                        </div>
-                        <div className="text-center p-2 rounded-lg bg-accent/30">
-                          <p className="text-2xl mb-1">
-                            {mbtiType.includes('J') ? '🎯' : mbtiType.includes('P') ? '🌟' : '📊'}
-                          </p>
-                          <p className="text-xs font-semibold">
-                            {mbtiType.includes('J') ? 'Organização' : mbtiType.includes('P') ? 'Adaptação' : 'Análise'}
-                          </p>
-                        </div>
-                        <div className="text-center p-2 rounded-lg bg-accent/30">
-                          <p className="text-2xl mb-1">
-                            {mbtiType.includes('N') ? '💡' : '🔍'}
-                          </p>
-                          <p className="text-xs font-semibold">
-                            {mbtiType.includes('N') ? 'Visão' : 'Detalhe'}
-                          </p>
-                        </div>
                       </div>
                     </div>
                   )}
@@ -510,63 +377,27 @@ const Dashboard = () => {
                   <div className="pt-3 border-t space-y-2">
                     <p className="text-sm font-semibold">Complete sua jornada:</p>
                     <div className="flex gap-2 flex-wrap">
-                      {testResults.some(r => r.test_type === "mbti") ? (
+                      {testResults.some((r) => r.framework === 'mbti') ? (
                         <Badge variant="default" className="flex items-center gap-1">
                           ✓ MBTI
                         </Badge>
                       ) : (
-                        <Badge variant="outline" className="cursor-pointer hover:bg-accent" onClick={() => navigate("/test/mbti")}>
+                        <Badge
+                          variant="outline"
+                          className="cursor-pointer hover:bg-accent"
+                          onClick={() => navigate('/test/mbti')}
+                        >
                           MBTI
                         </Badge>
                       )}
-                      {testResults.some(r => r.test_type === "enneagram") ? (
-                        <Badge variant="default" className="flex items-center gap-1">
-                          ✓ Eneagrama
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline" className="opacity-50">
-                          Eneagrama (Em breve)
-                        </Badge>
-                      )}
-                      {testResults.some(r => r.test_type === "bigfive") ? (
-                        <Badge variant="default" className="flex items-center gap-1">
-                          ✓ Big Five
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline" className="opacity-50">
-                          Big Five (Em breve)
-                        </Badge>
-                      )}
+                      <Badge variant="outline" className="opacity-50">
+                        Eneagrama (Em breve)
+                      </Badge>
+                      <Badge variant="outline" className="opacity-50">
+                        Big Five (Em breve)
+                      </Badge>
                     </div>
-                    {testResults.length < 3 && (
-                      <p className="text-xs text-muted-foreground">
-                        💡 Complete mais testes para desbloquear conquistas e insights mais profundos
-                      </p>
-                    )}
                   </div>
-
-                  {/* Outros Resultados (se houver) */}
-                  {testResults.filter(r => r.test_type !== "mbti").map((result: any) => (
-                    <div key={result.id} className="p-3 rounded-lg bg-accent/50 border border-accent">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
-                            {result.test_type === "bigfive" ? "Big Five" :
-                             result.test_type === "enneagram" ? "Eneagrama" :
-                             result.test_type}
-                          </p>
-                          <p className="text-lg font-bold">
-                            {result.test_type === "enneagram" ? `Tipo ${result.result_data.type}` :
-                             result.test_type === "bigfive" ? "OCEAN" :
-                             "Resultado"}
-                          </p>
-                        </div>
-                        <Button variant="outline" size="sm">
-                          Ver Detalhes
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
                 </>
               )}
             </CardContent>
@@ -579,9 +410,7 @@ const Dashboard = () => {
                 <BookOpen className="w-5 h-5" />
                 Diário
               </CardTitle>
-              <CardDescription>
-                Registre seus pensamentos e reflexões
-              </CardDescription>
+              <CardDescription>Registre seus pensamentos e reflexões</CardDescription>
             </CardHeader>
             <CardContent>
               {mbtiType && getDailyPrompt(mbtiType) && (
@@ -597,7 +426,8 @@ const Dashboard = () => {
                     {getDailyPrompt(mbtiType)?.category === 'reflection' && '🪞 Reflexão'}
                     {getDailyPrompt(mbtiType)?.category === 'growth' && '🌱 Crescimento'}
                     {getDailyPrompt(mbtiType)?.category === 'emotions' && '💙 Emoções'}
-                    {getDailyPrompt(mbtiType)?.category === 'relationships' && '🤝 Relacionamentos'}
+                    {getDailyPrompt(mbtiType)?.category === 'relationships' &&
+                      '🤝 Relacionamentos'}
                     {getDailyPrompt(mbtiType)?.category === 'goals' && '🎯 Objetivos'}
                   </Badge>
                 </div>
@@ -606,7 +436,7 @@ const Dashboard = () => {
                 <p className="text-muted-foreground mb-4 text-sm">
                   Um espaço seguro para suas reflexões diárias
                 </p>
-                <Button onClick={() => navigate("/journal")} className="w-full">
+                <Button onClick={() => navigate('/journal')} className="w-full">
                   <BookOpen className="w-4 h-4 mr-2" />
                   Escrever Reflexão (+10 XP)
                 </Button>
@@ -614,16 +444,16 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
-          {/* Content Recommendation - Sprint 4 */}
+          {/* Content Recommendation */}
           {mbtiType && recommendedContent.length > 0 && (
             <ContentRecommendationCard
               content={recommendedContent}
-              onContentClick={handleContentClick}
+              onContentClick={(content) => console.log('Content viewed:', content.title)}
               onMarkConsumed={handleMarkContentConsumed}
             />
           )}
 
-          {/* Comparison - Sprint 4 */}
+          {/* Comparison */}
           {mbtiType && comparisonCode && (
             <ComparisonCard
               userCode={comparisonCode}

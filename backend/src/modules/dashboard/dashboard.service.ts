@@ -16,24 +16,113 @@ export class DashboardService {
     private readonly gamificationService: GamificationService,
   ) {}
 
-  async getDashboard(userId: string): Promise<DashboardResponseDto> {
-    // TODO: Implementar lógica completa integrando com outros módulos
-    // Por enquanto, retornar estrutura básica com dados mockados
+  async getDashboard(userId: string): Promise<any> {
+    // Get user data
+    const user = await this.userRepository.findOne({ where: { id: userId } });
 
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Get stats
     const stats = await this.getStats(userId);
+
+    // Get daily insight
     const dailyInsight = await this.getDailyInsight(userId);
 
+    // Get test results (simplified - just return the mbtiType from user)
+    const testResults: any[] = [];
+    if (user.mbti_type) {
+      testResults.push({
+        id: userId, // Using userId as placeholder
+        framework: 'mbti',
+        typeCode: user.mbti_type,
+        completedAt: user.createdAt?.toISOString() || new Date().toISOString(),
+        resultData: { type: user.mbti_type },
+      });
+    }
+
+    // Calculate streak from metadata
+    const metadata = user.metadata || {};
+    const streak = {
+      current: metadata.streak_current || 0,
+      longest: metadata.streak_longest || 0,
+    };
+
+    // Update streak and last visit
+    const now = new Date().toISOString();
+    const lastVisit = metadata.last_visit;
+    const visitHistory = metadata.visit_history || [];
+
+    // Calculate new streak
+    let newStreakCurrent = streak.current;
+    let newStreakLongest = streak.longest;
+
+    if (lastVisit) {
+      const lastVisitDate = new Date(lastVisit);
+      const today = new Date();
+      const daysDiff = Math.floor(
+        (today.getTime() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24)
+      );
+
+      if (daysDiff === 0) {
+        // Same day - don't update streak
+      } else if (daysDiff === 1) {
+        // Consecutive day - increment streak
+        newStreakCurrent = streak.current + 1;
+        newStreakLongest = Math.max(newStreakLongest, newStreakCurrent);
+      } else {
+        // Streak broken - reset to 1
+        newStreakCurrent = 1;
+      }
+    } else {
+      // First visit
+      newStreakCurrent = 1;
+      newStreakLongest = 1;
+    }
+
+    // Update user metadata with new streak
+    const updatedVisitHistory = [...visitHistory, now].slice(-30);
+    const updatedMetadata = {
+      ...metadata,
+      last_visit: now,
+      streak_current: newStreakCurrent,
+      streak_longest: newStreakLongest,
+      visit_history: updatedVisitHistory,
+    };
+
+    await this.userRepository.update(userId, {
+      metadata: updatedMetadata as any,
+    });
+
     return {
-      user: {
-        id: userId,
-        full_name: 'Usuário Teste',
-        mbti_type: 'INTJ',
+      success: true,
+      data: {
+        profile: {
+          id: user.id,
+          email: user.email,
+          fullName: user.fullName,
+          mbtiType: user.mbti_type,
+          createdAt: user.createdAt?.toISOString() || new Date().toISOString(),
+          metadata: {
+            ...metadata,
+            xp: stats.xp,
+            level: stats.level,
+            streak_current: newStreakCurrent,
+            streak_longest: newStreakLongest,
+          },
+        },
+        testResults,
+        currentChallenge: null, // Will be implemented by challenges module
+        dailyInsight,
+        stats: {
+          ...stats,
+          streak: {
+            current: newStreakCurrent,
+            longest: newStreakLongest,
+          },
+        },
       },
-      stats,
-      daily_insight: dailyInsight,
-      current_challenge: null,
-      achievements: [],
-      recommended_content: [],
     };
   }
 
@@ -45,7 +134,7 @@ export class DashboardService {
       level: level.level,
       xp: currentXP,
       streak: {
-        current: 0, // TODO: Implementar lógica de streak
+        current: 0, // Will be calculated in getDashboard
         longest: 0,
       },
       tests_completed: 0, // TODO: Buscar do banco
