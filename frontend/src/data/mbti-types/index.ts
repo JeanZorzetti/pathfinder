@@ -55,7 +55,9 @@ export const PERSONALITY_TYPES: Record<MBTICode, PersonalityType | null> = {
  * Busca tipo de personalidade por código
  */
 export function getPersonalityType(code: MBTICode): PersonalityType | null {
-  return PERSONALITY_TYPES[code];
+  const result = PERSONALITY_TYPES[code];
+  console.log(`🔍 getPersonalityType('${code}') =`, result ? 'FOUND' : 'NULL');
+  return result;
 }
 
 /**
