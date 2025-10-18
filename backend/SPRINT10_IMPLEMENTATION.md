@@ -52,6 +52,32 @@ O Sprint 10 expande os testes de personalidade disponíveis no Pathfinder, adici
 
 ## 🔢 Fase 1: Eneagrama Completo (7 dias)
 
+### ✅ Progresso da Fase 1
+
+**Backend (100% Completo ✅)**
+- ✅ Migration criada: `1760747488019-AddEnneagramTables.ts` (3 tabelas + indexes)
+- ✅ Entity: `enneagram-type.entity.ts` (23 campos)
+- ✅ Entity: `enneagram-question.entity.ts` (4 campos)
+- ✅ Entity: `enneagram-mapping.entity.ts` (mapeamento com pesos)
+- ✅ Seed: `enneagram-types.seed.ts` (9 tipos completos em português)
+- ✅ Seed: `enneagram-questions.seed.ts` (50 questões + mapeamentos)
+- ✅ Service: `enneagram.service.ts` (algoritmo de scoring + wing + compatibilidade)
+- ✅ Controller: `enneagram.controller.ts` (5 endpoints RESTful)
+- ✅ Module: `personality-tests.module.ts` atualizado (entities + service + controller registrados)
+- ✅ Swagger documentation completa para todos os endpoints
+
+**Frontend (0% - Pendente)**
+- ⏳ Página: `EnneagramTest.tsx` (interface de 50 questões)
+- ⏳ Página: `EnneagramResult.tsx` (exibição de tipo + wing + scores)
+- ⏳ Rotas adicionadas ao `App.tsx`
+- ⏳ Integração com dashboard
+
+**Testes (0% - Pendente)**
+- ⏳ E2E test: `test-enneagram-e2e.cjs`
+- ⏳ Validação de endpoints via Swagger
+
+---
+
 ### 1.1. Overview do Eneagrama
 
 O **Eneagrama** é um sistema de personalidade que identifica 9 tipos fundamentais, baseados em motivações centrais, medos e desejos.

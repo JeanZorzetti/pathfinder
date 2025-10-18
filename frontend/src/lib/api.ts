@@ -1,7 +1,9 @@
 /**
  * Pathfinder API Client
- * Centralizes all backend API calls
+ * Centralizes all backend API calls with JWT authentication
  */
+
+import axios, { AxiosInstance, AxiosError } from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1';
 
@@ -19,89 +21,97 @@ export interface ApiError {
   statusCode: number;
 }
 
-class PathfinderAPIClient {
-  private baseUrl: string;
+// Create axios instance
+const axiosInstance: AxiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-  constructor(baseUrl: string = API_BASE_URL) {
-    this.baseUrl = baseUrl;
+// Request interceptor to add JWT token
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('pathfinder_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
+);
 
+// Response interceptor to handle errors and token refresh
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError<ApiError>) => {
+    const originalRequest = error.config;
+
+    // If 401 and we have a refresh token, try to refresh
+    if (error.response?.status === 401 && originalRequest) {
+      const refreshToken = localStorage.getItem('pathfinder_refresh_token');
+
+      if (refreshToken) {
+        try {
+          const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
+            refresh_token: refreshToken,
+          });
+
+          const newToken = response.data.access_token;
+          localStorage.setItem('pathfinder_token', newToken);
+
+          // Retry original request with new token
+          if (originalRequest.headers) {
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+          }
+          return axiosInstance(originalRequest);
+        } catch {
+          // Refresh failed, logout
+          localStorage.removeItem('pathfinder_token');
+          localStorage.removeItem('pathfinder_refresh_token');
+          localStorage.removeItem('pathfinder_user');
+          window.location.href = '/auth';
+        }
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+class PathfinderAPIClient {
   /**
    * Generic GET request
    */
   private async get<T>(endpoint: string): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw new Error(error.message || 'API request failed');
-    }
-
-    return response.json();
+    const response = await axiosInstance.get<T>(endpoint);
+    return response.data;
   }
 
   /**
    * Generic POST request
    */
   private async post<T>(endpoint: string, data?: any): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: data ? JSON.stringify(data) : undefined,
-    });
-
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw new Error(error.message || 'API request failed');
-    }
-
-    return response.json();
+    const response = await axiosInstance.post<T>(endpoint, data);
+    return response.data;
   }
 
   /**
    * Generic PATCH request
    */
   private async patch<T>(endpoint: string, data: any): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw new Error(error.message || 'API request failed');
-    }
-
-    return response.json();
+    const response = await axiosInstance.patch<T>(endpoint, data);
+    return response.data;
   }
 
   /**
    * Generic DELETE request
    */
   private async delete<T>(endpoint: string): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw new Error(error.message || 'API request failed');
-    }
-
-    return response.json();
+    const response = await axiosInstance.delete<T>(endpoint);
+    return response.data;
   }
 
   // ==================== Gamification ====================
@@ -125,6 +135,57 @@ class PathfinderAPIClient {
    */
   async getProgressStats() {
     return this.get('/progress/stats');
+  }
+
+  // ==================== Users ====================
+
+  /**
+   * Get current user profile
+   */
+  async getUserProfile() {
+    return this.get('/users/profile');
+  }
+
+  /**
+   * Update user profile
+   */
+  async updateUserProfile(data: {
+    full_name?: string;
+    mbti_type?: string;
+    streak_current?: number;
+    streak_longest?: number;
+    last_visit?: string;
+    visit_history?: string[];
+    achievements?: any[];
+    comparison_code?: string;
+    consumed_content?: string[];
+    current_challenge?: any;
+  }) {
+    return this.patch('/users/profile', data);
+  }
+
+  /**
+   * Get user subscription status
+   */
+  async getUserSubscription() {
+    return this.get('/users/subscription');
+  }
+
+  // ==================== Personality Tests ====================
+
+  /**
+   * Get user's test results
+   */
+  async getMyTestResults(framework?: string) {
+    const query = framework ? `?framework=${framework}` : '';
+    return this.get(`/personality-tests/my-results${query}`);
+  }
+
+  /**
+   * Get specific test result
+   */
+  async getTestResult(testResultId: string) {
+    return this.get(`/personality-tests/results/${testResultId}`);
   }
 
   // ==================== Dashboard ====================
@@ -271,6 +332,9 @@ class PathfinderAPIClient {
     return this.get('/health');
   }
 }
+
+// Export axios instance for direct use in authService
+export { axiosInstance };
 
 // Export singleton instance
 export const api = new PathfinderAPIClient();

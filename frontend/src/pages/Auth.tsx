@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,7 @@ const passwordSchema = z.string().min(6, { message: "A senha deve ter pelo menos
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { register: registerUser, login: loginUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [signUpData, setSignUpData] = useState({
     email: "",
@@ -28,11 +29,16 @@ const Auth = () => {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate inputs
     try {
       emailSchema.parse(signUpData.email);
       passwordSchema.parse(signUpData.password);
+
+      if (!signUpData.fullName.trim()) {
+        toast.error("Nome completo é obrigatório");
+        return;
+      }
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast.error(error.errors[0].message);
@@ -42,31 +48,22 @@ const Auth = () => {
 
     setIsLoading(true);
 
-    const { error } = await supabase.auth.signUp({
-      email: signUpData.email,
-      password: signUpData.password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/`,
-        data: {
-          full_name: signUpData.fullName,
-        },
-      },
-    });
-
-    setIsLoading(false);
-
-    if (error) {
-      toast.error(error.message);
-      return;
+    try {
+      await registerUser(signUpData.email, signUpData.password, signUpData.fullName);
+      toast.success("Conta criada com sucesso! Redirecionando...");
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || 'Erro ao criar conta';
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
-
-    toast.success("Conta criada! Redirecionando...");
-    navigate("/dashboard");
   };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate inputs
     try {
       emailSchema.parse(signInData.email);
@@ -80,20 +77,17 @@ const Auth = () => {
 
     setIsLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email: signInData.email,
-      password: signInData.password,
-    });
-
-    setIsLoading(false);
-
-    if (error) {
-      toast.error("Email ou senha incorretos");
-      return;
+    try {
+      await loginUser(signInData.email, signInData.password);
+      toast.success("Login realizado com sucesso!");
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error('Login error:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || 'Email ou senha incorretos';
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
-
-    toast.success("Login realizado com sucesso!");
-    navigate("/dashboard");
   };
 
   return (
