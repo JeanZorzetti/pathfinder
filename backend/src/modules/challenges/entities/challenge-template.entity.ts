@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, Index } from 'typeorm';
 
 @Entity('challenge_templates')
-@Index(['mbti_type'])
-@Index(['challenge_id'], { unique: true })
+@Index(['mbtiType'])
+@Index(['challengeId'], { unique: true })
 export class ChallengeTemplate {
   @PrimaryGeneratedColumn('uuid')
   id: string;

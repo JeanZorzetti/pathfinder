@@ -12,8 +12,8 @@ export enum XpSource {
 }
 
 @Entity('xp_transactions')
-@Index(['user_id'])
-@Index(['created_at'])
+@Index(['userId'])
+@Index(['createdAt'])
 export class XpTransaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;

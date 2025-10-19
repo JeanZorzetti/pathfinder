@@ -2,10 +2,10 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, Index, ManyTo
 import { AchievementCatalog } from './achievement-catalog.entity';
 
 @Entity('user_achievements')
-@Index(['user_id'])
-@Index(['achievement_id'])
-@Index(['unlocked_at'])
-@Index(['user_id', 'achievement_id'], { unique: true })
+@Index(['userId'])
+@Index(['achievementId'])
+@Index(['unlockedAt'])
+@Index(['userId', 'achievementId'], { unique: true })
 export class UserAchievement {
   @PrimaryGeneratedColumn('uuid')
   id: string;

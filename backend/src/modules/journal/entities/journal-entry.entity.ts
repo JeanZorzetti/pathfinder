@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 
 @Entity('journal_entries')
-@Index(['user_id'])
-@Index(['created_at'])
+@Index(['userId'])
+@Index(['createdAt'])
 @Index(['mood'])
 export class JournalEntry {
   @PrimaryGeneratedColumn('uuid')

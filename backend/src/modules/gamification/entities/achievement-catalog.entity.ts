@@ -8,7 +8,7 @@ export enum AchievementRarity {
 }
 
 @Entity('achievements_catalog')
-@Index(['achievement_id'], { unique: true })
+@Index(['achievementId'], { unique: true })
 @Index(['rarity'])
 export class AchievementCatalog {
   @PrimaryGeneratedColumn('uuid')

@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, Index } from 'typeorm';
 
 @Entity('journal_prompts')
-@Index(['mbti_type'])
+@Index(['mbtiType'])
 @Index(['category'])
-@Index(['day_of_year'])
+@Index(['dayOfYear'])
 export class JournalPrompt {
   @PrimaryGeneratedColumn('uuid')
   id: string;
