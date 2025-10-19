@@ -11,6 +11,7 @@ import { Brain, BookOpen, Plus, Edit, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { cn } from "@/lib/utils";
 
 interface JournalEntry {
   id: string;
@@ -68,6 +69,12 @@ const Journal = () => {
   const handleSave = async () => {
     if (!user || !content.trim()) {
       toast.error("Escreva algo antes de salvar");
+      return;
+    }
+
+    // Validate minimum length
+    if (content.trim().length < 10) {
+      toast.error("A entrada deve ter pelo menos 10 caracteres");
       return;
     }
 
@@ -191,17 +198,28 @@ const Journal = () => {
               </div>
 
               <div>
-                <label className="text-sm font-medium mb-2 block">Sua Reflexão</label>
+                <label className="text-sm font-medium mb-2 block">
+                  Sua Reflexão
+                  <span className={cn(
+                    "ml-2 text-xs",
+                    content.trim().length < 10 ? "text-muted-foreground" : "text-green-600"
+                  )}>
+                    ({content.trim().length}/10 mín.)
+                  </span>
+                </label>
                 <Textarea
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  placeholder="O que está em sua mente hoje? Escreva livremente..."
+                  placeholder="O que está em sua mente hoje? Escreva livremente... (mínimo 10 caracteres)"
                   className="min-h-[200px] resize-none"
                 />
               </div>
 
               <div className="flex gap-3">
-                <Button onClick={handleSave} disabled={!content.trim()}>
+                <Button
+                  onClick={handleSave}
+                  disabled={!content.trim() || content.trim().length < 10}
+                >
                   Salvar
                 </Button>
                 <Button variant="outline" onClick={resetForm}>
