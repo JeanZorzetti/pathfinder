@@ -5,7 +5,7 @@
 
 // Public VAPID key (will need to be generated on backend)
 // This is a placeholder - replace with actual VAPID public key from backend
-const VAPID_PUBLIC_KEY = 'YOUR_VAPID_PUBLIC_KEY';
+const VAPID_PUBLIC_KEY = 'BGGmq1XbHXlXoK5hxNXbP6QFv-TfWds5nhMKtyjQ2Z9vSUZJisLxbkI811OnkhFr3TcVySBuo0PChvypqk1mFoY';
 
 /**
  * Check if push notifications are supported

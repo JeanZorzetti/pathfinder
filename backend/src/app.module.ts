@@ -18,6 +18,7 @@ import { ChallengesModule } from './modules/challenges/challenges.module';
 import { JournalModule } from './modules/journal/journal.module';
 import { ComparisonModule } from './modules/comparison/comparison.module';
 import { ContentLibraryModule } from './modules/content-library/content-library.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 // Entities
 import { User } from './modules/users/entities/user.entity';
@@ -38,6 +39,7 @@ import { ComparisonCode } from './modules/comparison/entities/comparison-code.en
 import { ContentLibrary } from './modules/content-library/entities/content-library.entity';
 import { ChallengeTemplate } from './modules/challenges/entities/challenge-template.entity';
 import { JournalPrompt } from './modules/journal/entities/journal-prompt.entity';
+import { PushSubscription } from './modules/notifications/entities/push-subscription.entity';
 import { DailyInsight } from './modules/dashboard/entities/daily-insight.entity';
 
 // Config
@@ -81,6 +83,7 @@ import typeormConfig from './config/typeorm.config';
           ComparisonHistory,
           ComparisonCode,
           ContentLibrary,
+          PushSubscription,
           DailyInsight,
         ],
         synchronize: configService.get('NODE_ENV') === 'development',
@@ -133,6 +136,7 @@ import typeormConfig from './config/typeorm.config';
     DashboardModule,
     ChallengesModule,
     JournalModule,
+    NotificationsModule,
     ComparisonModule,
     ContentLibraryModule,
   ],
