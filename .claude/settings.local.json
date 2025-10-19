@@ -62,7 +62,10 @@
       "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmYzQ1ZjIxZS0wYjA4LTQxZDMtYjRiMC01M2M1MGM1OTBkZDciLCJlbWFpbCI6InRlc3RlX2RlYnVnM0BwYXRoZmluZGVyLmNvbSIsInN1YnNjcmlwdGlvblN0YXR1cyI6ImZyZWUiLCJpYXQiOjE3NjA4MDg1MDgsImV4cCI6MTc2MTQxMzMwOH0.oax2FkkFoDJLbcpj-jiuLnQuDqD-3VNX1zSLVU_MEyM\")",
       "Bash(node fix-dashboard-metadata.js)",
       "Bash(node fix-all-metadata.cjs)",
-      "Bash(npm run typeorm:generate -- src/migrations/CreateDailyInsights)"
+      "Bash(npm run typeorm:generate -- src/migrations/CreateDailyInsights)",
+      "Bash(node verify-migration.cjs)",
+      "Bash(node get-valid-token.cjs)",
+      "Bash(node generate-jwt.cjs)"
     ],
     "deny": [],
     "ask": []

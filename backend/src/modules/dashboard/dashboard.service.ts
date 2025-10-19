@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GamificationService } from '../gamification/gamification.service';
+import { ChallengesService } from '../challenges/challenges.service';
 import { DashboardResponseDto } from './dto/dashboard-response.dto';
 import { DailyInsight } from './entities/daily-insight.entity';
 import { User } from '../users/entities/user.entity';
@@ -14,6 +15,7 @@ export class DashboardService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private readonly gamificationService: GamificationService,
+    private readonly challengesService: ChallengesService,
   ) {}
 
   async getDashboard(userId: string): Promise<any> {
@@ -40,7 +42,23 @@ export class DashboardService {
         dailyInsight = await this.getDailyInsight(userId);
       } catch (error) {
         console.error('Error getting daily insight:', error);
-        dailyInsight = { text: 'Bem-vindo ao Pathfinder!', category: 'motivação' };
+        dailyInsight = {
+          title: 'Bem-vindo ao Pathfinder!',
+          text: 'Continue sua jornada de autoconhecimento. Cada passo conta!',
+          category: 'motivação',
+          icon: 'lightbulb'
+        };
+      }
+
+      // Get current challenge (with error handling)
+      let currentChallenge = null;
+      try {
+        if (user.mbti_type) {
+          currentChallenge = await this.challengesService.getCurrentChallenge(userId, user.mbti_type);
+        }
+      } catch (error) {
+        console.error('Error getting current challenge:', error);
+        currentChallenge = null;
       }
 
     // Get test results (simplified - just return the mbtiType from user)
@@ -61,6 +79,16 @@ export class DashboardService {
       current: metadata.streak_current || 0,
       longest: metadata.streak_longest || 0,
     };
+
+    // Get user achievements from gamification service
+    let achievements = [];
+    try {
+      const achievementsData = await this.gamificationService.getUserAchievements(userId);
+      achievements = achievementsData || [];
+    } catch (error) {
+      console.error('Error getting achievements:', error);
+      achievements = [];
+    }
 
     // Update streak and last visit
     const now = new Date().toISOString();
@@ -121,12 +149,13 @@ export class DashboardService {
               ...metadata,
               xp: stats.xp,
               level: stats.level,
+              achievements: achievements,
               streak_current: newStreakCurrent,
               streak_longest: newStreakLongest,
             },
           },
           testResults,
-          currentChallenge: null, // Will be implemented by challenges module
+          currentChallenge,
           dailyInsight,
           stats: {
             ...stats,
