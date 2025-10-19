@@ -62,7 +62,8 @@ const Journal = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate, getEntries]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate]); // Removed getEntries from deps to prevent infinite loop
 
   const handleSave = async () => {
     if (!user || !content.trim()) {
