@@ -101,8 +101,10 @@ const Dashboard = () => {
         // Load comparison code
         try {
           const codeResponse = await api.getComparisonCode();
-          if (codeResponse.data?.code) {
-            setComparisonCode(codeResponse.data.code);
+          // API returns { data: { code: "INTJ-XXX" } } due to axios wrapper
+          const code = codeResponse.data?.code || codeResponse.code;
+          if (code) {
+            setComparisonCode(code);
           }
         } catch (error) {
           console.warn('Comparison code not available:', error);
@@ -122,6 +124,7 @@ const Dashboard = () => {
               xpReward: ach.xpReward,
               rarity: ach.rarity,
               progress: { current: 0, total: ach.requirementValue || 1 },
+              unlockedAt: undefined, // Available achievements are not unlocked yet
             }));
             setAvailableAchievements(mappedAchievements);
           }
