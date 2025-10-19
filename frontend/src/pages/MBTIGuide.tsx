@@ -184,6 +184,224 @@ const MBTIGuide = () => {
         </div>
       </section>
 
+      {/* Funções Cognitivas */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6">As 8 Funções Cognitivas</h2>
+          <div className="prose prose-lg max-w-none mb-8">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+              Por trás das 4 letras do MBTI, existe um sistema mais profundo: as <strong>Funções Cognitivas</strong>.
+              Cada tipo possui uma "pilha" única de 4 funções principais que determinam como você pensa,
+              processa informações e interage com o mundo.
+            </p>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              Existem <strong>8 funções cognitivas</strong> no total - 4 de percepção (como coletamos informações)
+              e 4 de julgamento (como tomamos decisões). Cada função pode ser usada de forma <em>extrovertida</em> (direcionada ao mundo externo)
+              ou <em>introvertida</em> (direcionada ao mundo interno).
+            </p>
+          </div>
+
+          <div className="grid gap-6 mb-8">
+            {/* Funções de Percepção */}
+            <div>
+              <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <Brain className="w-6 h-6 text-primary" />
+                Funções de Percepção (Como você coleta informações)
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card className="border-l-4 border-l-blue-500">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Se - Sensação Extrovertida</CardTitle>
+                    <CardDescription>Vivendo o Momento Presente</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Foco em experiências sensoriais concretas do aqui e agora. Ação imediata,
+                      percepção aguçada do ambiente físico.
+                    </p>
+                    <p className="text-xs font-medium text-primary">
+                      Dominante em: ESTP, ESFP | Auxiliar em: ISTP, ISFP
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-l-4 border-l-blue-400">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Si - Sensação Introvertida</CardTitle>
+                    <CardDescription>Memória e Experiência</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Comparação de experiências presentes com memórias passadas. Tradição,
+                      detalhes, consistência e conforto pessoal.
+                    </p>
+                    <p className="text-xs font-medium text-primary">
+                      Dominante em: ISTJ, ISFJ | Auxiliar em: ESTJ, ESFJ
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-l-4 border-l-purple-500">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Ne - Intuição Extrovertida</CardTitle>
+                    <CardDescription>Possibilidades e Padrões</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Exploração de múltiplas possibilidades, conexões entre ideias,
+                      brainstorming e visão do potencial futuro.
+                    </p>
+                    <p className="text-xs font-medium text-primary">
+                      Dominante em: ENTP, ENFP | Auxiliar em: INTP, INFP
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-l-4 border-l-purple-400">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Ni - Intuição Introvertida</CardTitle>
+                    <CardDescription>Visão e Insight</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Síntese de padrões complexos em uma visão singular. Insights profundos,
+                      predição de tendências futuras, pensamento estratégico.
+                    </p>
+                    <p className="text-xs font-medium text-primary">
+                      Dominante em: INTJ, INFJ | Auxiliar em: ENTJ, ENFJ
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Funções de Julgamento */}
+            <div>
+              <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <Heart className="w-6 h-6 text-secondary" />
+                Funções de Julgamento (Como você toma decisões)
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card className="border-l-4 border-l-green-500">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Te - Pensamento Extrovertido</CardTitle>
+                    <CardDescription>Lógica e Eficiência</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Organização lógica do mundo externo. Eficiência, sistemas, objetivos
+                      mensuráveis e tomada de decisão baseada em fatos.
+                    </p>
+                    <p className="text-xs font-medium text-primary">
+                      Dominante em: ENTJ, ESTJ | Auxiliar em: INTJ, ISTJ
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-l-4 border-l-green-400">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Ti - Pensamento Introvertido</CardTitle>
+                    <CardDescription>Análise e Precisão</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Análise lógica interna precisa. Compreensão profunda de princípios,
+                      busca por consistência e precisão conceitual.
+                    </p>
+                    <p className="text-xs font-medium text-primary">
+                      Dominante em: INTP, ISTP | Auxiliar em: ENTP, ESTP
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-l-4 border-l-pink-500">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Fe - Sentimento Extrovertido</CardTitle>
+                    <CardDescription>Harmonia Social</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Sintonia com emoções e necessidades dos outros. Criação de harmonia,
+                      empatia, expressão emocional e conexão social.
+                    </p>
+                    <p className="text-xs font-medium text-primary">
+                      Dominante em: ENFJ, ESFJ | Auxiliar em: INFJ, ISFJ
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-l-4 border-l-pink-400">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Fi - Sentimento Introvertido</CardTitle>
+                    <CardDescription>Valores Pessoais</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm text-muted-foreground">
+                      Decisões baseadas em valores internos profundos. Autenticidade,
+                      integridade pessoal e alinhamento com princípios morais.
+                    </p>
+                    <p className="text-xs font-medium text-primary">
+                      Dominante em: INFP, ISFP | Auxiliar em: ENFP, ESFP
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+
+          {/* Stack de Funções */}
+          <Card className="bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Brain className="w-6 h-6" />
+                A "Pilha" de Funções Cognitivas
+              </CardTitle>
+              <CardDescription>Como as funções se organizam em cada tipo</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                Cada tipo MBTI possui 4 funções principais organizadas em uma hierarquia:
+              </p>
+              <div className="space-y-3">
+                <div className="flex gap-3 items-start">
+                  <span className="font-bold text-primary min-w-[120px]">1. Dominante:</span>
+                  <span className="text-muted-foreground">
+                    Sua função mais forte e natural. É seu "superpoder" - você usa sem esforço.
+                  </span>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <span className="font-bold text-primary min-w-[120px]">2. Auxiliar:</span>
+                  <span className="text-muted-foreground">
+                    Suporta sua dominante. Balanceia extroversão/introversão e percepção/julgamento.
+                  </span>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <span className="font-bold text-primary min-w-[120px]">3. Terciária:</span>
+                  <span className="text-muted-foreground">
+                    Menos desenvolvida, mas acessível. Área de crescimento pessoal.
+                  </span>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <span className="font-bold text-primary min-w-[120px]">4. Inferior:</span>
+                  <span className="text-muted-foreground">
+                    Sua função menos consciente. Pode causar stress quando não desenvolvida, mas é fonte de aspiração.
+                  </span>
+                </div>
+              </div>
+              <div className="mt-6 p-4 bg-card rounded-lg border">
+                <p className="text-sm font-medium mb-2">Exemplo: INTJ (Ni-Te-Fi-Se)</p>
+                <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
+                  <li><strong>Ni dominante:</strong> Visão estratégica e insights profundos</li>
+                  <li><strong>Te auxiliar:</strong> Execução lógica e eficiente dos planos</li>
+                  <li><strong>Fi terciária:</strong> Valores pessoais internos (em desenvolvimento)</li>
+                  <li><strong>Se inferior:</strong> Consciência sensorial do momento presente (desafiadora)</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
       {/* 16 Tipos */}
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
