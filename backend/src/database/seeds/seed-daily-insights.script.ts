@@ -26,19 +26,19 @@ async function bootstrap() {
       // Check if insight already exists
       const existingInsight = await dailyInsightsRepository.findOne({
         where: {
-          personalityType: insight.personalityType,
-          insightText: insight.insightText,
+          mbtiType: insight.personalityType,
+          content: insight.insightText,
         },
       });
 
       if (!existingInsight) {
         const newInsight = dailyInsightsRepository.create({
-          personalityType: insight.personalityType,
-          insightText: insight.insightText,
+          mbtiType: insight.personalityType,
+          title: `Insight para ${insight.personalityType}`,
+          content: insight.insightText,
           category: insight.category,
-          actionItem: insight.actionItem || undefined,
-          deepDiveLink: undefined,
-          dayOfYear: undefined, // Will be calculated on read
+          icon: 'lightbulb',
+          dayOfYear: Math.floor(Math.random() * 365) + 1, // Random day for now
         });
         await dailyInsightsRepository.save(newInsight);
         created++;
