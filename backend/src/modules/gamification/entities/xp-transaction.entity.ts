@@ -18,8 +18,8 @@ export class XpTransaction {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('uuid')
-  user_id: string;
+  @Column({ name: 'user_id', type: 'uuid' })
+  userId: string;
 
   @Column({
     type: 'enum',
@@ -33,6 +33,6 @@ export class XpTransaction {
   @Column({ type: 'text', nullable: true })
   description?: string;
 
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 }
