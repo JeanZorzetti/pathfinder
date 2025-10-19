@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { api } from "@/lib/api";
@@ -78,14 +78,7 @@ const Dashboard = () => {
     }
   }, [authLoading, isAuthenticated, navigate]);
 
-  // Load dashboard data
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      loadDashboard();
-    }
-  }, [isAuthenticated, user]);
-
-  const loadDashboard = async () => {
+  const loadDashboard = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -143,7 +136,14 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []); // Empty deps - loadDashboard doesn't depend on any props/state
+
+  // Load dashboard data
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      loadDashboard();
+    }
+  }, [isAuthenticated, user, loadDashboard]);
 
   const handleMarkChallengeComplete = async (dayIndex: number) => {
     try {
