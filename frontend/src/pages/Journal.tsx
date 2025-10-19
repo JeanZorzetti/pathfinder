@@ -218,9 +218,10 @@ const Journal = () => {
               <div className="flex gap-3">
                 <Button
                   onClick={handleSave}
-                  disabled={!content.trim() || content.trim().length < 10}
+                  disabled={content.trim().length < 10}
+                  title={content.trim().length < 10 ? "Digite pelo menos 10 caracteres" : "Salvar entrada"}
                 >
-                  Salvar
+                  Salvar {content.trim().length < 10 && `(${10 - content.trim().length} caracteres restantes)`}
                 </Button>
                 <Button variant="outline" onClick={resetForm}>
                   Cancelar
