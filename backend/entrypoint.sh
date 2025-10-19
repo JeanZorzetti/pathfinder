@@ -8,9 +8,15 @@ echo "⏳ Waiting for database..."
 sleep 5
 
 # ALWAYS run migrations (using IF NOT EXISTS so it's safe)
-echo "📊 Running ALL database migrations (Sprints 5-8)..."
+echo "📊 Running database fixes and migrations..."
 
-# Run comprehensive migration script
+# First, fix the xp_transactions table if needed
+if [ -f "fix-xp-table.js" ]; then
+  echo "   - Fixing xp_transactions table..."
+  node fix-xp-table.js || echo "   ⚠️  XP table fix failed"
+fi
+
+# Then run comprehensive migration script
 if [ -f "run-all-migrations.js" ]; then
   echo "   - Running Sprints 5, 6, 7, and 8 migrations..."
   node run-all-migrations.js || echo "   ⚠️  Some migrations failed or were already applied"
