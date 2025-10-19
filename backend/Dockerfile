@@ -42,7 +42,7 @@ COPY --from=builder --chown=nestjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nestjs:nodejs /app/package*.json ./
 
 # Copy migration scripts and entrypoint
-COPY --from=builder --chown=nestjs:nodejs /app/run-sprint8-migration.js ./
+COPY --from=builder --chown=nestjs:nodejs /app/run-all-migrations.js ./
 COPY --from=builder --chown=nestjs:nodejs /app/entrypoint.sh ./
 RUN chmod +x entrypoint.sh
 

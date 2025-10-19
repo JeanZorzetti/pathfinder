@@ -38,6 +38,7 @@ import { ComparisonCode } from './modules/comparison/entities/comparison-code.en
 import { ContentLibrary } from './modules/content-library/entities/content-library.entity';
 import { ChallengeTemplate } from './modules/challenges/entities/challenge-template.entity';
 import { JournalPrompt } from './modules/journal/entities/journal-prompt.entity';
+import { DailyInsight } from './modules/dashboard/entities/daily-insight.entity';
 
 // Config
 import typeormConfig from './config/typeorm.config';
@@ -80,6 +81,7 @@ import typeormConfig from './config/typeorm.config';
           ComparisonHistory,
           ComparisonCode,
           ContentLibrary,
+          DailyInsight,
         ],
         synchronize: configService.get('NODE_ENV') === 'development',
         logging: configService.get('NODE_ENV') === 'development',
