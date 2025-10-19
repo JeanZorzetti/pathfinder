@@ -112,15 +112,11 @@ const Dashboard = () => {
 
         // Load available achievements from backend
         try {
-          console.log('[Dashboard] Fetching achievements...');
           const achievementsResponse = await api.getUserAchievements();
-          console.log('[Dashboard] Response:', achievementsResponse);
-          console.log('[Dashboard] Response.data:', achievementsResponse.data);
-          console.log('[Dashboard] Available?:', achievementsResponse.data?.available?.length);
-
-          if (achievementsResponse.data?.available) {
+          // api.getUserAchievements() already returns the data directly (not wrapped in .data)
+          if (achievementsResponse.available) {
             // Map backend achievements to frontend Achievement type
-            const mappedAchievements = achievementsResponse.data.available.map((ach: any) => ({
+            const mappedAchievements = achievementsResponse.available.map((ach: any) => ({
               id: ach.achievementId || ach.id,
               title: ach.title,
               description: ach.description,
@@ -131,14 +127,10 @@ const Dashboard = () => {
               progress: { current: 0, total: ach.requirementValue || 1 },
               unlockedAt: undefined, // Available achievements are not unlocked yet
             }));
-            console.log('[Dashboard] Mapped achievements:', mappedAchievements.length);
-            console.log('[Dashboard] First 2:', mappedAchievements.slice(0, 2));
             setAvailableAchievements(mappedAchievements);
-          } else {
-            console.error('[Dashboard] No available achievements in response!');
           }
         } catch (error) {
-          console.error('[Dashboard] Error loading achievements:', error);
+          console.warn('Achievements not available:', error);
         }
       }
 
