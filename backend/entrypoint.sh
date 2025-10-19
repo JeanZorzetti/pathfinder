@@ -7,37 +7,35 @@ echo "🚀 Starting Pathfinder Backend..."
 echo "⏳ Waiting for database..."
 sleep 5
 
-# Run migrations only if DB_RUN_MIGRATIONS is set
-if [ "$DB_RUN_MIGRATIONS" = "true" ]; then
-  echo "📊 Running ALL database migrations (Sprints 5-8)..."
+# ALWAYS run migrations (using IF NOT EXISTS so it's safe)
+echo "📊 Running ALL database migrations (Sprints 5-8)..."
 
-  # Run comprehensive migration script
-  if [ -f "run-all-migrations.js" ]; then
-    echo "   - Running Sprints 5, 6, 7, and 8 migrations..."
-    node run-all-migrations.js || echo "   ⚠️  Some migrations failed or were already applied"
-  fi
-
-  # Fix users without MBTI type (set default to INTJ for testing)
-  echo "   - Fixing users without MBTI type..."
-  node -e "
-    const { Client } = require('pg');
-    const client = new Client({
-      host: process.env.DATABASE_HOST,
-      port: process.env.DATABASE_PORT,
-      user: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
-      ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
-    });
-    client.connect().then(async () => {
-      const result = await client.query(\`UPDATE users SET mbti_type = 'INTJ' WHERE mbti_type IS NULL\`);
-      console.log(\`      ✅ Fixed \${result.rowCount} users without MBTI\`);
-      await client.end();
-    }).catch(err => console.error('      ⚠️  Error fixing users:', err.message));
-  " || echo "   ⚠️  User fix failed"
-
-  echo "✅ Migrations complete"
+# Run comprehensive migration script
+if [ -f "run-all-migrations.js" ]; then
+  echo "   - Running Sprints 5, 6, 7, and 8 migrations..."
+  node run-all-migrations.js || echo "   ⚠️  Some migrations failed or were already applied"
 fi
+
+# Fix users without MBTI type (set default to INTJ for testing)
+echo "   - Fixing users without MBTI type..."
+node -e "
+  const { Client } = require('pg');
+  const client = new Client({
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME,
+    ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
+  });
+  client.connect().then(async () => {
+    const result = await client.query(\`UPDATE users SET mbti_type = 'INTJ' WHERE mbti_type IS NULL\`);
+    console.log(\`      ✅ Fixed \${result.rowCount} users without MBTI\`);
+    await client.end();
+  }).catch(err => console.error('      ⚠️  Error fixing users:', err.message));
+" || echo "   ⚠️  User fix failed"
+
+echo "✅ Migrations complete"
 
 # Start the application
 echo "🎯 Starting NestJS application..."
