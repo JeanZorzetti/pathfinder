@@ -24,12 +24,12 @@ export class GamificationService {
     const cooldownMs = XP_COOLDOWNS[dto.source];
     if (cooldownMs) {
       const lastTransaction = await this.xpTransactionRepository.findOne({
-        where: { user_id: userId, source: dto.source },
-        order: { created_at: 'DESC' },
+        where: { userId: userId, source: dto.source },
+        order: { createdAt: 'DESC' },
       });
 
       if (lastTransaction) {
-        const timeSinceLast = Date.now() - lastTransaction.created_at.getTime();
+        const timeSinceLast = Date.now() - lastTransaction.createdAt.getTime();
         if (timeSinceLast < cooldownMs) {
           throw new BadRequestException(
             `XP cooldown: wait ${Math.ceil((cooldownMs - timeSinceLast) / 1000 / 60)} minutes`,
@@ -59,7 +59,7 @@ export class GamificationService {
 
     // 5. Registrar transação
     const transaction = this.xpTransactionRepository.create({
-      user_id: userId,
+      userId: userId,
       source: dto.source,
       amount: dto.amount,
       description: dto.description,
@@ -82,8 +82,8 @@ export class GamificationService {
 
   async getUserXPHistory(userId: string, limit: number = 50): Promise<XpTransaction[]> {
     return this.xpTransactionRepository.find({
-      where: { user_id: userId },
-      order: { created_at: 'DESC' },
+      where: { userId: userId },
+      order: { createdAt: 'DESC' },
       take: limit,
     });
   }
@@ -98,7 +98,7 @@ export class GamificationService {
     const level = calculateLevel(currentXP).level;
     const levelProgress = calculateLevelProgress(currentXP);
     const transactionCount = await this.xpTransactionRepository.count({
-      where: { user_id: userId },
+      where: { userId: userId },
     });
 
     return {
@@ -115,7 +115,7 @@ export class GamificationService {
     // TODO: Implementar integração real com Supabase/profiles
     // Por enquanto, calcular somando transações
     const transactions = await this.xpTransactionRepository.find({
-      where: { user_id: userId },
+      where: { userId: userId },
     });
 
     return transactions.reduce((sum, t) => sum + t.amount, 0);
