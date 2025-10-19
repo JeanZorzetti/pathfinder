@@ -126,6 +126,8 @@ const Dashboard = () => {
               progress: { current: 0, total: ach.requirementValue || 1 },
               unlockedAt: undefined, // Available achievements are not unlocked yet
             }));
+            console.log('[Dashboard] Loaded achievements:', mappedAchievements.length);
+            console.log('[Dashboard] First 2:', mappedAchievements.slice(0, 2));
             setAvailableAchievements(mappedAchievements);
           }
         } catch (error) {

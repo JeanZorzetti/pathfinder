@@ -29,6 +29,9 @@ export function JourneyCard({ xp, achievements, onViewAll }: JourneyCardProps) {
   const { current, next, progressXP, requiredXP, percentage } = calculateLevelProgress(xp);
   const nextAchievements = getNextAchievements(achievements, 3);
 
+  console.log('[JourneyCard] Input achievements:', achievements.length);
+  console.log('[JourneyCard] Next achievements:', nextAchievements.length, nextAchievements);
+
   return (
     <Card className="shadow-sm hover:shadow-md transition-shadow">
       <CardHeader>
