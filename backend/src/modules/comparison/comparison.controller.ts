@@ -13,10 +13,12 @@ import {
   ComparisonCodeDto,
   ComparisonHistoryItemDto,
 } from './dto/compatibility-result.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('comparison')
 @ApiBearerAuth()
 @Controller('comparison')
+@UseGuards(JwtAuthGuard)
 export class ComparisonController {
   constructor(private readonly comparisonService: ComparisonService) {}
 
