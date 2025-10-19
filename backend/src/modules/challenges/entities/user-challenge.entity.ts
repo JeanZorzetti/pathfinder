@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 
 @Entity('user_challenges')
-@Index(['user_id'])
-@Index(['week_start_date'])
+@Index(['userId'])
+@Index(['weekStartDate'])
 @Index(['completed'])
 export class UserChallenge {
   @PrimaryGeneratedColumn('uuid')
