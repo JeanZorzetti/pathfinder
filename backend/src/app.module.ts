@@ -29,6 +29,8 @@ import { Answer } from './modules/personality-tests/entities/answer.entity';
 import { Article } from './modules/content/entities/article.entity';
 import { ArticleCategory } from './modules/content/entities/article-category.entity';
 import { XpTransaction } from './modules/gamification/entities/xp-transaction.entity';
+import { UserAchievement } from './modules/gamification/entities/user-achievement.entity';
+import { AchievementCatalog } from './modules/gamification/entities/achievement-catalog.entity';
 import { UserChallenge } from './modules/challenges/entities/user-challenge.entity';
 import { JournalEntry } from './modules/journal/entities/journal-entry.entity';
 import { ComparisonHistory } from './modules/comparison/entities/comparison-history.entity';
@@ -69,6 +71,8 @@ import typeormConfig from './config/typeorm.config';
           Article,
           ArticleCategory,
           XpTransaction,
+          UserAchievement,
+          AchievementCatalog,
           UserChallenge,
           ChallengeTemplate,
           JournalEntry,
