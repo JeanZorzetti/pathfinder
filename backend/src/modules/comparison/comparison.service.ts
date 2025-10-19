@@ -2,6 +2,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ComparisonHistory } from './entities/comparison-history.entity';
+import { ComparisonCode } from './entities/comparison-code.entity';
 import { User } from '../users/entities/user.entity';
 import { CodeGenerator } from './utils/code-generator';
 import { CompatibilityAlgorithm } from './utils/compatibility-algorithm';
@@ -16,6 +17,8 @@ export class ComparisonService {
   constructor(
     @InjectRepository(ComparisonHistory)
     private comparisonHistoryRepository: Repository<ComparisonHistory>,
+    @InjectRepository(ComparisonCode)
+    private comparisonCodeRepository: Repository<ComparisonCode>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
@@ -38,10 +41,14 @@ export class ComparisonService {
       );
     }
 
-    // If user already has a code, return it
-    if (user.comparison_code) {
+    // Check if user already has a code in comparison_codes table
+    const existingCode = await this.comparisonCodeRepository.findOne({
+      where: { userId },
+    });
+
+    if (existingCode) {
       return {
-        code: user.comparison_code,
+        code: existingCode.code,
         mbtiType: user.mbti_type,
         userId: user.id,
       };
@@ -50,9 +57,10 @@ export class ComparisonService {
     // Generate new code
     const newCode = CodeGenerator.generate(user.mbti_type);
 
-    // Save to database
-    await this.userRepository.update(userId, {
-      comparison_code: newCode,
+    // Save to comparison_codes table
+    await this.comparisonCodeRepository.save({
+      userId,
+      code: newCode,
     });
 
     return {
@@ -93,12 +101,16 @@ export class ComparisonService {
     }
 
     // Ensure user has a comparison code
-    let userCode = user.comparison_code;
-    if (!userCode) {
+    let userCodeEntity = await this.comparisonCodeRepository.findOne({
+      where: { userId },
+    });
+
+    let userCode: string;
+    if (!userCodeEntity) {
       userCode = CodeGenerator.generate(user.mbti_type);
-      await this.userRepository.update(userId, {
-        comparison_code: userCode,
-      });
+      await this.comparisonCodeRepository.save({ userId, code: userCode });
+    } else {
+      userCode = userCodeEntity.code;
     }
 
     // Extract MBTI from compared code
@@ -114,8 +126,17 @@ export class ComparisonService {
       comparedMbti,
     );
 
+    // Find the compared user if they exist (by code)
+    const comparedUserCode = await this.comparisonCodeRepository.findOne({
+      where: { code: comparedCode },
+    });
+
     // Save to history
-    await this.saveToHistory(userId, comparedCode, comparedMbti, compatibility.score);
+    await this.saveToHistory(
+      userId,
+      comparedUserCode?.userId || null,
+      compatibility.score,
+    );
 
     // Return full result
     return {
@@ -147,38 +168,58 @@ export class ComparisonService {
     limit: number = 20,
   ): Promise<ComparisonHistoryItemDto[]> {
     const history = await this.comparisonHistoryRepository.find({
-      where: { user_id: userId },
-      order: { created_at: 'DESC' },
+      where: { userId },
+      order: { createdAt: 'DESC' },
       take: limit,
+      relations: ['comparedWithUser'],
     });
 
-    return history.map((item) => ({
-      id: item.id,
-      comparedCode: item.compared_code,
-      comparedMbti: item.compared_mbti,
-      compatibilityScore: item.compatibility_score,
-      createdAt: item.created_at,
-    }));
+    // Load comparison codes for users
+    const results = await Promise.all(
+      history.map(async (item) => {
+        let comparedCode = '';
+        let comparedMbti = '';
+
+        if (item.comparedWithUserId) {
+          const codeEntity = await this.comparisonCodeRepository.findOne({
+            where: { userId: item.comparedWithUserId },
+          });
+          if (codeEntity) {
+            comparedCode = codeEntity.code;
+          }
+          if (item.comparedWithUser && item.comparedWithUser.mbti_type) {
+            comparedMbti = item.comparedWithUser.mbti_type;
+          }
+        }
+
+        return {
+          id: item.id,
+          comparedCode,
+          comparedMbti,
+          compatibilityScore: item.compatibilityScore,
+          createdAt: item.createdAt,
+        };
+      }),
+    );
+
+    return results;
   }
 
   /**
    * Save comparison result to history
    * @param userId - User ID
-   * @param comparedCode - Compared code
-   * @param comparedMbti - Compared MBTI type
+   * @param comparedWithUserId - Compared user ID (null if not registered)
    * @param score - Compatibility score
    */
   private async saveToHistory(
     userId: string,
-    comparedCode: string,
-    comparedMbti: string,
+    comparedWithUserId: string | null,
     score: number,
   ): Promise<void> {
     const historyEntry = this.comparisonHistoryRepository.create({
-      user_id: userId,
-      compared_code: comparedCode,
-      compared_mbti: comparedMbti,
-      compatibility_score: score,
+      userId,
+      comparedWithUserId: comparedWithUserId || undefined,
+      compatibilityScore: score,
     });
 
     await this.comparisonHistoryRepository.save(historyEntry);
@@ -191,12 +232,13 @@ export class ComparisonService {
    */
   async getStats(userId: string) {
     const totalComparisons = await this.comparisonHistoryRepository.count({
-      where: { user_id: userId },
+      where: { userId },
     });
 
     const allComparisons = await this.comparisonHistoryRepository.find({
-      where: { user_id: userId },
-      order: { compatibility_score: 'DESC' },
+      where: { userId },
+      order: { compatibilityScore: 'DESC' },
+      relations: ['comparedWithUser'],
     });
 
     if (allComparisons.length === 0) {
@@ -209,30 +251,43 @@ export class ComparisonService {
     }
 
     const averageScore =
-      allComparisons.reduce((sum, item) => sum + item.compatibility_score, 0) /
+      allComparisons.reduce((sum, item) => sum + item.compatibilityScore, 0) /
       allComparisons.length;
 
     const bestMatch = allComparisons[0];
 
     // Find most compared MBTI type
     const mbtiCounts: Record<string, number> = {};
-    allComparisons.forEach((item) => {
-      mbtiCounts[item.compared_mbti] =
-        (mbtiCounts[item.compared_mbti] || 0) + 1;
-    });
+    for (const item of allComparisons) {
+      if (item.comparedWithUser && item.comparedWithUser.mbti_type) {
+        const mbtiType = item.comparedWithUser.mbti_type;
+        mbtiCounts[mbtiType] = (mbtiCounts[mbtiType] || 0) + 1;
+      }
+    }
 
     const mostCompared = Object.entries(mbtiCounts).sort(
       ([, a], [, b]) => b - a,
     )[0];
 
+    // Get best match code
+    let bestMatchCode: string | null = null;
+    if (bestMatch && bestMatch.comparedWithUserId) {
+      const codeEntity = await this.comparisonCodeRepository.findOne({
+        where: { userId: bestMatch.comparedWithUserId },
+      });
+      if (codeEntity) {
+        bestMatchCode = codeEntity.code;
+      }
+    }
+
     return {
       totalComparisons,
       averageScore: Math.round(averageScore),
-      bestMatch: bestMatch
+      bestMatch: bestMatch && bestMatch.comparedWithUser
         ? {
-            mbtiType: bestMatch.compared_mbti,
-            code: bestMatch.compared_code,
-            score: bestMatch.compatibility_score,
+            mbtiType: bestMatch.comparedWithUser.mbti_type,
+            code: bestMatchCode,
+            score: bestMatch.compatibilityScore,
           }
         : null,
       mostCompared: mostCompared

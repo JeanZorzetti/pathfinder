@@ -4,27 +4,36 @@ import {
   Column,
   CreateDateColumn,
   Index,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity('comparison_history')
+@Index(['userId'])
+@Index(['comparedWithUserId'])
+@Index(['createdAt'])
 export class ComparisonHistory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('uuid')
-  @Index()
-  user_id: string;
+  @Column({ name: 'user_id', type: 'uuid' })
+  userId: string;
 
-  @Column({ length: 20 })
-  compared_code: string;
+  @Column({ name: 'compared_with_user_id', type: 'uuid', nullable: true })
+  comparedWithUserId: string;
 
-  @Column({ length: 4 })
-  compared_mbti: string;
+  @Column({ name: 'compatibility_score', type: 'int' })
+  compatibilityScore: number;
 
-  @Column('int')
-  compatibility_score: number;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
-  @CreateDateColumn()
-  @Index()
-  created_at: Date;
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @ManyToOne(() => User, { onDelete: 'SET NULL', nullable: true })
+  @JoinColumn({ name: 'compared_with_user_id' })
+  comparedWithUser: User;
 }

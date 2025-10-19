@@ -24,7 +24,11 @@
     "migration:revert": "npm run typeorm -- migration:revert -d src/config/typeorm.config.ts",
     "seed": "ts-node -r tsconfig-paths/register src/database/seeds/seed.script.ts",
     "seed:insights": "ts-node -r tsconfig-paths/register src/database/seeds/seed-daily-insights.script.ts",
-    "seed:achievements": "ts-node -r tsconfig-paths/register src/database/seeds/seed-achievements.script.ts"
+    "seed:achievements": "ts-node -r tsconfig-paths/register src/database/seeds/seed-achievements.script.ts",
+    "seed:challenges": "ts-node -r tsconfig-paths/register src/database/scripts/seed-challenge-templates.script.ts",
+    "seed:prompts": "ts-node -r tsconfig-paths/register src/database/scripts/seed-journal-prompts.script.ts",
+    "seed:content": "ts-node -r tsconfig-paths/register src/database/scripts/seed-content-library.script.ts",
+    "migration:sprint7": "ts-node -r tsconfig-paths/register src/database/scripts/run-sprint7-migration.script.ts"
   },
   "dependencies": {
     "@nestjs/cache-manager": "^2.2.2",

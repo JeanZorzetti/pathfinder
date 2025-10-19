@@ -17,6 +17,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { ChallengesModule } from './modules/challenges/challenges.module';
 import { JournalModule } from './modules/journal/journal.module';
 import { ComparisonModule } from './modules/comparison/comparison.module';
+import { ContentLibraryModule } from './modules/content-library/content-library.module';
 
 // Entities
 import { User } from './modules/users/entities/user.entity';
@@ -31,6 +32,10 @@ import { XpTransaction } from './modules/gamification/entities/xp-transaction.en
 import { UserChallenge } from './modules/challenges/entities/user-challenge.entity';
 import { JournalEntry } from './modules/journal/entities/journal-entry.entity';
 import { ComparisonHistory } from './modules/comparison/entities/comparison-history.entity';
+import { ComparisonCode } from './modules/comparison/entities/comparison-code.entity';
+import { ContentLibrary } from './modules/content-library/entities/content-library.entity';
+import { ChallengeTemplate } from './modules/challenges/entities/challenge-template.entity';
+import { JournalPrompt } from './modules/journal/entities/journal-prompt.entity';
 
 // Config
 import typeormConfig from './config/typeorm.config';
@@ -65,8 +70,12 @@ import typeormConfig from './config/typeorm.config';
           ArticleCategory,
           XpTransaction,
           UserChallenge,
+          ChallengeTemplate,
           JournalEntry,
+          JournalPrompt,
           ComparisonHistory,
+          ComparisonCode,
+          ContentLibrary,
         ],
         synchronize: configService.get('NODE_ENV') === 'development',
         logging: configService.get('NODE_ENV') === 'development',
@@ -119,6 +128,7 @@ import typeormConfig from './config/typeorm.config';
     ChallengesModule,
     JournalModule,
     ComparisonModule,
+    ContentLibraryModule,
   ],
   providers: [
     // Aplicar rate limiting globalmente
