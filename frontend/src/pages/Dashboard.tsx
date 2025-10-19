@@ -2,11 +2,14 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { api } from "@/lib/api";
+import { useJournal } from "@/hooks/useAPI";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Brain, LogOut, BookOpen, Flame, Calendar } from "lucide-react";
 import { toast } from "sonner";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { DailyInsightCard } from "@/components/DailyInsightCard";
 import { ProfileCard } from "@/components/dashboard/ProfileCard";
 import { JourneyCard } from "@/components/dashboard/JourneyCard";
@@ -71,6 +74,9 @@ const Dashboard = () => {
   const [recommendedContent, setRecommendedContent] = useState<Content[]>([]);
   const [availableAchievements, setAvailableAchievements] = useState<Achievement[]>([]);
 
+  // Load recent journal entries
+  const { entries: journalEntries, getEntries: loadJournalEntries } = useJournal();
+
   // Redirect to auth if not authenticated
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -87,6 +93,9 @@ const Dashboard = () => {
       const data = response.data as DashboardData;
 
       setDashboardData(data);
+
+      // Load recent journal entries (last 3)
+      await loadJournalEntries(1, 3);
 
       // Load recommended content if we have MBTI type
       if (data.profile.mbtiType) {
@@ -136,7 +145,7 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  }, []); // Empty deps - loadDashboard doesn't depend on any props/state
+  }, [loadJournalEntries]); // Added loadJournalEntries to load journal entries
 
   // Load dashboard data
   useEffect(() => {
@@ -451,9 +460,9 @@ const Dashboard = () => {
               </CardTitle>
               <CardDescription>Registre seus pensamentos e reflexões</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               {mbtiType && getDailyPrompt(mbtiType) && (
-                <div className="mb-4 p-4 rounded-lg bg-primary/5 border border-primary/20">
+                <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
                   <p className="text-sm font-semibold mb-2 flex items-center gap-2">
                     <span className="text-lg">💭</span>
                     Prompt de Hoje para {mbtiType}:
@@ -471,13 +480,71 @@ const Dashboard = () => {
                   </Badge>
                 </div>
               )}
-              <div className="text-center py-4">
-                <p className="text-muted-foreground mb-4 text-sm">
-                  Um espaço seguro para suas reflexões diárias
-                </p>
+
+              {/* Recent Journal Entries */}
+              {journalEntries.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-sm font-semibold">Entradas Recentes:</p>
+                  {journalEntries.slice(0, 3).map((entry) => {
+                    const entryDate = entry.created_at ? new Date(entry.created_at) : new Date();
+                    const isValidDate = !isNaN(entryDate.getTime());
+                    const getMoodEmoji = (mood: string | null) => {
+                      const moods: Record<string, string> = {
+                        feliz: "😊",
+                        triste: "😢",
+                        ansioso: "😰",
+                        calmo: "😌",
+                        energizado: "⚡",
+                        reflexivo: "🤔",
+                      };
+                      return mood ? moods[mood] || "📝" : "📝";
+                    };
+
+                    return (
+                      <div
+                        key={entry.id}
+                        className="p-3 rounded-lg border bg-card hover:bg-accent/50 transition-smooth cursor-pointer"
+                        onClick={() => navigate('/journal')}
+                      >
+                        <div className="flex items-start gap-2">
+                          <span className="text-lg">{getMoodEmoji(entry.mood)}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-muted-foreground mb-1">
+                              {isValidDate
+                                ? format(entryDate, "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
+                                : "Data inválida"}
+                            </p>
+                            <p className="text-sm line-clamp-2">
+                              {entry.content.length > 100
+                                ? `${entry.content.substring(0, 100)}...`
+                                : entry.content}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => navigate('/journal')}
+                    className="w-full mt-2"
+                  >
+                    Ver Todas as Entradas
+                  </Button>
+                </div>
+              )}
+
+              {/* CTA Button */}
+              <div className="text-center py-2">
+                {journalEntries.length === 0 && (
+                  <p className="text-muted-foreground mb-4 text-sm">
+                    Um espaço seguro para suas reflexões diárias
+                  </p>
+                )}
                 <Button onClick={() => navigate('/journal')} className="w-full">
                   <BookOpen className="w-4 h-4 mr-2" />
-                  Escrever Reflexão (+10 XP)
+                  {journalEntries.length > 0 ? 'Nova Reflexão (+10 XP)' : 'Escrever Reflexão (+10 XP)'}
                 </Button>
               </div>
             </CardContent>
