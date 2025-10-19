@@ -19,7 +19,7 @@ export class JournalService {
    */
   async create(userId: string, createEntryDto: CreateEntryDto): Promise<JournalEntry> {
     const entry = this.journalEntryRepository.create({
-      user_id: userId,
+      userId: userId,
       ...createEntryDto,
     });
 
@@ -37,8 +37,8 @@ export class JournalService {
     const skip = (page - 1) * limit;
 
     const [entries, total] = await this.journalEntryRepository.findAndCount({
-      where: { user_id: userId },
-      order: { created_at: 'DESC' },
+      where: { userId: userId },
+      order: { createdAt: 'DESC' },
       skip,
       take: limit,
     });
@@ -56,7 +56,7 @@ export class JournalService {
    */
   async findOne(userId: string, id: string): Promise<JournalEntry> {
     const entry = await this.journalEntryRepository.findOne({
-      where: { id, user_id: userId },
+      where: { id, userId: userId },
     });
 
     if (!entry) {
@@ -73,7 +73,7 @@ export class JournalService {
     const entry = await this.findOne(userId, id);
 
     // Apenas o dono pode editar
-    if (entry.user_id !== userId) {
+    if (entry.userId !== userId) {
       throw new ForbiddenException('Você não pode editar esta entrada');
     }
 
@@ -88,7 +88,7 @@ export class JournalService {
     const entry = await this.findOne(userId, id);
 
     // Apenas o dono pode deletar
-    if (entry.user_id !== userId) {
+    if (entry.userId !== userId) {
       throw new ForbiddenException('Você não pode deletar esta entrada');
     }
 
@@ -108,7 +108,7 @@ export class JournalService {
   async getStats(userId: string): Promise<JournalStatsDto> {
     // Total de entradas
     const totalEntries = await this.journalEntryRepository.count({
-      where: { user_id: userId },
+      where: { userId: userId },
     });
 
     // Entradas este mês
@@ -118,15 +118,15 @@ export class JournalService {
 
     const entriesThisMonth = await this.journalEntryRepository.count({
       where: {
-        user_id: userId,
-        created_at: Between(firstDayOfMonth, lastDayOfMonth),
+        userId: userId,
+        createdAt: Between(firstDayOfMonth, lastDayOfMonth),
       },
     });
 
     // Calcular streaks (dias consecutivos escrevendo)
     const allEntries = await this.journalEntryRepository.find({
-      where: { user_id: userId },
-      order: { created_at: 'DESC' },
+      where: { userId: userId },
+      order: { createdAt: 'DESC' },
     });
 
     const { currentStreak, longestStreak } = this.calculateStreaks(allEntries);
@@ -157,7 +157,7 @@ export class JournalService {
     // Agrupar entradas por dia (YYYY-MM-DD)
     const daysSet = new Set<string>();
     entries.forEach((entry) => {
-      const dateStr = entry.created_at.toISOString().split('T')[0];
+      const dateStr = entry.createdAt.toISOString().split('T')[0];
       daysSet.add(dateStr);
     });
 
@@ -205,7 +205,7 @@ export class JournalService {
    */
   private async getTopTags(userId: string, limit: number = 10): Promise<Array<{ tag: string; count: number }>> {
     const entries = await this.journalEntryRepository.find({
-      where: { user_id: userId },
+      where: { userId: userId },
       select: ['tags'],
     });
 

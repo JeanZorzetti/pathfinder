@@ -8,26 +8,31 @@ import {
 } from 'typeorm';
 
 @Entity('journal_entries')
+@Index(['user_id'])
+@Index(['created_at'])
+@Index(['mood'])
 export class JournalEntry {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('uuid')
-  @Index()
-  user_id: string;
+  @Column({ name: 'user_id', type: 'uuid' })
+  userId: string;
 
-  @Column('text')
+  @Column({ type: 'text' })
   content: string;
 
-  @Column({ nullable: true, length: 50 })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   mood?: string;
 
-  @Column('simple-array', { nullable: true })
-  tags?: string[];
+  @Column({ type: 'jsonb', default: '[]' })
+  tags: string[];
 
-  @CreateDateColumn()
-  created_at: Date;
+  @Column({ name: 'prompt_used', type: 'varchar', length: 500, nullable: true })
+  promptUsed?: string;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }

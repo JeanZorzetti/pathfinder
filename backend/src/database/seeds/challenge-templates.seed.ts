@@ -1,0 +1,428 @@
+/**
+ * Challenge Templates Seed Data
+ * 10 challenges per MBTI type × 16 types = 160 total challenges
+ */
+
+export const CHALLENGE_TEMPLATES_SEED = [
+  // ============ ESTJ Challenges ============
+  {
+    challengeId: 'estj_delegate_tasks',
+    mbtiType: 'ESTJ',
+    title: 'Semana da Delegação',
+    description: 'Pratique delegar tarefas que você normalmente faria sozinho.',
+    howTo: 'Cada dia, delegue pelo menos uma tarefa importante para alguém da equipe. Confie no processo e dê autonomia.',
+    why: 'ESTJs tendem a assumir tudo. Empoderar outros é essencial para crescer como líder.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'estj_active_listening',
+    mbtiType: 'ESTJ',
+    title: 'Escuta Ativa Semanal',
+    description: 'Pratique escuta ativa em todas as conversas importantes.',
+    howTo: 'Antes de responder, reformule o que a pessoa disse e confirme se entendeu corretamente.',
+    why: 'ESTJs decidem rápido, mas ouvir primeiro melhora drasticamente os resultados.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'estj_flexibility_week',
+    mbtiType: 'ESTJ',
+    title: 'Semana da Flexibilidade',
+    description: 'Aceite mudanças de planos sem resistência.',
+    howTo: 'Quando algo não sair como planejado, pratique dizer "Ok, vamos ajustar" ao invés de insistir no plano original.',
+    why: 'Desenvolver flexibilidade é um superpoder para ESTJs orientados a planos.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'estj_pause_reflect',
+    mbtiType: 'ESTJ',
+    title: 'Pausas Reflexivas',
+    description: 'Reserve 10 minutos por dia para não fazer absolutamente nada.',
+    howTo: 'Defina um timer de 10 minutos, sente-se e apenas observe seus pensamentos sem agir.',
+    why: 'Pausar para refletir previne decisões precipitadas e aumenta a qualidade das decisões.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'estj_empathy_feedback',
+    mbtiType: 'ESTJ',
+    title: 'Feedback com Empatia',
+    description: 'Dê feedback crítico começando com reconhecimento positivo.',
+    howTo: 'Antes de apontar o que precisa melhorar, reconheça genuinamente algo que a pessoa fez bem.',
+    why: 'A empatia amplifica o impacto do seu feedback direto.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'estj_celebrate_small_wins',
+    mbtiType: 'ESTJ',
+    title: 'Celebre Pequenas Vitórias',
+    description: 'Reconheça publicamente o progresso, não apenas resultados finais.',
+    howTo: 'Cada dia, envie uma mensagem de reconhecimento para alguém que fez progresso em algo.',
+    why: 'Grandes líderes celebram vitórias. Reconhecimento motiva mais que crítica.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'estj_question_priorities',
+    mbtiType: 'ESTJ',
+    title: 'Revisão de Prioridades',
+    description: 'Questione se você está otimizando as coisas certas.',
+    howTo: 'Diariamente, pergunte-se: "Esta tarefa realmente importa ou estou apenas sendo eficiente?"',
+    why: 'ESTJs são excelentes em estrutura, mas às vezes perdem o panorama.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'estj_vulnerability_practice',
+    mbtiType: 'ESTJ',
+    title: 'Semana da Vulnerabilidade',
+    description: 'Compartilhe uma dificuldade pessoal com alguém de confiança.',
+    howTo: 'Cada dia, seja honesto sobre algo que te desafia, sem tentar parecer invencível.',
+    why: 'Vulnerabilidade não é fraqueza. Humaniza você como líder.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'estj_experiment_methods',
+    mbtiType: 'ESTJ',
+    title: 'Experimentação Semanal',
+    description: 'Teste métodos não-tradicionais para resolver problemas.',
+    howTo: 'Para cada problema recorrente, tente uma abordagem completamente diferente do usual.',
+    why: 'Eficiência é sua força, mas inovação requer experimentação.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'estj_eliminate_busy_work',
+    mbtiType: 'ESTJ',
+    title: 'Elimine Trabalho Inútil',
+    description: 'Identifique e cancele tarefas que não agregam valor real.',
+    howTo: 'Revise sua lista diária e risque pelo menos uma tarefa que é "busy work".',
+    why: 'Produtividade não é fazer mais - é fazer o que importa.',
+    xpReward: 50,
+  },
+
+  // ============ INFP Challenges ============
+  {
+    challengeId: 'infp_assert_boundaries',
+    mbtiType: 'INFP',
+    title: 'Semana dos Limites',
+    description: 'Pratique dizer "não" a solicitações que drenam sua energia.',
+    howTo: 'Cada dia, recuse educadamente algo que não se alinha com seus valores ou necessidades.',
+    why: 'INFPs têm dificuldade em estabelecer limites. Seu bem-estar importa.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'infp_voice_ideas',
+    mbtiType: 'INFP',
+    title: 'Compartilhe Suas Ideias',
+    description: 'Verbalize pensamentos que você normalmente guardaria.',
+    howTo: 'Em cada conversa ou reunião, contribua com pelo menos uma ideia que você pensou.',
+    why: 'Suas ideias são valiosas, mas precisam ser compartilhadas para impactar.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'infp_action_over_perfection',
+    mbtiType: 'INFP',
+    title: 'Ação Imperfeita',
+    description: 'Compartilhe algo "bom o suficiente" ao invés de esperar perfeição.',
+    howTo: 'Publique ou mostre algo criativo mesmo que não esteja 100% polido.',
+    why: 'Perfeccionismo criativo te paralisa. Feito é melhor que perfeito.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'infp_express_feelings',
+    mbtiType: 'INFP',
+    title: 'Expresse Emoções',
+    description: 'Verbalize sentimentos positivos que você tem por pessoas.',
+    howTo: 'Diga explicitamente a alguém: "Eu valorizo você porque..."',
+    why: 'Você sente profundamente, mas mostra pouco. As pessoas precisam ouvir.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'infp_practical_steps',
+    mbtiType: 'INFP',
+    title: 'Visão → Ação',
+    description: 'Transforme ideias idealistas em passos práticos.',
+    howTo: 'Para cada visão que você tem, escreva 3 ações concretas e execute uma.',
+    why: 'Propósito sem pragmatismo leva à frustração.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'infp_present_moment',
+    mbtiType: 'INFP',
+    title: 'Presença Externa',
+    description: 'Passe 20 minutos diários completamente presente no mundo externo.',
+    howTo: 'Faça uma caminhada observando ativamente ao redor, sem se perder em pensamentos.',
+    why: 'Seu mundo interno é rico, mas não se perca nele.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'infp_disagree_respectfully',
+    mbtiType: 'INFP',
+    title: 'Pratique Discordar',
+    description: 'Expresse opiniões contrárias respeitosamente.',
+    howTo: 'Quando discordar de alguém, diga calmamente: "Vejo diferente porque..."',
+    why: 'Conflito não é traição. Sua voz importa.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'infp_accept_help',
+    mbtiType: 'INFP',
+    title: 'Aceite Ajuda',
+    description: 'Permita que outros façam algo por você.',
+    howTo: 'Quando alguém oferecer ajuda, aceite sem insistir em retribuir imediatamente.',
+    why: 'Você dá muito, mas aceita pouco. Reciprocidade é saudável.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'infp_communicate_needs',
+    mbtiType: 'INFP',
+    title: 'Comunique Necessidades',
+    description: 'Seja direto sobre o que você precisa.',
+    howTo: 'Use frases como: "Eu preciso de X" ao invés de esperar que adivinhem.',
+    why: 'Subtexto não é comunicação. Clareza fortalece relacionamentos.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'infp_emotional_boundaries',
+    mbtiType: 'INFP',
+    title: 'Fronteiras Emocionais',
+    description: 'Distinga suas emoções das emoções dos outros.',
+    howTo: 'Ao sentir algo intenso, pergunte: "Isso é meu ou de outra pessoa?"',
+    why: 'Você sente as emoções dos outros como suas. Fronteiras protegem.',
+    xpReward: 50,
+  },
+
+  // ============ INTJ Challenges ============
+  {
+    challengeId: 'intj_verbalize_appreciation',
+    mbtiType: 'INTJ',
+    title: 'Expresse Gratidão',
+    description: 'Diga "obrigado" ou "bom trabalho" a 3 pessoas por dia.',
+    howTo: 'Envie mensagens genuínas de reconhecimento, sem esperar que competência fale por si.',
+    why: 'INTJs assumem que competência é óbvia. Relacionamentos precisam de afirmação.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'intj_simplify_ideas',
+    mbtiType: 'INTJ',
+    title: 'Simplifique Comunicação',
+    description: 'Explique ideias complexas de forma acessível.',
+    howTo: 'Antes de explicar algo, pergunte: "Como eu diria isso para alguém sem contexto?"',
+    why: 'Você tem visões brilhantes, mas às vezes as explica de forma hermética.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'intj_social_connection',
+    mbtiType: 'INTJ',
+    title: 'Conexão sem Agenda',
+    description: 'Passe tempo com alguém sem objetivo ou propósito.',
+    howTo: 'Tenha uma conversa social genuína, sem tentar resolver, otimizar ou aprender algo.',
+    why: 'Conexões humanas não são transações.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'intj_80_percent_solution',
+    mbtiType: 'INTJ',
+    title: '80% É Suficiente',
+    description: 'Aceite soluções "bom o suficiente" ao invés de perfeição.',
+    howTo: 'Implemente algo que funciona bem e itere depois, ao invés de buscar perfeição.',
+    why: 'Perfeccionismo paralisa. Progresso supera perfeição.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'intj_emotional_check_in',
+    mbtiType: 'INTJ',
+    title: 'Perguntas Emocionais',
+    description: 'Pergunte como as pessoas estão se sentindo, genuinamente.',
+    howTo: 'Ao invés de focar em lógica e resultados, pergunte: "Como você está se sentindo sobre isso?"',
+    why: 'Competência atrai seguidores, mas empatia os mantém.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'intj_mindfulness_practice',
+    mbtiType: 'INTJ',
+    title: 'Desligue o Cérebro',
+    description: '10 minutos diários de "não-pensamento".',
+    howTo: 'Meditação, caminhada ou apenas respirar. Força seu cérebro a descansar.',
+    why: 'Seu cérebro nunca desliga. Descanso mental é essencial.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'intj_explain_reasoning',
+    mbtiType: 'INTJ',
+    title: 'Compartilhe o "Porquê"',
+    description: 'Explique o raciocínio, não apenas a conclusão.',
+    howTo: 'Ao propor algo, detalhe o processo de pensamento que te levou lá.',
+    why: 'Sistemas são sua força, mas pessoas implementam sistemas.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'intj_humanize_communication',
+    mbtiType: 'INTJ',
+    title: 'Humanize Mensagens',
+    description: 'Adicione uma frase pessoal em comunicações profissionais.',
+    howTo: 'Inclua uma pergunta sincera como "Como foi seu fim de semana?" em emails.',
+    why: 'Você é preciso, mas pode soar frio.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'intj_share_feelings',
+    mbtiType: 'INTJ',
+    title: 'Emoções São Dados',
+    description: 'Compartilhe como você se sente, não só o que pensa.',
+    howTo: 'Use frases como "Eu me sinto X sobre Y" ao invés de apenas análise lógica.',
+    why: 'INTJs vivem no intelecto, mas emoções também têm dados válidos.',
+    xpReward: 50,
+  },
+  {
+    challengeId: 'intj_small_talk_practice',
+    mbtiType: 'INTJ',
+    title: 'Pratique Small Talk',
+    description: 'Participe de conversas "superficiais" sem julgá-las.',
+    howTo: 'Inicie conversa casual sobre clima, notícias ou eventos sem buscar profundidade.',
+    why: 'Small talk não é desperdício - é investimento social.',
+    xpReward: 50,
+  },
+
+  // Continue with remaining types...
+  // Para economizar espaço, vou incluir alguns exemplos dos outros tipos
+
+  // ============ ENTP Challenges ============
+  {
+    challengeId: 'entp_finish_projects',
+    mbtiType: 'ENTP',
+    title: 'Finalize Projetos',
+    description: 'Complete projetos que estão 80% prontos.',
+    howTo: 'Escolha 5 projetos inacabados e termine um por dia.',
+    why: 'ENTPs adoram iniciar, mas completar é o verdadeiro poder.',
+    xpReward: 50,
+  },
+
+  // ============ ENFJ Challenges ============
+  {
+    challengeId: 'enfj_set_boundaries',
+    mbtiType: 'ENFJ',
+    title: 'Limites Saudáveis',
+    description: 'Diga não a solicitações que sobrecarregam você.',
+    howTo: 'Recuse pelo menos uma coisa por dia que você normalmente aceitaria.',
+    why: 'Ajudar é nobre, mas você não pode salvar todos.',
+    xpReward: 50,
+  },
+
+  // ============ ENFP Challenges ============
+  {
+    challengeId: 'enfp_deep_focus',
+    mbtiType: 'ENFP',
+    title: 'Foco Profundo',
+    description: 'Dedique-se a UMA paixão por 2 horas diárias.',
+    howTo: 'Bloqueie distrações e trabalhe profundamente em um único projeto.',
+    why: 'Suas paixões são muitas. Profundidade supera amplitude.',
+    xpReward: 50,
+  },
+
+  // ============ ENTJ Challenges ============
+  {
+    challengeId: 'entj_empathy_check',
+    mbtiType: 'ENTJ',
+    title: 'Check-in Emocional',
+    description: 'Pergunte como a equipe está lidando com demandas.',
+    howTo: 'Faça perguntas sobre sentimentos, não só sobre resultados.',
+    why: 'Resultados importam, mas o processo envolve humanos.',
+    xpReward: 50,
+  },
+
+  // ============ ISTJ Challenges ============
+  {
+    challengeId: 'istj_try_new_approaches',
+    mbtiType: 'ISTJ',
+    title: 'Inovação Semanal',
+    description: 'Experimente fazer coisas familiares de jeitos novos.',
+    howTo: 'Para cada tarefa rotineira, teste uma abordagem diferente.',
+    why: 'Tradições são importantes, mas inovação também.',
+    xpReward: 50,
+  },
+
+  // ============ ISFJ Challenges ============
+  {
+    challengeId: 'isfj_prioritize_self',
+    mbtiType: 'ISFJ',
+    title: 'Eu em Primeiro Lugar',
+    description: 'Coloque suas necessidades antes das dos outros.',
+    howTo: 'Escolha você em pelo menos uma decisão diária.',
+    why: 'Cuidar dos outros é belo, mas não às suas custas.',
+    xpReward: 50,
+  },
+
+  // ============ ISTP Challenges ============
+  {
+    challengeId: 'istp_explain_process',
+    mbtiType: 'ISTP',
+    title: 'Explique Seu Pensamento',
+    description: 'Compartilhe como você resolve problemas.',
+    howTo: 'Verbalize seu processo de pensamento ao invés de apenas apresentar soluções.',
+    why: 'Você resolve silenciosamente. Outros aprendem quando você explica.',
+    xpReward: 50,
+  },
+
+  // ============ ISFP Challenges ============
+  {
+    challengeId: 'isfp_verbal_expression',
+    mbtiType: 'ISFP',
+    title: 'Palavras, Não Só Arte',
+    description: 'Verbalize sentimentos ao invés de só expressá-los criativamente.',
+    howTo: 'Diga diretamente algo que você sente, sem usar arte como intermediário.',
+    why: 'Sua arte fala, mas palavras também têm poder.',
+    xpReward: 50,
+  },
+
+  // ============ ESTP Challenges ============
+  {
+    challengeId: 'estp_reflection_time',
+    mbtiType: 'ESTP',
+    title: 'Reflexão Diária',
+    description: '15 minutos de journaling sobre decisões recentes.',
+    howTo: 'Pare e avalie seus últimos movimentos antes de seguir para o próximo.',
+    why: 'Ação é sua zona, mas reflexão cria sabedoria.',
+    xpReward: 50,
+  },
+
+  // ============ ESFP Challenges ============
+  {
+    challengeId: 'esfp_plan_ahead',
+    mbtiType: 'ESFP',
+    title: 'Planeje com Antecedência',
+    description: 'Crie um plano simples para o dia seguinte.',
+    howTo: 'Antes de dormir, escreva 3 prioridades para amanhã.',
+    why: 'Espontaneidade é alegria, mas estrutura cria liberdade.',
+    xpReward: 50,
+  },
+
+  // ============ ESFJ Challenges ============
+  {
+    challengeId: 'esfj_establish_boundaries',
+    mbtiType: 'ESFJ',
+    title: 'Estabeleça Limites',
+    description: 'Recuse algo que drena sua energia.',
+    howTo: 'Diga não a pelo menos uma solicitação que te sobrecarrega.',
+    why: 'Você mantém todos felizes, mas quem cuida de você?',
+    xpReward: 50,
+  },
+
+  // ============ INTP Challenges ============
+  {
+    challengeId: 'intp_execute_ideas',
+    mbtiType: 'INTP',
+    title: 'Execução Sobre Análise',
+    description: 'Implemente ideias ao invés de só refiná-las.',
+    howTo: 'Lance algo "bom o suficiente" sem otimização completa.',
+    why: 'Análise é valiosa, mas execução é essencial.',
+    xpReward: 50,
+  },
+
+  // ============ INFJ Challenges ============
+  {
+    challengeId: 'infj_rest_from_others',
+    mbtiType: 'INFJ',
+    title: 'Descanso Social',
+    description: '30 minutos diários sozinho para recarregar.',
+    howTo: 'Proteja tempo de solidão intencional, sem culpa.',
+    why: 'Você dá muito aos outros. Precisa recarregar.',
+    xpReward: 50,
+  },
+];

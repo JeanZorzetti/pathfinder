@@ -25,8 +25,8 @@ export class ChallengesService {
     // Buscar desafio da semana atual
     let userChallenge = await this.userChallengeRepository.findOne({
       where: {
-        user_id: userId,
-        week_start_date: weekStartDate,
+        userId: userId,
+        weekStartDate: weekStartDate,
       },
     });
 
@@ -52,8 +52,8 @@ export class ChallengesService {
     // Buscar desafio atual
     const userChallenge = await this.userChallengeRepository.findOne({
       where: {
-        user_id: userId,
-        week_start_date: weekStartDate,
+        userId: userId,
+        weekStartDate: weekStartDate,
       },
     });
 
@@ -61,29 +61,29 @@ export class ChallengesService {
       throw new NotFoundException('Nenhum desafio ativo encontrado para esta semana');
     }
 
-    if (userChallenge.is_completed) {
+    if (userChallenge.completed) {
       throw new BadRequestException('Este desafio já foi completado');
     }
 
     // Atualizar dias completos
-    const daysCompleted = this.parseDaysCompleted(userChallenge.days_completed);
+    const daysCompleted = this.parseDaysCompleted(userChallenge.daysCompleted);
 
     if (daysCompleted[day]) {
       throw new BadRequestException('Este dia já foi marcado como completo');
     }
 
     daysCompleted[day] = true;
-    userChallenge.days_completed = daysCompleted as any;
+    userChallenge.daysCompleted = daysCompleted as any;
 
     // Verificar se todos os dias foram completados
     const allDaysComplete = daysCompleted.every((completed) => completed === true);
 
     if (allDaysComplete) {
-      userChallenge.is_completed = true;
-      userChallenge.completed_at = new Date();
+      userChallenge.completed = true;
+      userChallenge.completedAt = new Date();
 
       // Buscar template do desafio para obter XP reward
-      const template = CHALLENGE_TEMPLATES.find((t) => t.id === userChallenge.challenge_id);
+      const template = CHALLENGE_TEMPLATES.find((t) => t.id === userChallenge.challengeId);
       const xpReward = template?.xpReward || 50;
 
       // Dar XP ao usuário
@@ -104,10 +104,10 @@ export class ChallengesService {
   async getChallengeHistory(userId: string, limit: number = 10): Promise<CurrentChallengeDto[]> {
     const completedChallenges = await this.userChallengeRepository.find({
       where: {
-        user_id: userId,
-        is_completed: true,
+        userId: userId,
+        completed: true,
       },
-      order: { completed_at: 'DESC' },
+      order: { completedAt: 'DESC' },
       take: limit,
     });
 
@@ -119,11 +119,11 @@ export class ChallengesService {
    */
   async getChallengeStats(userId: string): Promise<ChallengeStatsDto> {
     const allChallenges = await this.userChallengeRepository.find({
-      where: { user_id: userId },
-      order: { week_start_date: 'ASC' },
+      where: { userId: userId },
+      order: { weekStartDate: 'ASC' },
     });
 
-    const completedChallenges = allChallenges.filter((c) => c.is_completed);
+    const completedChallenges = allChallenges.filter((c) => c.completed);
 
     // Calcular streak atual (semanas consecutivas)
     let currentStreak = 0;
@@ -131,15 +131,15 @@ export class ChallengesService {
     let tempStreak = 0;
 
     const sortedByDate = [...completedChallenges].sort(
-      (a, b) => new Date(a.week_start_date).getTime() - new Date(b.week_start_date).getTime(),
+      (a, b) => new Date(a.weekStartDate).getTime() - new Date(b.weekStartDate).getTime(),
     );
 
     for (let i = 0; i < sortedByDate.length; i++) {
       if (i === 0) {
         tempStreak = 1;
       } else {
-        const prevDate = new Date(sortedByDate[i - 1].week_start_date);
-        const currDate = new Date(sortedByDate[i].week_start_date);
+        const prevDate = new Date(sortedByDate[i - 1].weekStartDate);
+        const currDate = new Date(sortedByDate[i].weekStartDate);
         const daysDiff = (currDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24);
 
         if (daysDiff === 7) {
@@ -155,7 +155,7 @@ export class ChallengesService {
     // Verificar se último desafio é da semana atual
     const weekStartDate = this.getWeekStartDate();
     const lastChallenge = sortedByDate[sortedByDate.length - 1];
-    if (lastChallenge && new Date(lastChallenge.week_start_date).getTime() === weekStartDate.getTime()) {
+    if (lastChallenge && new Date(lastChallenge.weekStartDate).getTime() === weekStartDate.getTime()) {
       currentStreak = tempStreak;
     } else {
       currentStreak = 0;
@@ -163,7 +163,7 @@ export class ChallengesService {
 
     // Calcular XP total ganho
     const totalXPEarned = completedChallenges.reduce((sum, challenge) => {
-      const template = CHALLENGE_TEMPLATES.find((t) => t.id === challenge.challenge_id);
+      const template = CHALLENGE_TEMPLATES.find((t) => t.id === challenge.challengeId);
       return sum + (template?.xpReward || 50);
     }, 0);
 
@@ -183,11 +183,11 @@ export class ChallengesService {
   private async generateNewChallenge(userId: string, mbtiType: string): Promise<UserChallenge> {
     // Buscar IDs de desafios já completados
     const completedChallenges = await this.userChallengeRepository.find({
-      where: { user_id: userId, is_completed: true },
-      select: ['challenge_id'],
+      where: { userId: userId, completed: true },
+      select: ['challengeId'],
     });
 
-    const completedIds = completedChallenges.map((c) => c.challenge_id);
+    const completedIds = completedChallenges.map((c) => c.challengeId);
 
     // Selecionar novo desafio
     const template = selectChallengeForUser(mbtiType, completedIds);
@@ -198,22 +198,22 @@ export class ChallengesService {
       const fallbackTemplate = CHALLENGE_TEMPLATES[randomIndex];
 
       const newChallenge = this.userChallengeRepository.create({
-        user_id: userId,
-        challenge_id: fallbackTemplate.id,
-        week_start_date: this.getWeekStartDate(),
-        days_completed: [false, false, false, false, false] as any,
-        is_completed: false,
+        userId: userId,
+        challengeId: fallbackTemplate.id,
+        weekStartDate: this.getWeekStartDate(),
+        daysCompleted: [false, false, false, false, false] as any,
+        completed: false,
       });
 
       return this.userChallengeRepository.save(newChallenge);
     }
 
     const newChallenge = this.userChallengeRepository.create({
-      user_id: userId,
-      challenge_id: template.id,
-      week_start_date: this.getWeekStartDate(),
-      days_completed: [false, false, false, false, false] as any,
-      is_completed: false,
+      userId: userId,
+      challengeId: template.id,
+      weekStartDate: this.getWeekStartDate(),
+      daysCompleted: [false, false, false, false, false] as any,
+      completed: false,
     });
 
     return this.userChallengeRepository.save(newChallenge);
@@ -251,19 +251,19 @@ export class ChallengesService {
    * Mapeia entidade para DTO
    */
   private mapToDto(userChallenge: UserChallenge): CurrentChallengeDto {
-    const template = CHALLENGE_TEMPLATES.find((t) => t.id === userChallenge.challenge_id);
+    const template = CHALLENGE_TEMPLATES.find((t) => t.id === userChallenge.challengeId);
 
     if (!template) {
-      throw new NotFoundException(`Template de desafio ${userChallenge.challenge_id} não encontrado`);
+      throw new NotFoundException(`Template de desafio ${userChallenge.challengeId} não encontrado`);
     }
 
-    const daysCompleted = this.parseDaysCompleted(userChallenge.days_completed);
+    const daysCompleted = this.parseDaysCompleted(userChallenge.daysCompleted);
     const completedDaysCount = daysCompleted.filter((day) => day === true).length;
 
     // Handle date serialization: TypeORM may return dates as strings or Date objects
-    const weekStartDate = typeof userChallenge.week_start_date === 'string'
-      ? userChallenge.week_start_date
-      : userChallenge.week_start_date.toISOString();
+    const weekStartDate = typeof userChallenge.weekStartDate === 'string'
+      ? userChallenge.weekStartDate
+      : userChallenge.weekStartDate.toISOString();
 
     return {
       id: userChallenge.id,
@@ -273,7 +273,7 @@ export class ChallengesService {
       daysCompleted,
       weekStartDate,
       xpReward: template.xpReward,
-      isCompleted: userChallenge.is_completed,
+      isCompleted: userChallenge.completed,
       completedDaysCount,
     };
   }

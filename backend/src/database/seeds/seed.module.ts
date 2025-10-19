@@ -9,6 +9,10 @@ import { DailyInsight } from '../../modules/dashboard/entities/daily-insight.ent
 import { AchievementCatalog } from '../../modules/gamification/entities/achievement-catalog.entity';
 import { UserAchievement } from '../../modules/gamification/entities/user-achievement.entity';
 import { XpTransaction } from '../../modules/gamification/entities/xp-transaction.entity';
+import { ChallengeTemplate } from '../../modules/challenges/entities/challenge-template.entity';
+import { UserChallenge } from '../../modules/challenges/entities/user-challenge.entity';
+import { JournalEntry } from '../../modules/journal/entities/journal-entry.entity';
+import { JournalPrompt } from '../../modules/journal/entities/journal-prompt.entity';
 
 @Module({
   imports: [
@@ -24,6 +28,10 @@ import { XpTransaction } from '../../modules/gamification/entities/xp-transactio
       AchievementCatalog,
       UserAchievement,
       XpTransaction,
+      ChallengeTemplate,
+      UserChallenge,
+      JournalEntry,
+      JournalPrompt,
     ]),
   ],
   providers: [SeedService],
