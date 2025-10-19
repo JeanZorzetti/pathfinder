@@ -43,10 +43,9 @@ export class DashboardService {
       } catch (error) {
         console.error('Error getting daily insight:', error);
         dailyInsight = {
-          title: 'Bem-vindo ao Pathfinder!',
           text: 'Continue sua jornada de autoconhecimento. Cada passo conta!',
           category: 'motivação',
-          icon: 'lightbulb'
+          actionItem: 'Reserve um momento hoje para refletir sobre seus valores.',
         };
       }
 
@@ -210,10 +209,9 @@ export class DashboardService {
     if (!insights || insights.length === 0) {
       // Fallback se não houver insights para este tipo
       return {
-        title: 'Insight do Dia',
         text: 'Continue sua jornada de autoconhecimento. Cada passo conta!',
         category: 'motivação',
-        icon: 'lightbulb',
+        actionItem: 'Reserve um momento hoje para refletir sobre seus valores.',
       };
     }
 
@@ -228,10 +226,9 @@ export class DashboardService {
     const selectedInsight = insights[dailyIndex];
 
     return {
-      title: selectedInsight.title,
-      text: selectedInsight.content,
+      text: selectedInsight.insightText,
       category: selectedInsight.category,
-      icon: selectedInsight.icon,
+      actionItem: selectedInsight.actionItem,
     };
   }
 }

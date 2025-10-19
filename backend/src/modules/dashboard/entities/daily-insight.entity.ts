@@ -8,20 +8,20 @@ export class DailyInsight {
   @Column({ name: 'mbti_type', type: 'varchar', length: 4 })
   mbtiType: string;
 
-  @Column({ name: 'day_of_year', type: 'int' })
+  @Column({ name: 'day_of_year', type: 'int', nullable: true })
   dayOfYear: number;
 
-  @Column({ type: 'varchar', length: 200 })
-  title: string;
+  @Column({ name: 'insight_text', type: 'text' })
+  insightText: string;
 
-  @Column({ type: 'text' })
-  content: string;
+  @Column({ name: 'action_item', type: 'text', nullable: true })
+  actionItem: string;
 
   @Column({ type: 'varchar', length: 50 })
   category: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  icon: string;
+  @Column({ name: 'deep_dive_link', type: 'varchar', nullable: true })
+  deepDiveLink: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
