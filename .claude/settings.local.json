@@ -68,7 +68,8 @@
       "Bash(node generate-jwt.cjs)",
       "Bash(npx web-push generate-vapid-keys --json)",
       "Bash(npm run typeorm:generate -- src/migrations/CreatePushSubscriptions)",
-      "Bash(npm run)"
+      "Bash(npm run)",
+      "Bash(find . -name \"*.tsx\" -type f -exec grep -l \"useEffect\" {})"
     ],
     "deny": [],
     "ask": []

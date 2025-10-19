@@ -260,8 +260,9 @@ export function useJournal() {
     setError(null);
     try {
       const result = await api.deleteJournalEntry(id);
-      // Refetch entries after deletion
-      await getEntries();
+      // Refetch entries after deletion - inline to avoid circular dependency
+      const entriesResult = await api.getJournalEntries(1, 20);
+      setEntries(entriesResult.entries || []);
       return result;
     } catch (err: any) {
       setError(err.message);
@@ -269,7 +270,7 @@ export function useJournal() {
     } finally {
       setLoading(false);
     }
-  }, [getEntries]);
+  }, []); // No dependencies - uses only setters which are stable
 
   const getDailyPrompt = useCallback(async (mbtiType?: string) => {
     setError(null);

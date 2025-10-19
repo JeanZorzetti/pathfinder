@@ -137,12 +137,8 @@ const Journal = () => {
     );
   }
 
-  // Show error toast if API error
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-  }, [error]);
+  // Note: Removed useEffect for error toast to prevent re-render loops
+  // Errors are now shown inline in try/catch blocks
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
