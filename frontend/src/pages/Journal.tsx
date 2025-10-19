@@ -229,21 +229,29 @@ const Journal = () => {
         )}
 
         <div className="space-y-4">
-          {entries.map((entry) => (
-            <Card key={entry.id} className="shadow-sm hover:shadow-elegant transition-smooth">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{getMoodEmoji(entry.mood)}</span>
-                    <div>
-                      <CardTitle className="text-base">
-                        {format(new Date(entry.created_at), "EEEE, d 'de' MMMM", { locale: ptBR })}
-                      </CardTitle>
-                      <CardDescription>
-                        {format(new Date(entry.created_at), "HH:mm")}
-                      </CardDescription>
+          {entries.map((entry) => {
+            // Safely parse date with fallback
+            const entryDate = entry.created_at ? new Date(entry.created_at) : new Date();
+            const isValidDate = !isNaN(entryDate.getTime());
+
+            return (
+              <Card key={entry.id} className="shadow-sm hover:shadow-elegant transition-smooth">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">{getMoodEmoji(entry.mood)}</span>
+                      <div>
+                        <CardTitle className="text-base">
+                          {isValidDate
+                            ? format(entryDate, "EEEE, d 'de' MMMM", { locale: ptBR })
+                            : "Data inválida"
+                          }
+                        </CardTitle>
+                        <CardDescription>
+                          {isValidDate ? format(entryDate, "HH:mm") : "--:--"}
+                        </CardDescription>
+                      </div>
                     </div>
-                  </div>
                   <div className="flex gap-2">
                     <Button
                       variant="ghost"
@@ -266,7 +274,8 @@ const Journal = () => {
                 <p className="whitespace-pre-wrap leading-relaxed">{entry.content}</p>
               </CardContent>
             </Card>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>
