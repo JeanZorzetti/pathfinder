@@ -5,23 +5,23 @@ export class DailyInsight {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'personality_type', length: 4 })
-  personalityType: string;
+  @Column({ name: 'mbti_type', type: 'varchar', length: 4 })
+  mbtiType: string;
 
-  @Column({ name: 'insight_text', type: 'text' })
-  insightText: string;
+  @Column({ name: 'day_of_year', type: 'int' })
+  dayOfYear: number;
 
-  @Column({ length: 50 })
+  @Column({ type: 'varchar', length: 200 })
+  title: string;
+
+  @Column({ type: 'text' })
+  content: string;
+
+  @Column({ type: 'varchar', length: 50 })
   category: string;
 
-  @Column({ name: 'action_item', type: 'text', nullable: true })
-  actionItem?: string;
-
-  @Column({ name: 'deep_dive_link', length: 500, nullable: true })
-  deepDiveLink?: string;
-
-  @Column({ name: 'day_of_year', type: 'int', nullable: true })
-  dayOfYear?: number;
+  @Column({ type: 'varchar', length: 50 })
+  icon: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

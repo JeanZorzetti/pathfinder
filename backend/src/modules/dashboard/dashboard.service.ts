@@ -175,14 +175,16 @@ export class DashboardService {
 
     // Buscar insights do banco para o tipo MBTI do usuário
     const insights = await this.dailyInsightRepository.find({
-      where: { personalityType: user.mbti_type },
+      where: { mbtiType: user.mbti_type },
     });
 
     if (!insights || insights.length === 0) {
       // Fallback se não houver insights para este tipo
       return {
+        title: 'Insight do Dia',
         text: 'Continue sua jornada de autoconhecimento. Cada passo conta!',
         category: 'motivação',
+        icon: 'lightbulb',
       };
     }
 
@@ -197,9 +199,10 @@ export class DashboardService {
     const selectedInsight = insights[dailyIndex];
 
     return {
-      text: selectedInsight.insightText,
+      title: selectedInsight.title,
+      text: selectedInsight.content,
       category: selectedInsight.category,
-      actionItem: selectedInsight.actionItem || undefined,
+      icon: selectedInsight.icon,
     };
   }
 }
