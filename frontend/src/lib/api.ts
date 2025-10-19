@@ -157,6 +157,13 @@ class PathfinderAPIClient {
     return this.get('/progress/stats');
   }
 
+  /**
+   * Get user achievements (unlocked and available)
+   */
+  async getUserAchievements() {
+    return this.get('/progress/achievements');
+  }
+
   // ==================== Users ====================
 
   /**

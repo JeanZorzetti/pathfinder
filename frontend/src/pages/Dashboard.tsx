@@ -67,6 +67,7 @@ const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [comparisonCode, setComparisonCode] = useState<string | null>(null);
   const [recommendedContent, setRecommendedContent] = useState<Content[]>([]);
+  const [availableAchievements, setAvailableAchievements] = useState<Achievement[]>([]);
 
   // Redirect to auth if not authenticated
   useEffect(() => {
@@ -97,7 +98,7 @@ const Dashboard = () => {
         const content = getRandomContentForType(data.profile.mbtiType, 4);
         setRecommendedContent(content);
 
-        // Try to load comparison code
+        // Load comparison code
         try {
           const codeResponse = await api.getComparisonCode();
           if (codeResponse.data?.code) {
@@ -105,6 +106,27 @@ const Dashboard = () => {
           }
         } catch (error) {
           console.warn('Comparison code not available:', error);
+        }
+
+        // Load available achievements from backend
+        try {
+          const achievementsResponse = await api.getUserAchievements();
+          if (achievementsResponse.data?.available) {
+            // Map backend achievements to frontend Achievement type
+            const mappedAchievements = achievementsResponse.data.available.map((ach: any) => ({
+              id: ach.achievementId || ach.id,
+              title: ach.title,
+              description: ach.description,
+              icon: ach.icon,
+              category: 'universal',
+              xpReward: ach.xpReward,
+              rarity: ach.rarity,
+              progress: { current: 0, total: ach.requirementValue || 1 },
+            }));
+            setAvailableAchievements(mappedAchievements);
+          }
+        } catch (error) {
+          console.warn('Achievements not available:', error);
         }
       }
 
@@ -200,7 +222,8 @@ const Dashboard = () => {
 
   const { profile, testResults, currentChallenge, dailyInsight, stats } = dashboardData;
   const mbtiType = profile.mbtiType;
-  const achievements = (profile.metadata.achievements as Achievement[]) || [];
+  // Use available achievements from state (loaded from backend)
+  const achievements = availableAchievements.length > 0 ? availableAchievements : [];
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
