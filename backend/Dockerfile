@@ -41,6 +41,11 @@ COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nestjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nestjs:nodejs /app/package*.json ./
 
+# Copy migration scripts and entrypoint
+COPY --from=builder --chown=nestjs:nodejs /app/run-sprint8-migration.js ./
+COPY --from=builder --chown=nestjs:nodejs /app/entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
 # Switch to non-root user
 USER nestjs
 
@@ -51,5 +56,5 @@ EXPOSE 3001
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s \
   CMD node -e "require('http').get('http://localhost:3001/api/v1/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
-# Start application
-CMD ["node", "dist/main"]
+# Start application with entrypoint
+ENTRYPOINT ["./entrypoint.sh"]
