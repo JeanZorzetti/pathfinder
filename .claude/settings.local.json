@@ -65,7 +65,10 @@
       "Bash(npm run typeorm:generate -- src/migrations/CreateDailyInsights)",
       "Bash(node verify-migration.cjs)",
       "Bash(node get-valid-token.cjs)",
-      "Bash(node generate-jwt.cjs)"
+      "Bash(node generate-jwt.cjs)",
+      "Bash(npx web-push generate-vapid-keys --json)",
+      "Bash(npm run typeorm:generate -- src/migrations/CreatePushSubscriptions)",
+      "Bash(npm run)"
     ],
     "deny": [],
     "ask": []

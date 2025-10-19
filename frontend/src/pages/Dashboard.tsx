@@ -13,9 +13,11 @@ import { JourneyCard } from "@/components/dashboard/JourneyCard";
 import { WeeklyChallengeCard } from "@/components/dashboard/WeeklyChallengeCard";
 import { ContentRecommendationCard } from "@/components/dashboard/ContentRecommendationCard";
 import { ComparisonCard } from "@/components/dashboard/ComparisonCard";
+import { MobileEnhancedWrapper } from "@/components/mobile/MobileEnhancedWrapper";
 import { getColorScheme, getMBTINickname } from "@/data/mbti-colors";
 import { getRandomContentForType } from "@/data/contentLibrary";
 import { getDailyPrompt } from "@/data/journalPrompts";
+import { haptics } from "@/utils/haptics";
 import { Content } from "@/types/content";
 import { Achievement } from "@/types/gamification";
 import { WeeklyChallenge } from "@/types/challenges";
@@ -145,11 +147,13 @@ const Dashboard = () => {
 
   const handleMarkChallengeComplete = async (dayIndex: number) => {
     try {
+      haptics.success(); // Haptic feedback on success
       await api.completeChallengeDay(dayIndex);
       toast.success('✓ Dia marcado como completo!');
       // Reload dashboard to get updated challenge
       loadDashboard();
     } catch (error: any) {
+      haptics.error(); // Haptic feedback on error
       console.error('Error marking challenge complete:', error);
       toast.error(error.response?.data?.message || 'Erro ao marcar desafio');
     }
@@ -230,9 +234,10 @@ const Dashboard = () => {
   const achievements = availableAchievements.length > 0 ? availableAchievements : [];
 
   return (
-    <div className="min-h-screen bg-gradient-subtle">
-      {/* Header */}
-      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+    <MobileEnhancedWrapper onRefresh={loadDashboard}>
+      <div className="min-h-screen bg-gradient-subtle">
+        {/* Header */}
+        <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center">
@@ -240,7 +245,14 @@ const Dashboard = () => {
             </div>
             <span className="font-bold text-lg gradient-text">Pathfinder</span>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleSignOut}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              haptics.button();
+              handleSignOut();
+            }}
+          >
             <LogOut className="w-4 h-4 mr-2" />
             Sair
           </Button>
@@ -491,6 +503,7 @@ const Dashboard = () => {
         </div>
       </main>
     </div>
+    </MobileEnhancedWrapper>
   );
 };
 
