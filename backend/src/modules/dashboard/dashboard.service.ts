@@ -50,7 +50,7 @@ export class DashboardService {
       }
 
       // Get current challenge (with error handling)
-      let currentChallenge = null;
+      let currentChallenge: any = null;
       try {
         if (user.mbti_type) {
           currentChallenge = await this.challengesService.getCurrentChallenge(userId, user.mbti_type);
@@ -80,10 +80,11 @@ export class DashboardService {
     };
 
     // Get user achievements from gamification service
-    let achievements = [];
+    let achievements: any[] = [];
     try {
       const achievementsData = await this.gamificationService.getUserAchievements(userId);
-      achievements = achievementsData || [];
+      // getUserAchievements returns an object with unlocked/available, extract unlocked
+      achievements = achievementsData?.unlocked || [];
     } catch (error) {
       console.error('Error getting achievements:', error);
       achievements = [];

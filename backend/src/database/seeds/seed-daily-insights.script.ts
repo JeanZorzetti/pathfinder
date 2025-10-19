@@ -27,17 +27,16 @@ async function bootstrap() {
       const existingInsight = await dailyInsightsRepository.findOne({
         where: {
           mbtiType: insight.personalityType,
-          content: insight.insightText,
+          insightText: insight.insightText,
         },
       });
 
       if (!existingInsight) {
         const newInsight = dailyInsightsRepository.create({
           mbtiType: insight.personalityType,
-          title: `Insight para ${insight.personalityType}`,
-          content: insight.insightText,
+          insightText: insight.insightText,
+          actionItem: insight.actionItem || undefined,
           category: insight.category,
-          icon: 'lightbulb',
           dayOfYear: Math.floor(Math.random() * 365) + 1, // Random day for now
         });
         await dailyInsightsRepository.save(newInsight);
