@@ -69,10 +69,14 @@ export class CreatePushSubscriptions1737312000000 implements MigrationInterface 
     await queryRunner.query(`DROP INDEX "IDX_push_subscriptions_user_id"`);
 
     const table = await queryRunner.getTable('push_subscriptions');
-    const foreignKey = table.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf('user_id') !== -1,
-    );
-    await queryRunner.dropForeignKey('push_subscriptions', foreignKey);
+    if (table) {
+      const foreignKey = table.foreignKeys.find(
+        (fk) => fk.columnNames.indexOf('user_id') !== -1,
+      );
+      if (foreignKey) {
+        await queryRunner.dropForeignKey('push_subscriptions', foreignKey);
+      }
+    }
 
     await queryRunner.dropTable('push_subscriptions');
   }
