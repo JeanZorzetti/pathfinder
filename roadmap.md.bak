@@ -404,53 +404,24 @@ const AB_TESTS = [
 
 ---
 
-# ✅ Sprint 9: PWA Setup - ATUALIZAÇÃO ROADMAP
-
-## Como aplicar esta atualização:
-
-Substitua as linhas **407 a 474** do arquivo `roadmap.md` pelo conteúdo abaixo.
-
----
-
-## Sprint 9: Mobile PWA & Performance ✅ OPÇÃO 1 COMPLETA
+## Sprint 9: Mobile PWA & Performance (2 semanas)
 
 ### 🎯 Objetivo
 Otimizar experiência mobile e transformar em PWA installable de alta performance.
 
-**Status:** ✅ Opção 1 (PWA Setup) 100% Completa
-**Data de Conclusão:** 19/01/2025
-**Documentação:** [SPRINT9_PWA_SUMMARY.md](./SPRINT9_PWA_SUMMARY.md)
-
----
-
 ### Funcionalidades
 
-#### 1. **PWA Setup** ✅ COMPLETO
+#### 1. **PWA Setup**
+- [ ] Manifest.json configurado
+- [ ] Service Worker (offline support)
+- [ ] Install prompt customizado
+- [ ] Push notifications (OneSignal/Firebase)
+- [ ] Icons para todas as plataformas
 
-**🎨 Frontend:** ✅ COMPLETO
-- [x] Manifest.json configurado
-- [x] Service Worker (offline support)
-- [x] Install prompt customizado
-- [x] Update prompt customizado
-- [x] Push notifications (infraestrutura frontend)
-- [x] Icons guide + script de geração
-
-**🔧 Backend+DB:** ⏳ PENDENTE (Documentado)
-- [ ] NotificationsModule (web-push)
-- [ ] VAPID keys generation
-- [ ] Push subscriptions entity + table
-- [ ] Notification sending service
-- [ ] Scheduled notifications (cron jobs)
-- 📚 Guia completo: `docs/PWA_PUSH_NOTIFICATIONS.md`
-
----
-
-#### 2. **Performance Optimization** ⏳ PENDENTE
-
-**🎨 Frontend:**
+#### 2. **Performance Optimization**
 - [ ] Code splitting agressivo
 - [ ] Lazy loading de componentes
-- [ ] Image optimization
+- [ ] Image optimization (next/image alternativas)
 - [ ] Font loading otimizado
 - [ ] Bundle size < 300kb gzip
 
@@ -468,133 +439,31 @@ Core Web Vitals:
 - CLS: < 0.1
 ```
 
----
-
-#### 3. **Mobile-Specific Features** ⏳ PENDENTE
-
-**🎨 Frontend:**
+#### 3. **Mobile-Specific Features**
 - [ ] Bottom navigation nativa
 - [ ] Swipe gestures
 - [ ] Pull to refresh
 - [ ] Haptic feedback
 - [ ] Camera access (upload de foto de perfil)
 
----
+#### 4. **Offline Mode**
+- [ ] Cache de insights diários
+- [ ] Cache de desafios
+- [ ] Sync quando online
+- [ ] Status indicator
 
-#### 4. **Offline Mode** ✅ COMPLETO
+#### 5. **Push Notifications**
+- [ ] Daily reminder (9am)
+- [ ] Challenge reminder (6pm)
+- [ ] Streak about to break (11pm)
+- [ ] New achievement unlocked
+- [ ] Friend activity
 
-**🎨 Frontend:** ✅ COMPLETO
-- [x] Cache de assets core
-- [x] Cache de API responses
-- [x] Cache strategies (Network-First, Cache-First)
-- [x] Offline fallback page customizada
-- [x] Background sync (preparado)
-
-**🔧 Backend+DB:**
-- N/A (tudo client-side)
-
----
-
-#### 5. **Push Notifications** 🟡 PARCIAL
-
-**🎨 Frontend:** ✅ COMPLETO
-- [x] Push subscription management
-- [x] Notification permission handling
-- [x] Notification settings UI
-- [x] Test notification
-- [x] Notification click handling
-
-**🔧 Backend+DB:** ⏳ PENDENTE
-- [ ] NotificationsModule completo
-  - [ ] PushSubscription entity
-  - [ ] PushSubscriptionDto
-  - [ ] NotificationsService
-  - [ ] NotificationsController
-- [ ] Database
-  - [ ] push_subscriptions table
-  - [ ] Migration script
-- [ ] VAPID keys setup
-- [ ] Scheduled Notifications:
-  - [ ] Daily reminder (9am)
-  - [ ] Challenge reminder (6pm)
-  - [ ] Streak about to break (11pm)
-  - [ ] New achievement unlocked
-  - [ ] Friend activity
-
----
-
-### 📦 Entregáveis
-
-#### ✅ Opção 1 - PWA Setup (COMPLETO)
-
-**🎨 Frontend:** ✅ 100% COMPLETO
-- ✅ PWA installable (Android, iOS, Desktop)
-- ✅ Service Worker com offline support
-- ✅ Install & update prompts customizados
-- ✅ Push notifications (infraestrutura completa)
-- ✅ 11 arquivos criados, 3 modificados
-- ✅ ~2,500 linhas de código
-- ✅ ~8,000 linhas de documentação
-
-**🔧 Backend+DB:** 📚 DOCUMENTADO (Pendente implementação)
-- 📚 Guia completo de implementação
-- 📚 Entity schema definido
-- 📚 Endpoints documentados
-- 📚 Código exemplo pronto
-- 📚 ~3,000 linhas de docs backend
-
----
-
-#### ⏳ Opção 2 - Performance (PENDENTE)
-- [ ] Lighthouse score > 90 (todas as métricas)
-- [ ] Bundle otimizado
-- [ ] Code splitting + lazy loading
-
-#### ⏳ Opção 3 - Mobile Features (PENDENTE)
-- [ ] Navegação mobile nativa
-- [ ] Gestures e haptic feedback
-
-#### 🟡 Opção 4 - Advanced Push (PARCIAL)
-- ✅ Frontend completo
-- ⏳ Backend pendente
-
----
-
-### 📊 Estatísticas Sprint 9
-
-**Frontend Implementado:**
-- ✅ 11 arquivos criados
-- ✅ 3 arquivos modificados
-- ✅ ~2,500 linhas código
-- ✅ ~8,000 linhas docs
-- ✅ 7 componentes/utilities
-- ✅ 1 script automatizado
-
-**Backend Documentado:**
-- 📚 1 módulo (NotificationsModule)
-- 📚 5 arquivos backend
-- 📚 1 tabela schema
-- 📚 1 migration
-- 📚 ~3,000 linhas docs
-
-**Próximos Passos:**
-1. 🎨 Gerar ícones (15 min)
-2. 🎨 Deploy frontend (30 min)
-3. 🔧 Implementar NotificationsModule (2-4h)
-4. 🔧 VAPID keys (5 min)
-5. 🗄️ Migration (15 min)
-6. 🧪 Testar (30 min)
-
----
-
-## Legenda:
-- 🎨 = Frontend
-- 🔧 = Backend
-- 🗄️ = Database
-- ✅ = Completo
-- ⏳ = Pendente
-- 🟡 = Parcial
-- 📚 = Documentado
+### Entregáveis
+- ✅ PWA installable funcionando
+- ✅ Lighthouse score > 90 em todas as métricas
+- ✅ Push notifications configuradas
+- ✅ Offline mode básico funcionando
 
 ---
 
