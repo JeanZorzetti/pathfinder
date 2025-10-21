@@ -75,6 +75,17 @@ export class ChallengesService {
     daysCompleted[day] = true;
     userChallenge.daysCompleted = daysCompleted as any;
 
+    // Award +20 XP for completing a challenge day
+    try {
+      await this.gamificationService.addXP(userId, {
+        source: XpSource.CHALLENGE_DAY,
+        amount: 20,
+        description: `Dia ${day + 1} do desafio completado`,
+      });
+    } catch (error) {
+      console.error('Error awarding XP for challenge day:', error);
+    }
+
     // Verificar se todos os dias foram completados
     const allDaysComplete = daysCompleted.every((completed) => completed === true);
 
@@ -86,11 +97,16 @@ export class ChallengesService {
       const template = CHALLENGE_TEMPLATES.find((t) => t.id === userChallenge.challengeId);
       const xpReward = template?.xpReward || 50;
 
-      // Dar XP ao usuário
-      await this.gamificationService.addXP(userId, {
-        source: XpSource.CHALLENGE_COMPLETED,
-        amount: xpReward,
-      });
+      // Award XP for completing the entire challenge
+      try {
+        await this.gamificationService.addXP(userId, {
+          source: XpSource.CHALLENGE_COMPLETED,
+          amount: xpReward,
+          description: `Desafio "${template?.title || 'completo'}" finalizado!`,
+        });
+      } catch (error) {
+        console.error('Error awarding XP for challenge completion:', error);
+      }
     }
 
     await this.userChallengeRepository.save(userChallenge);
