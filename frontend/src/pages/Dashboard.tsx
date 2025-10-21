@@ -154,11 +154,24 @@ const Dashboard = () => {
     }
   }, [isAuthenticated, user, loadDashboard]);
 
-  const handleMarkChallengeComplete = async (dayIndex: number) => {
+  const handleMarkChallengeComplete = async () => {
     try {
+      // Get current weekday index (0 = Monday, 4 = Friday, null = Weekend)
+      const today = new Date().getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+      // Convert to our index (0 = Monday, 4 = Friday)
+      let dayIndex: number;
+      if (today === 0 || today === 6) {
+        // Weekend - shouldn't happen as button is disabled
+        toast.error('Desafios só podem ser completados de segunda a sexta');
+        return;
+      } else {
+        dayIndex = today - 1; // Monday = 0, Friday = 4
+      }
+
       haptics.success(); // Haptic feedback on success
       await api.completeChallengeDay(dayIndex);
-      toast.success('✓ Dia marcado como completo!');
+      toast.success('✓ Dia marcado como completo! +20 XP');
       // Reload dashboard to get updated challenge
       loadDashboard();
     } catch (error: any) {
