@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException, ConflictException, BadRequestExcepti
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
+import { EmailService } from '../email/email.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
@@ -31,6 +32,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private emailService: EmailService,
   ) {}
 
   /**
@@ -200,10 +202,14 @@ export class AuthService {
     // Save reset token to user
     await this.usersService.setResetToken(user.id, resetToken, resetTokenExpires);
 
-    // TODO: Send email with reset link
-    // For now, log the token (in production, send email)
-    console.log(`Password reset token for ${user.email}: ${resetToken}`);
-    console.log(`Reset link: ${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`);
+    // Send password reset email
+    try {
+      await this.emailService.sendPasswordResetEmail(user.email, resetToken);
+    } catch (error) {
+      // Log error but don't reveal it to user (security best practice)
+      console.error('Failed to send password reset email:', error);
+      // Still save the token so user can reset if they have the link somehow
+    }
 
     return {
       message: 'Se o email existir, você receberá instruções para redefinir sua senha.',
