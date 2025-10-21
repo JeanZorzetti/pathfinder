@@ -8,6 +8,8 @@ import heroImage from "@/assets/hero-image.jpg";
 import { SEOHead } from "@/components/SEOHead";
 import { StructuredData, websiteSchema } from "@/components/StructuredData";
 import { FAQSection } from "@/components/FAQSection";
+import { MobileNavDrawer } from "@/components/mobile/MobileNavDrawer";
+import { BottomNavigation } from "@/components/mobile/BottomNavigation";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -41,12 +43,17 @@ const Index = () => {
       <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
+            {/* Mobile Menu - Only visible on mobile */}
+            <MobileNavDrawer isAuthenticated={isAuthenticated} />
+
             <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center">
               <Brain className="w-4 h-4 text-primary-foreground" />
             </div>
             <span className="font-bold text-lg gradient-text">Pathfinder</span>
           </div>
-          <div className="flex items-center gap-3">
+
+          {/* Desktop Navigation - Hidden on mobile */}
+          <div className="hidden md:flex items-center gap-3">
             <Button variant="ghost" onClick={() => navigate("/mbti")}>
               Guia MBTI
             </Button>
@@ -84,16 +91,16 @@ const Index = () => {
             backgroundPosition: 'center',
           }}
         />
-        <div className="relative container mx-auto px-4 py-24 md:py-32 text-center">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 max-w-4xl mx-auto">
+        <div className="relative container mx-auto px-4 py-12 sm:py-16 md:py-24 lg:py-32 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 max-w-4xl mx-auto leading-tight">
             <span className="gradient-text">Conheça-se Profundamente.</span>
             <br />
             Viva com Propósito.
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
             Descubra quem você realmente é através de testes de personalidade baseados em ciência e ferramentas de autoconhecimento profundo.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center max-w-md sm:max-w-none mx-auto">
             <Button 
               variant="hero" 
               size="xl" 
@@ -268,6 +275,9 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      {/* Bottom Navigation - Mobile only */}
+      <BottomNavigation />
     </div>
   );
 };
