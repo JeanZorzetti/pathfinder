@@ -130,9 +130,9 @@ import typeormConfig from './config/typeorm.config';
     HealthModule,
     AuthModule,
     UsersModule,
+    GamificationModule, // Must be before modules that depend on it
     PersonalityTestsModule,
     ContentModule,
-    GamificationModule,
     DashboardModule,
     ChallengesModule,
     JournalModule,
