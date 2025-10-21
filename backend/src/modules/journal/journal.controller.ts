@@ -23,6 +23,7 @@ import {
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JournalService } from './journal.service';
 import { GamificationService } from '../gamification/gamification.service';
+import { XpSource } from '../gamification/entities/xp-transaction.entity';
 import { CreateEntryDto } from './dto/create-entry.dto';
 import { UpdateEntryDto } from './dto/update-entry.dto';
 import { JournalStatsDto } from './dto/journal-stats.dto';
@@ -48,10 +49,10 @@ export class JournalController {
     const entry = await this.journalService.create(userId, createEntryDto);
 
     // Award +10 XP for writing journal entry
-    let xpResult = null;
+    let xpResult: Awaited<ReturnType<typeof this.gamificationService.addXP>> | null = null;
     try {
       xpResult = await this.gamificationService.addXP(userId, {
-        source: 'journal_entry',
+        source: XpSource.JOURNAL_ENTRY,
         amount: 10,
         description: 'Entrada de diário criada',
       });
