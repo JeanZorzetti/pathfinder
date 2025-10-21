@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Req, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { ChallengesService } from './challenges.service';
 import { CurrentChallengeDto, CompleteDayDto, ChallengeStatsDto } from './dto/current-challenge.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('challenges')
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('challenges')
 export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}
@@ -28,6 +30,8 @@ export class ChallengesController {
     const userId = req.user?.id || '00000000-0000-0000-0000-000000000000';
     console.log('🎯 Controller received:', {
       userId,
+      hasUser: !!req.user,
+      userObject: req.user,
       dto,
       dayValue: dto.day,
       dayType: typeof dto.day,
