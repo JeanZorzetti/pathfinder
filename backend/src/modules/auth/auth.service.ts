@@ -1,9 +1,12 @@
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, ConflictException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import * as crypto from 'crypto';
 
 export interface JwtPayload {
   sub: string; // User ID
@@ -174,5 +177,62 @@ export class AuthService {
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
     }
+  }
+
+  /**
+   * Request password reset
+   */
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<{ message: string }> {
+    const user = await this.usersService.findByEmail(forgotPasswordDto.email);
+
+    if (!user) {
+      // Return success even if user doesn't exist (security best practice)
+      return {
+        message: 'Se o email existir, você receberá instruções para redefinir sua senha.',
+      };
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetTokenExpires = new Date();
+    resetTokenExpires.setHours(resetTokenExpires.getHours() + 1); // Token expires in 1 hour
+
+    // Save reset token to user
+    await this.usersService.setResetToken(user.id, resetToken, resetTokenExpires);
+
+    // TODO: Send email with reset link
+    // For now, log the token (in production, send email)
+    console.log(`Password reset token for ${user.email}: ${resetToken}`);
+    console.log(`Reset link: ${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`);
+
+    return {
+      message: 'Se o email existir, você receberá instruções para redefinir sua senha.',
+    };
+  }
+
+  /**
+   * Reset password with token
+   */
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<{ message: string }> {
+    const user = await this.usersService.findByResetToken(resetPasswordDto.token);
+
+    if (!user) {
+      throw new BadRequestException('Token inválido ou expirado');
+    }
+
+    // Check if token is expired
+    if (user.resetTokenExpiresAt < new Date()) {
+      throw new BadRequestException('Token expirado');
+    }
+
+    // Update password
+    await this.usersService.updatePassword(user.id, resetPasswordDto.newPassword);
+
+    // Clear reset token
+    await this.usersService.clearResetToken(user.id);
+
+    return {
+      message: 'Senha redefinida com sucesso',
+    };
   }
 }

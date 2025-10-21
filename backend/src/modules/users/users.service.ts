@@ -109,4 +109,42 @@ export class UsersService {
 
     return true;
   }
+
+  /**
+   * Set reset token for password recovery
+   */
+  async setResetToken(id: string, token: string, expiresAt: Date): Promise<void> {
+    await this.usersRepository.update(id, {
+      resetToken: token,
+      resetTokenExpiresAt: expiresAt,
+    });
+  }
+
+  /**
+   * Find user by reset token
+   */
+  async findByResetToken(token: string): Promise<User | null> {
+    return this.usersRepository.findOne({
+      where: { resetToken: token },
+    });
+  }
+
+  /**
+   * Update user password
+   */
+  async updatePassword(id: string, newPassword: string): Promise<void> {
+    const user = await this.findById(id);
+    user.password = newPassword;
+    await this.usersRepository.save(user);
+  }
+
+  /**
+   * Clear reset token after password reset
+   */
+  async clearResetToken(id: string): Promise<void> {
+    await this.usersRepository.update(id, {
+      resetToken: null,
+      resetTokenExpiresAt: null,
+    });
+  }
 }

@@ -9,6 +9,8 @@ import { PWAUpdatePrompt } from "@/components/pwa/PWAUpdatePrompt";
 import { BottomNavigation } from "@/components/mobile/BottomNavigation";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import Test from "./pages/Test";
 import BigFiveTest from "./pages/BigFiveTest";
@@ -39,6 +41,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/test/mbti" element={<Test />} />
             <Route path="/test/bigfive" element={<BigFiveTest />} />
