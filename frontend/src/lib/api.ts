@@ -262,6 +262,12 @@ class PathfinderAPIClient {
    * Complete a challenge day
    */
   async completeChallengeDay(day: number) {
+    console.log('📤 API Request: completeChallengeDay', {
+      endpoint: '/challenges/complete-day',
+      payload: { day },
+      dayType: typeof day,
+      dayValue: day,
+    });
     return this.post('/challenges/complete-day', { day });
   }
 

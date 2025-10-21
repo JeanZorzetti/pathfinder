@@ -173,6 +173,8 @@ const Dashboard = () => {
         todayJSDay: today,
         dayIndexToSend: dayIndex,
         expectedRange: '0-4 (Mon-Fri)',
+        currentChallenge: dashboardData?.currentChallenge,
+        daysCompleted: dashboardData?.currentChallenge?.daysCompleted,
       });
 
       await api.completeChallengeDay(dayIndex);
