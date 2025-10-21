@@ -1,9 +1,16 @@
 # 📱 Roadmap: Responsividade Mobile - Pathfinder
 
-## 📊 Status Atual: 40% Mobile-Friendly
+## 📊 Status Atual: 65% Mobile-Friendly - Sprint 1 Completo
 
 **Última Atualização:** 21/10/2025
 **Objetivo:** Otimizar 100% da experiência mobile em todas as páginas e componentes
+
+### 🎉 Sprint 1 (P0 - Crítico): 100% CONCLUÍDO (5/5 dias)
+
+- ✅ Dia 1: Navigation & Hero
+- ✅ Dia 2: Dashboard
+- ✅ Dia 3-4: Testes de Personalidade
+- ✅ Dia 5: Journal
 
 ---
 
@@ -333,13 +340,21 @@
 
 **Resultado:** Testes MBTI totalmente utilizáveis em mobile com layout vertical intuitivo e navegação fixa
 
-#### Dia 5: Journal
-- [ ] **Fix #5:** Journal Mobile
-  - [ ] Textarea full-width em mobile
-  - [ ] Keyboard-aware scroll
-  - [ ] CTA buttons sticky bottom
-  - [ ] Auto-save durante digitação
+#### Dia 5: Journal ✅ **CONCLUÍDO (21/10/2025)**
+
+- [x] **Fix #5:** Journal Mobile ✅
+  - [x] Textarea full-width em mobile (300px vs 200px desktop)
+  - [x] Keyboard-aware scroll (pb-32 em writing mode)
+  - [x] CTA buttons sticky bottom (fixed bottom-0 com backdrop blur)
+  - [x] Auto-save durante digitação (debounced 3 seconds)
+  - [x] Auto-save indicators ("Salvando..." e "✓ Salvo")
+  - [x] Responsive header com compact back button
+  - [x] Entry cards com touch targets 44x44px
+  - [x] Character counter mostrando progresso (10 mín.)
   - Arquivo: `Journal.tsx`
+  - **Commit:** 7f7ce08
+
+**Resultado:** Journal totalmente otimizado para mobile com auto-save inteligente e layout keyboard-aware
 
 ---
 
