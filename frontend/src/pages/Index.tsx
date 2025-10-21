@@ -41,15 +41,15 @@ const Index = () => {
       <StructuredData type="WebSite" data={websiteSchema} />
       {/* Navigation */}
       <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto py-3 sm:py-4 flex items-center justify-between">
+        <div className="container mx-auto py-2 sm:py-3 md:py-4 flex items-center justify-between min-h-[56px] sm:min-h-[64px]">
           <div className="flex items-center gap-2">
             {/* Mobile Menu - Only visible on mobile */}
             <MobileNavDrawer isAuthenticated={isAuthenticated} />
 
-            <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center">
-              <Brain className="w-4 h-4 text-primary-foreground" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full gradient-primary flex items-center justify-center flex-shrink-0">
+              <Brain className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary-foreground" />
             </div>
-            <span className="font-bold text-lg gradient-text">Pathfinder</span>
+            <span className="font-bold text-base sm:text-lg gradient-text">Pathfinder</span>
           </div>
 
           {/* Desktop Navigation - Hidden on mobile */}
