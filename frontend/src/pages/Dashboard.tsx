@@ -282,11 +282,11 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 max-w-6xl">
+      <main className="container mx-auto px-4 py-4 sm:py-6 md:py-8 max-w-6xl">
         {/* Hero Section */}
-        <div className="mb-8 space-y-4">
+        <div className="mb-6 sm:mb-8 space-y-3 sm:space-y-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
               Bem-vindo de volta, {profile.fullName || 'Buscador'}! 👋
             </h1>
             {mbtiType && (
@@ -323,12 +323,12 @@ const Dashboard = () => {
               </div>
             )}
           </div>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-base sm:text-lg">
             Continue sua jornada de autoconhecimento
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {/* Daily Insight */}
           {dailyInsight && mbtiType && (
             <DailyInsightCard

@@ -61,33 +61,33 @@ export function WeeklyChallengeCard({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3 sm:space-y-4">
         {/* Título do Desafio */}
         <div>
-          <h3 className="text-lg font-bold text-foreground mb-1">
+          <h3 className="text-base sm:text-lg font-bold text-foreground mb-1">
             {challenge.title}
           </h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground">
             {challenge.description}
           </p>
         </div>
 
         {/* Como Fazer */}
-        <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-          <h4 className="text-sm font-semibold text-foreground mb-2 flex items-center gap-2">
-            <span className="text-primary">💡</span>
+        <div className="p-3 sm:p-4 rounded-lg bg-primary/5 border border-primary/20">
+          <h4 className="text-xs sm:text-sm font-semibold text-foreground mb-2 flex items-center gap-2">
+            <span className="text-primary flex-shrink-0">💡</span>
             Como fazer:
           </h4>
-          <p className="text-sm text-muted-foreground">{challenge.howTo}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">{challenge.howTo}</p>
         </div>
 
         {/* Por Que */}
-        <div className="p-4 rounded-lg bg-amber-50 border border-amber-200">
-          <h4 className="text-sm font-semibold text-amber-900 mb-2 flex items-center gap-2">
-            <Info className="w-4 h-4" />
+        <div className="p-3 sm:p-4 rounded-lg bg-amber-50 border border-amber-200">
+          <h4 className="text-xs sm:text-sm font-semibold text-amber-900 mb-2 flex items-center gap-2">
+            <Info className="w-4 h-4 flex-shrink-0" />
             Por que isso importa:
           </h4>
-          <p className="text-sm text-amber-800">{challenge.why}</p>
+          <p className="text-xs sm:text-sm text-amber-800">{challenge.why}</p>
         </div>
 
         {/* Progresso */}
@@ -105,7 +105,7 @@ export function WeeklyChallengeCard({
 
         {/* Dias da Semana */}
         <div>
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-1 sm:gap-2">
             {weekdays.map((day, index) => {
               const isCompleted = challenge.daysCompleted[index];
               const isToday = todayIndex === index;
@@ -114,7 +114,7 @@ export function WeeklyChallengeCard({
                 <div
                   key={day}
                   className={`
-                    flex-1 flex flex-col items-center gap-1 p-2 rounded-lg border-2
+                    flex-1 flex flex-col items-center gap-0.5 sm:gap-1 p-1.5 sm:p-2 rounded-lg border-2
                     transition-all
                     ${isCompleted
                       ? 'bg-green-50 border-green-500'
@@ -124,15 +124,15 @@ export function WeeklyChallengeCard({
                     }
                   `}
                 >
-                  <span className="text-xs font-medium">
+                  <span className="text-[10px] sm:text-xs font-medium">
                     {WEEKDAY_LABELS[day]}
                   </span>
                   {isCompleted ? (
-                    <Check className="w-5 h-5 text-green-600" />
+                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
                   ) : isToday ? (
-                    <div className="w-5 h-5 rounded-full border-2 border-primary" />
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-primary" />
                   ) : (
-                    <Lock className="w-5 h-5 text-gray-300" />
+                    <Lock className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300" />
                   )}
                 </div>
               );

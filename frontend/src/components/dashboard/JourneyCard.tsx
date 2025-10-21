@@ -40,19 +40,19 @@ export function JourneyCard({ xp, achievements, onViewAll }: JourneyCardProps) {
           Seu progresso de autoconhecimento
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6">
         {/* Nível Atual */}
         <div>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <span className="text-3xl">{current.badge}</span>
+              <span className="text-2xl sm:text-3xl">{current.badge}</span>
               <div>
-                <p className="font-bold text-lg">Nível {current.level}</p>
-                <p className="text-sm text-muted-foreground">{current.title}</p>
+                <p className="font-bold text-base sm:text-lg">Nível {current.level}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground truncate max-w-[100px] sm:max-w-none">{current.title}</p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-2xl font-bold" style={{ color: current.color }}>
+              <p className="text-xl sm:text-2xl font-bold" style={{ color: current.color }}>
                 {xp} XP
               </p>
             </div>
@@ -61,15 +61,15 @@ export function JourneyCard({ xp, achievements, onViewAll }: JourneyCardProps) {
           {/* Barra de Progresso */}
           {next && (
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">
+              <div className="flex items-center justify-between text-xs sm:text-sm gap-2">
+                <span className="text-muted-foreground flex-shrink-0">
                   {progressXP} / {requiredXP} XP
                 </span>
-                <span className="font-semibold" style={{ color: next.color }}>
+                <span className="font-semibold truncate text-right" style={{ color: next.color }}>
                   {next.badge} {next.title}
                 </span>
               </div>
-              <Progress value={percentage} className="h-3" style={{
+              <Progress value={percentage} className="h-2 sm:h-3" style={{
                 // @ts-ignore - Custom CSS variable
                 '--progress-background': current.color
               }} />
@@ -95,26 +95,26 @@ export function JourneyCard({ xp, achievements, onViewAll }: JourneyCardProps) {
         {/* Próximas Conquistas */}
         {nextAchievements.length > 0 && (
           <div>
-            <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
-              <Zap className="w-4 h-4 text-orange-500" />
+            <h3 className="text-xs sm:text-sm font-semibold mb-2 sm:mb-3 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-orange-500 flex-shrink-0" />
               Próximas Conquistas
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {nextAchievements.map((achievement) => (
                 <div
                   key={achievement.id}
-                  className="p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                  className="p-2 sm:p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
                 >
-                  <div className="flex items-start gap-3">
-                    <div className="text-2xl">{achievement.icon}</div>
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className="text-xl sm:text-2xl flex-shrink-0">{achievement.icon}</div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <p className="font-semibold text-sm truncate">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <p className="font-semibold text-xs sm:text-sm truncate flex-1 min-w-0">
                           {achievement.title}
                         </p>
                         <Badge
                           variant="outline"
-                          className="text-xs"
+                          className="text-xs flex-shrink-0"
                           style={{
                             borderColor: RARITY_COLORS[achievement.rarity],
                             color: RARITY_COLORS[achievement.rarity]
@@ -123,7 +123,7 @@ export function JourneyCard({ xp, achievements, onViewAll }: JourneyCardProps) {
                           +{achievement.xpReward} XP
                         </Badge>
                       </div>
-                      <p className="text-xs text-muted-foreground mb-2">
+                      <p className="text-xs text-muted-foreground mb-2 line-clamp-2">
                         {achievement.description}
                       </p>
                       {achievement.progress && (
