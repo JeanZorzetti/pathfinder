@@ -628,19 +628,25 @@ Core Web Vitals:
 
 ---
 
-## Sprint 10: Content Expansion (2-3 semanas)
+## Sprint 10: Content Expansion 🔄 EM PROGRESSO
 
 ### 🎯 Objetivo
 Completar Eneagrama e Big Five, expandir biblioteca de conteúdo.
 
+**Status:** 🔄 40% Completo
+**Data de Início:** 21/10/2025
+
 ### Funcionalidades
 
-#### 1. **Eneagrama Completo**
-- [ ] 9 tipos com descrições completas
-- [ ] 50 questões validadas
-- [ ] Lógica de cálculo precisa
-- [ ] Resultado page rica
-- [ ] Integração com dashboard
+#### 1. **Eneagrama Completo** ✅ JÁ EXISTENTE (90% Completo)
+
+- [x] 9 tipos com descrições completas
+- [x] 27 questões (backend) + 36 questões (frontend) ⚠️ inconsistência
+- [x] Lógica de cálculo precisa (backend com weights + normalization)
+- [x] Resultado page rica (frontend completo)
+- [x] Integração com dashboard
+- [x] 5 endpoints REST (/types, /questions, /calculate, /compatibility)
+- [ ] Reconciliar inconsistência de questões (pendente)
 
 **Estrutura:**
 ```typescript
@@ -663,14 +669,27 @@ const ENNEAGRAM_TYPES = [
 ];
 ```
 
-#### 2. **Big Five Completo**
-- [ ] 5 dimensões (OCEAN)
-- [ ] 60 questões (12 por dimensão)
+#### 2. **Big Five Completo** 🔄 EM PROGRESSO (40% Completo)
+
+**🔧 Backend (50% Completo):**
+
+- [x] 3 entidades TypeORM (BigFiveDimension, BigFiveQuestion, BigFiveResult)
+- [x] 5 dimensões OCEAN com descrições completas (PT + EN)
+- [x] 60 questões validadas (12 por dimensão, PT + EN)
+- [ ] BigFiveService (lógica de cálculo)
+- [ ] BigFiveController (endpoints REST)
+- [ ] Migration executada (tabelas criadas)
+
+**🎨 Frontend (0% Completo):**
+
+- [ ] BigFiveTest.tsx (componente de teste)
 - [ ] Scoring de 0-100 por dimensão
-- [ ] Gráfico de radar visual
+- [ ] Gráfico de radar visual (Chart.js ou Recharts)
+- [ ] Página de resultados detalhada
 - [ ] Comparação com média populacional
 
 **Dimensões:**
+
 - **O**penness: Abertura à experiência
 - **C**onscientiousness: Conscienciosidade
 - **E**xtraversion: Extroversão

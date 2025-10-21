@@ -14,6 +14,11 @@ import { EnneagramQuestion } from './entities/enneagram-question.entity';
 import { EnneagramQuestionTypeMapping } from './entities/enneagram-mapping.entity';
 import { EnneagramService } from './enneagram.service';
 import { EnneagramController } from './enneagram.controller';
+import { BigFiveDimension } from './entities/bigfive-dimension.entity';
+import { BigFiveQuestion } from './entities/bigfive-question.entity';
+import { BigFiveResult } from './entities/bigfive-result.entity';
+import { BigFiveService } from './bigfive.service';
+import { BigFiveController } from './bigfive.controller';
 import { GamificationModule } from '../gamification/gamification.module';
 
 @Module({
@@ -28,11 +33,14 @@ import { GamificationModule } from '../gamification/gamification.module';
       EnneagramType,
       EnneagramQuestion,
       EnneagramQuestionTypeMapping,
+      BigFiveDimension,
+      BigFiveQuestion,
+      BigFiveResult,
     ]),
     forwardRef(() => GamificationModule),
   ],
-  controllers: [PersonalityTestsController, EnneagramController],
-  providers: [PersonalityTestsService, ScoringService, EnneagramService],
-  exports: [PersonalityTestsService, EnneagramService],
+  controllers: [PersonalityTestsController, EnneagramController, BigFiveController],
+  providers: [PersonalityTestsService, ScoringService, EnneagramService, BigFiveService],
+  exports: [PersonalityTestsService, EnneagramService, BigFiveService],
 })
 export class PersonalityTestsModule {}
