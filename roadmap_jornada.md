@@ -28,10 +28,10 @@
 
 ## ❌ O Que NÃO Está Funcionando (BUGS)
 
-### 🐛 Bug #1: Journal Entry (+10 XP) - NÃO ESTÁ DANDO XP
-**Status:** 🔴 CRÍTICO
+### ✅ Bug #1: Journal Entry (+10 XP) - CORRIGIDO
+**Status:** ✅ RESOLVIDO (21/10/2025)
 **Arquivo:** `backend/src/modules/journal/journal.controller.ts`
-**Linha:** 46-47
+**Commits:** a28e430, bcb56bc, b149f57
 
 **Problema:**
 ```typescript
@@ -39,42 +39,82 @@
 // await this.gamificationService.addXP(userId, { source: 'journal_entry', amount: 10 });
 ```
 
-O código está comentado! O XP não está sendo adicionado.
+O código estava comentado! O XP não estava sendo adicionado.
 
-**Solução Necessária:**
-1. Injetar `GamificationService` no `JournalModule`
-2. Chamar `addXP()` após criar a entrada
-3. Retornar XP real na resposta
+**Solução Implementada:**
+1. ✅ Injetado `GamificationService` no `JournalController`
+2. ✅ Importado enum `XpSource`
+3. ✅ Chamada `addXP(userId, { source: XpSource.JOURNAL_ENTRY, amount: 10 })`
+4. ✅ Retorna XP real na resposta (newXP, newLevel, leveledUp)
+5. ✅ Error handling gracioso - não bloqueia se XP falhar
 
-**Impacto:** ALTO - Usuários escrevem no diário mas não ganham XP
+**Resultado:** Usuários agora ganham +10 XP ao escrever no diário (cooldown 1x/dia)
 
-**Prioridade:** 🔥 P0 - URGENTE
+**Impacto:** ALTO - Feature principal de engajamento funcionando
+
+**Prioridade:** 🔥 P0 - ✅ COMPLETO
 
 ---
 
-### 🐛 Bug #2: Test Completion (variável) - XP PODE NÃO ESTAR SENDO DADO
-**Status:** 🟡 VERIFICAR
-**Arquivos:**
-- `backend/src/modules/personality-tests/personality-tests.service.ts`
-- Linha ~165 (submitAnswers)
-- Linha ~248 (saveCalculatedResult)
+### ✅ Bug #2: Test Completion (variável) - CORRIGIDO
+**Status:** ✅ RESOLVIDO (21/10/2025)
+**Arquivo:** `backend/src/modules/personality-tests/personality-tests.service.ts`
+**Commits:** 33b9c53
 
-**Problema Potencial:**
-Os métodos salvam o test result mas podem não estar chamando `addXP()`.
+**Problema:**
+```typescript
+// submitAnswers() - linha ~165
+// saveCalculatedResult() - linha ~248
+// Ambos salvavam test result mas NÃO chamavam addXP()
+```
+
+Os métodos estavam salvando resultados mas não recompensando com XP!
+
+**Solução Implementada:**
+1. ✅ Injetado `GamificationService` no `PersonalityTestsService`
+2. ✅ Importado enum `XpSource`
+3. ✅ Adicionado `GamificationModule` ao `PersonalityTestsModule`
+4. ✅ Chamada `addXP()` em **submitAnswers()** (linha 180-190)
+   - Retorna XP info na resposta (xpAwarded, totalXp, level, leveledUp)
+5. ✅ Chamada `addXP()` em **saveCalculatedResult()** (linha 277-286)
+   - Suporta fluxo de teste anônimo → registro
+
+**Código Implementado:**
+```typescript
+// Award +50 XP for completing test
+let xpResult: Awaited<ReturnType<typeof this.gamificationService.addXP>> | null = null;
+try {
+  xpResult = await this.gamificationService.addXP(userId, {
+    source: XpSource.TEST_COMPLETED,
+    amount: 50,
+    description: `Teste ${testResult.framework.code.toUpperCase()} completado`,
+  });
+} catch (error) {
+  console.error('Error awarding XP for test completion:', error);
+}
+
+return {
+  testResultId: testResult.id,
+  personalityType: typeDetails,
+  scores,
+  completedAt: testResult.completedAt,
+  xpAwarded: 50,
+  totalXp: xpResult?.newXP,
+  level: xpResult?.newLevel,
+  leveledUp: xpResult?.leveledUp || false,
+};
+```
 
 **XP Esperado:**
-- MBTI completo: +50 XP
-- Eneagrama completo: +50 XP
-- Big Five completo: +50 XP
+- MBTI completo: +50 XP ✅
+- Eneagrama completo: +50 XP ✅
+- Big Five completo: +50 XP ✅
 
-**Solução Necessária:**
-1. Verificar se `addXP()` é chamado após completar teste
-2. Adicionar integração com GamificationService
-3. Dar XP diferenciado por tipo de teste
+**Resultado:** Usuários agora ganham +50 XP ao completar qualquer teste
 
 **Impacto:** ALTO - Completar teste é ação principal
 
-**Prioridade:** 🔥 P0 - URGENTE
+**Prioridade:** 🔥 P0 - ✅ COMPLETO
 
 ---
 
@@ -205,17 +245,17 @@ Frontend está chamando, mas precisa verificar se backend aceita.
 ### Sprint Atual: Corrigir XP Existente (1-2 dias)
 
 #### Dia 1: Bugs Críticos (P0)
-- [ ] **Bug #1:** Ativar XP no Journal Entry
-  - [ ] Injetar GamificationService no JournalModule
-  - [ ] Chamar addXP() no create()
-  - [ ] Testar: criar entrada → verificar xp_transactions
-  - [ ] Commit: "fix(journal): Award +10 XP on entry creation"
+- [x] **Bug #1:** Ativar XP no Journal Entry ✅
+  - [x] Injetar GamificationService no JournalModule
+  - [x] Chamar addXP() no create()
+  - [x] Testar: criar entrada → verificar xp_transactions
+  - [x] Commit: "fix(journal): Award +10 XP on entry creation"
 
-- [ ] **Bug #2:** Verificar/Ativar XP em Test Completion
-  - [ ] Ler submitAnswers() e saveCalculatedResult()
-  - [ ] Adicionar chamada addXP() se não existir
-  - [ ] Testar: completar teste → verificar xp_transactions
-  - [ ] Commit: "fix(tests): Award XP on test completion"
+- [x] **Bug #2:** Verificar/Ativar XP em Test Completion ✅
+  - [x] Ler submitAnswers() e saveCalculatedResult()
+  - [x] Adicionar chamada addXP() se não existir
+  - [x] Testar: completar teste → verificar xp_transactions
+  - [x] Commit: "feat(gamification): Award +50 XP for test completion"
 
 - [ ] **Bug #5:** Implementar Daily Login XP
   - [ ] Adicionar lógica em DashboardService.getDashboard()
@@ -260,11 +300,11 @@ Frontend está chamando, mas precisa verificar se backend aceita.
 | Ação | XP | Cooldown | Status | Prioridade |
 |------|----|----|--------|------------|
 | **Testes** |
-| Completar MBTI | +50 XP | Único | 🟡 Verificar | P0 |
-| Completar Eneagrama | +50 XP | Único | 🟡 Verificar | P0 |
-| Completar Big Five | +50 XP | Único | 🟡 Verificar | P0 |
+| Completar MBTI | +50 XP | Único | ✅ **FUNCIONA** | P0 |
+| Completar Eneagrama | +50 XP | Único | ✅ **FUNCIONA** | P0 |
+| Completar Big Five | +50 XP | Único | ✅ **FUNCIONA** | P0 |
 | **Diário** |
-| Escrever entrada | +10 XP | 1x/dia | 🔴 **BROKEN** | P0 |
+| Escrever entrada | +10 XP | 1x/dia | ✅ **FUNCIONA** | P0 |
 | Escrever por 7 dias seguidos | +50 XP | Único | 🔴 Não existe | P1 |
 | Escrever por 30 dias | +200 XP | Único | 🔴 Não existe | P1 |
 | **Desafios** |
@@ -306,8 +346,8 @@ Nível 6+: Fórmula exponencial
 
 ### Hoje (Prioridade P0):
 1. ✅ Criar este roadmap
-2. 🔄 Corrigir Journal XP (Bug #1)
-3. 🔄 Verificar Test Completion XP (Bug #2)
+2. ✅ Corrigir Journal XP (Bug #1)
+3. ✅ Verificar Test Completion XP (Bug #2)
 4. 🔄 Implementar Daily Login XP (Bug #5)
 
 ### Amanhã (Prioridade P1):
