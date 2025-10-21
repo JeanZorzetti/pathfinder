@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase-client";
-import { User } from "@supabase/supabase-js";
+import { useAuth } from "@/contexts/AuthContext";
 import { useJournal } from "@/hooks/useAPI";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,7 +22,7 @@ interface JournalEntry {
 
 const Journal = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [isWriting, setIsWriting] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [content, setContent] = useState("");
@@ -87,31 +86,20 @@ const Journal = () => {
     };
   }, [content, mood, editingId, isWriting, autoSave]);
 
-  // Auth management (still using Supabase Auth)
+  // Redirect to auth if not authenticated
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        navigate("/auth");
-        return;
-      }
-      setUser(session.user);
-      // Load entries using API hook
+    if (!authLoading && !isAuthenticated) {
+      navigate("/auth");
+    }
+  }, [authLoading, isAuthenticated, navigate]);
+
+  // Load entries when authenticated
+  useEffect(() => {
+    if (isAuthenticated && user) {
       getEntries(1, 50);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      if (!session) {
-        navigate("/auth");
-      } else {
-        setUser(session.user);
-        // Reload entries on auth change
-        getEntries(1, 50);
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate]); // Removed getEntries from deps to prevent infinite loop
+  }, [isAuthenticated, user]); // Only reload when auth state changes
 
   const handleSave = async () => {
     if (!user || !content.trim()) {
