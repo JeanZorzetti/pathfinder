@@ -21,30 +21,40 @@ const LikertScale = ({ value, onChange, className }: LikertScaleProps) => {
 
   return (
     <div className={cn("space-y-4", className)}>
-      {/* Labels */}
-      <div className="flex justify-between items-center text-sm font-medium text-muted-foreground px-2">
+      {/* Labels - Hidden on mobile, shown on desktop */}
+      <div className="hidden md:flex justify-between items-center text-sm font-medium text-muted-foreground px-2">
         <span className="text-green-600">Concordo</span>
         <span className="text-purple-600">Discordo</span>
       </div>
 
-      {/* Circles */}
-      <div className="flex justify-between items-center gap-2 sm:gap-3">
+      {/* Circles - Vertical on mobile, horizontal on desktop */}
+      <div className="flex flex-col md:flex-row md:justify-between items-stretch md:items-center gap-2 md:gap-3">
         {options.map((option) => (
           <button
             key={option.value}
             type="button"
             onClick={() => onChange(option.value)}
             className={cn(
-              "w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 transition-all duration-200",
+              "min-h-[44px] md:w-12 md:h-12 rounded-full md:rounded-full rounded-lg md:rounded-full border-2 transition-all duration-200",
               "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
               "active:scale-95",
+              "flex items-center justify-center gap-3 px-4 py-2 md:p-0",
               value === option.value
-                ? `${option.color} border-transparent shadow-lg scale-110`
+                ? `${option.color} border-transparent shadow-lg md:scale-110`
                 : "bg-gray-100 border-gray-300 hover:border-gray-400 hover:scale-105"
             )}
             aria-label={option.label}
             title={option.label}
           >
+            {/* Label visible on mobile, hidden on desktop */}
+            <span className={cn(
+              "md:hidden text-sm font-medium flex-1 text-left",
+              value === option.value ? "text-white" : "text-foreground"
+            )}>
+              {option.label}
+            </span>
+
+            {/* Checkmark */}
             {value === option.value && (
               <span className="text-white font-bold text-lg">✓</span>
             )}
@@ -52,8 +62,8 @@ const LikertScale = ({ value, onChange, className }: LikertScaleProps) => {
         ))}
       </div>
 
-      {/* Value labels */}
-      <div className="flex justify-between items-center text-xs text-muted-foreground px-1">
+      {/* Value labels - Hidden on mobile */}
+      <div className="hidden md:flex justify-between items-center text-xs text-muted-foreground px-1">
         <span>+3</span>
         <span>+2</span>
         <span>+1</span>
@@ -63,9 +73,9 @@ const LikertScale = ({ value, onChange, className }: LikertScaleProps) => {
         <span>-3</span>
       </div>
 
-      {/* Selected label */}
+      {/* Selected label - Desktop only (mobile shows inline) */}
       {value !== null && (
-        <div className="text-center text-sm font-medium text-primary animate-in fade-in duration-200">
+        <div className="hidden md:block text-center text-sm font-medium text-primary animate-in fade-in duration-200">
           {options.find(opt => opt.value === value)?.label}
         </div>
       )}

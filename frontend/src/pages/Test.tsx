@@ -169,41 +169,41 @@ const Test = () => {
         keywords="teste MBTI online, teste de personalidade gratuito, MBTI grátis, teste psicológico, 16 personalidades"
         canonicalUrl="https://pathfinder.roilabs.com.br/test/mbti"
       />
-      <div className="min-h-screen bg-gradient-subtle px-4 py-8 sm:py-12">
-        <div className="max-w-4xl mx-auto space-y-6">
-          {/* Header with progress */}
-          <Card className="shadow-elegant">
-          <CardHeader>
-            <div className="flex items-center justify-between mb-4">
+      <div className="min-h-screen bg-gradient-subtle px-4 py-4 sm:py-8 pb-32 sm:pb-12">
+        <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+          {/* Header with progress - Sticky on mobile */}
+          <Card className="shadow-elegant sticky top-0 z-10 bg-card/95 backdrop-blur-sm">
+          <CardHeader className="p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
               <div className="flex items-center gap-2">
-                <Brain className="w-6 h-6 text-primary" />
-                <span className="font-semibold">Teste MBTI Completo</span>
+                <Brain className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                <span className="font-semibold text-sm sm:text-base">Teste MBTI</span>
               </div>
-              <span className="text-sm font-medium text-muted-foreground">
-                Página {currentPage} de {TOTAL_PAGES}
+              <span className="text-xs sm:text-sm font-medium text-muted-foreground">
+                Página {currentPage}/{TOTAL_PAGES}
               </span>
             </div>
 
-            <Progress value={progress} className="h-3" />
+            <Progress value={progress} className="h-2 sm:h-3" />
 
-            <div className="flex justify-between items-center text-sm text-muted-foreground mt-2">
-              <span>{answeredCount} de {TOTAL_QUESTIONS} questões respondidas</span>
+            <div className="flex justify-between items-center text-xs sm:text-sm text-muted-foreground mt-2">
+              <span className="truncate">{answeredCount}/{TOTAL_QUESTIONS} questões</span>
               <span>{Math.round(progress)}%</span>
             </div>
 
             {answeredCount > 0 && (
-              <p className="text-xs text-center text-muted-foreground mt-2">
+              <p className="text-xs text-center text-muted-foreground mt-2 hidden sm:block">
                 💾 Seu progresso é salvo automaticamente
               </p>
             )}
 
             {/* DEBUG: Auto-fill button */}
-            <div className="mt-4 text-center">
+            <div className="mt-3 sm:mt-4 text-center">
               <button
                 onClick={handleDebugAutoFill}
                 className="text-xs px-3 py-1 bg-yellow-100 text-yellow-800 rounded hover:bg-yellow-200 transition"
               >
-                🔧 DEBUG: Auto-preencher teste
+                🔧 DEBUG: Auto-preencher
               </button>
             </div>
           </CardHeader>
@@ -216,11 +216,11 @@ const Test = () => {
           onAnswerChange={handleAnswerChange}
         />
 
-        {/* Navigation */}
-        <Card className="shadow-elegant">
-          <CardContent className="pt-6">
-            {/* Page indicators */}
-            <div className="flex justify-center gap-2 mb-6">
+        {/* Navigation - Fixed on bottom for mobile */}
+        <Card className="shadow-elegant fixed bottom-0 left-0 right-0 md:relative md:bottom-auto bg-card/95 backdrop-blur-sm border-t md:border">
+          <CardContent className="pt-4 sm:pt-6 pb-safe">
+            {/* Page indicators - Hidden on mobile */}
+            <div className="hidden md:flex justify-center gap-2 mb-6">
               {Array.from({ length: TOTAL_PAGES }, (_, i) => i + 1).map((page) => {
                 const pageQuestions = getQuestionsForPage(page);
                 const isPageAnswered = pageQuestions.every(
@@ -251,18 +251,19 @@ const Test = () => {
             </div>
 
             {/* Navigation buttons */}
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-2 sm:gap-4">
               <Button
                 variant="outline"
                 onClick={handlePrevious}
                 disabled={currentPage === 1}
                 size="lg"
+                className="min-h-[44px] flex-1 sm:flex-initial"
               >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Anterior
+                <ArrowLeft className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Anterior</span>
               </Button>
 
-              <div className="text-sm text-muted-foreground">
+              <div className="text-xs sm:text-sm text-muted-foreground text-center hidden md:block">
                 {!isPageComplete && currentPage < TOTAL_PAGES && (
                   <span className="text-amber-600">
                     Complete todas as questões para continuar
@@ -276,6 +277,7 @@ const Test = () => {
                   onClick={handleSubmit}
                   disabled={answeredCount < TOTAL_QUESTIONS || isSubmitting}
                   size="lg"
+                  className="min-h-[44px] flex-1 sm:flex-initial"
                 >
                   {isSubmitting ? "Processando..." : "Ver Resultado"}
                 </Button>
@@ -284,9 +286,11 @@ const Test = () => {
                   onClick={handleNext}
                   disabled={!isPageComplete}
                   size="lg"
+                  className="min-h-[44px] flex-1 sm:flex-initial"
                 >
-                  Próxima
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <span className="hidden sm:inline">Próxima</span>
+                  <span className="sm:hidden">Próxima</span>
+                  <ArrowRight className="w-4 h-4 sm:ml-2" />
                 </Button>
               )}
             </div>
