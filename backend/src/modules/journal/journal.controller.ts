@@ -63,9 +63,10 @@ export class JournalController {
 
     return {
       ...entry,
-      xpAwarded: xpResult?.xpGained || 10,
-      totalXp: xpResult?.totalXp,
-      level: xpResult?.currentLevel,
+      xpAwarded: 10,
+      totalXp: xpResult?.newXP,
+      level: xpResult?.newLevel,
+      leveledUp: xpResult?.leveledUp || false,
       message: 'Entrada criada com sucesso! +10 XP',
     };
   }
