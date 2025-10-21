@@ -45,6 +45,7 @@ const MBTIType = () => {
         title={`${typeData.title} - Características, Carreiras e Relacionamentos | Pathfinder`}
         description={`${typeData.description.substring(0, 155)}...`}
         keywords={`${type?.toUpperCase()}, ${typeData.title}, personalidade, MBTI, carreiras, relacionamentos`}
+        canonicalUrl={`https://pathfinder.roilabs.com.br/types/${type?.toLowerCase()}`}
         type="article"
       />
       <StructuredData type="Article" data={articleSchema} />

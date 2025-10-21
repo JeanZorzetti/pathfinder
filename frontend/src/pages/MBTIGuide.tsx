@@ -60,6 +60,7 @@ const MBTIGuide = () => {
         title="Guia Completo do MBTI - 16 Tipos de Personalidade | Pathfinder"
         description="Descubra tudo sobre o MBTI: as 4 dimensões da personalidade, os 16 tipos detalhados, carreiras ideais e compatibilidade. Guia definitivo baseado em psicologia."
         keywords="MBTI, Myers-Briggs, tipos de personalidade, teste de personalidade, INTJ, ENFP, autoconhecimento"
+        canonicalUrl="https://pathfinder.roilabs.com.br/mbti"
         type="article"
       />
       <StructuredData type="Article" data={articleSchema} />

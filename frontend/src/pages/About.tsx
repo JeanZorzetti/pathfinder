@@ -2,12 +2,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Brain, Shield, BookOpen, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { SEOHead } from "@/components/SEOHead";
 
 const About = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-subtle">
+    <>
+      <SEOHead
+        title="Sobre o Pathfinder - Autoconhecimento Baseado em Ciência"
+        description="Conheça a missão do Pathfinder: ajudar pessoas a se descobrirem através de testes de personalidade científicos e gratuitos. MBTI, Eneagrama e Big Five."
+        keywords="sobre pathfinder, autoconhecimento, testes de personalidade, missão, valores"
+        canonicalUrl="https://pathfinder.roilabs.com.br/about"
+      />
+      <div className="min-h-screen bg-gradient-subtle">
       {/* Header */}
       <header className="border-b bg-card/50 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -114,6 +122,7 @@ const About = () => {
         </div>
       </main>
     </div>
+    </>
   );
 };
 

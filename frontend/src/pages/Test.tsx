@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Brain, ArrowRight, ArrowLeft, Check } from "lucide-react";
 import { toast } from "sonner";
+import { SEOHead } from "@/components/SEOHead";
 import QuestionPage from "@/components/personality-tests/QuestionPage";
 import { LikertValue } from "@/components/personality-tests/LikertScale";
 import {
@@ -161,10 +162,17 @@ const Test = () => {
 
   // Test page
   return (
-    <div className="min-h-screen bg-gradient-subtle px-4 py-8 sm:py-12">
-      <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header with progress */}
-        <Card className="shadow-elegant">
+    <>
+      <SEOHead
+        title="Teste MBTI Online Gratuito - 60 Questões | Pathfinder"
+        description="Descubra seu tipo de personalidade MBTI com nosso teste gratuito de 60 questões. Científico, preciso e completo. Resultados instantâneos com análise detalhada."
+        keywords="teste MBTI online, teste de personalidade gratuito, MBTI grátis, teste psicológico, 16 personalidades"
+        canonicalUrl="https://pathfinder.roilabs.com.br/test/mbti"
+      />
+      <div className="min-h-screen bg-gradient-subtle px-4 py-8 sm:py-12">
+        <div className="max-w-4xl mx-auto space-y-6">
+          {/* Header with progress */}
+          <Card className="shadow-elegant">
           <CardHeader>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -286,6 +294,7 @@ const Test = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };
 
