@@ -6,6 +6,7 @@ import { ChallengesService } from '../challenges/challenges.service';
 import { DashboardResponseDto } from './dto/dashboard-response.dto';
 import { DailyInsight } from './entities/daily-insight.entity';
 import { User } from '../users/entities/user.entity';
+import { XpSource } from '../gamification/entities/xp-transaction.entity';
 
 @Injectable()
 export class DashboardService {
@@ -122,15 +123,82 @@ export class DashboardService {
       newStreakLongest = 1;
     }
 
-    // Update user metadata with new streak
+    // Award +5 XP for daily login (only if it's a new day)
+    let dailyLoginXpResult = null;
+    if (lastVisit) {
+      const lastVisitDate = new Date(lastVisit);
+      const today = new Date();
+
+      // Check if it's a different day (ignoring time)
+      const lastVisitDay = new Date(lastVisitDate.getFullYear(), lastVisitDate.getMonth(), lastVisitDate.getDate());
+      const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+      if (lastVisitDay.getTime() !== todayDay.getTime()) {
+        // It's a new day - award daily login XP
+        try {
+          dailyLoginXpResult = await this.gamificationService.addXP(userId, {
+            source: XpSource.DAILY_LOGIN,
+            amount: 5,
+            description: 'Login diário',
+          });
+        } catch (error) {
+          console.error('Error awarding daily login XP:', error);
+        }
+      }
+    } else {
+      // First visit ever - award daily login XP
+      try {
+        dailyLoginXpResult = await this.gamificationService.addXP(userId, {
+          source: XpSource.DAILY_LOGIN,
+          amount: 5,
+          description: 'Primeiro login',
+        });
+      } catch (error) {
+        console.error('Error awarding first login XP:', error);
+      }
+    }
+
+    // Prepare updated metadata
     const updatedVisitHistory = [...visitHistory, now].slice(-30);
-    const updatedMetadata = {
+    const updatedMetadata: any = {
       ...metadata,
       last_visit: now,
       streak_current: newStreakCurrent,
       streak_longest: newStreakLongest,
       visit_history: updatedVisitHistory,
     };
+
+    // Award streak milestone bonuses
+    const previousStreakReached7 = metadata.streak_milestone_7 || false;
+    const previousStreakReached30 = metadata.streak_milestone_30 || false;
+
+    // Check if user just reached 7-day streak (and hasn't received bonus yet)
+    if (newStreakCurrent === 7 && !previousStreakReached7) {
+      try {
+        await this.gamificationService.addXP(userId, {
+          source: XpSource.STREAK_MILESTONE,
+          amount: 50,
+          description: 'Streak de 7 dias consecutivos!',
+        });
+        updatedMetadata.streak_milestone_7 = true;
+      } catch (error) {
+        console.error('Error awarding 7-day streak bonus:', error);
+      }
+    }
+
+    // Check if user just reached 30-day streak (and hasn't received bonus yet)
+    if (newStreakCurrent === 30 && !previousStreakReached30) {
+      try {
+        await this.gamificationService.addXP(userId, {
+          source: XpSource.STREAK_MILESTONE,
+          amount: 200,
+          description: 'Streak de 30 dias consecutivos!',
+        });
+        updatedMetadata.streak_milestone_30 = true;
+      } catch (error) {
+        console.error('Error awarding 30-day streak bonus:', error);
+      }
+    }
 
     await this.userRepository.update(userId, {
       metadata: updatedMetadata as any,
