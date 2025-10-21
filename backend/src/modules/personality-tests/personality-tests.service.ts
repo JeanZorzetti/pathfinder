@@ -7,6 +7,8 @@ import { Question } from './entities/question.entity';
 import { Answer } from './entities/answer.entity';
 import { TestResult, TestStatus } from './entities/test-result.entity';
 import { User } from '../users/entities/user.entity';
+import { GamificationService } from '../gamification/gamification.service';
+import { XpSource } from '../gamification/entities/xp-transaction.entity';
 import { ScoringService } from './services/scoring.service';
 import { SubmitAnswersDto } from './dto/submit-answers.dto';
 import { CreateTestDto } from './dto/create-test.dto';
@@ -27,6 +29,7 @@ export class PersonalityTestsService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private scoringService: ScoringService,
+    private gamificationService: GamificationService,
   ) {}
 
   /**
@@ -174,11 +177,27 @@ export class PersonalityTestsService {
       );
     }
 
+    // Award +50 XP for completing test
+    let xpResult: Awaited<ReturnType<typeof this.gamificationService.addXP>> | null = null;
+    try {
+      xpResult = await this.gamificationService.addXP(userId, {
+        source: XpSource.TEST_COMPLETED,
+        amount: 50,
+        description: `Teste ${testResult.framework.code.toUpperCase()} completado`,
+      });
+    } catch (error) {
+      console.error('Error awarding XP for test completion:', error);
+    }
+
     return {
       testResultId: testResult.id,
       personalityType: typeDetails,
       scores,
       completedAt: testResult.completedAt,
+      xpAwarded: 50,
+      totalXp: xpResult?.newXP,
+      level: xpResult?.newLevel,
+      leveledUp: xpResult?.leveledUp || false,
     };
   }
 
@@ -253,6 +272,17 @@ export class PersonalityTestsService {
         { id: userId },
         { mbti_type: dto.typeCode }
       );
+    }
+
+    // Award +50 XP for completing test
+    try {
+      await this.gamificationService.addXP(userId, {
+        source: XpSource.TEST_COMPLETED,
+        amount: 50,
+        description: `Teste ${framework.code.toUpperCase()} completado`,
+      });
+    } catch (error) {
+      console.error('Error awarding XP for test completion:', error);
     }
 
     return savedResult;
