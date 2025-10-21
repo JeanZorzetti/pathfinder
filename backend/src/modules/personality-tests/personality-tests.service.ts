@@ -6,6 +6,7 @@ import { PersonalityType } from './entities/personality-type.entity';
 import { Question } from './entities/question.entity';
 import { Answer } from './entities/answer.entity';
 import { TestResult, TestStatus } from './entities/test-result.entity';
+import { User } from '../users/entities/user.entity';
 import { ScoringService } from './services/scoring.service';
 import { SubmitAnswersDto } from './dto/submit-answers.dto';
 import { CreateTestDto } from './dto/create-test.dto';
@@ -23,6 +24,8 @@ export class PersonalityTestsService {
     private answersRepository: Repository<Answer>,
     @InjectRepository(TestResult)
     private testResultsRepository: Repository<TestResult>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     private scoringService: ScoringService,
   ) {}
 
@@ -162,6 +165,14 @@ export class PersonalityTestsService {
     };
 
     await this.testResultsRepository.save(testResult);
+
+    // Update user's mbti_type if this is an MBTI test
+    if (testResult.framework.code === FrameworkCode.MBTI) {
+      await this.userRepository.update(
+        { id: userId },
+        { mbti_type: typeDetails.code }
+      );
+    }
 
     return {
       testResultId: testResult.id,

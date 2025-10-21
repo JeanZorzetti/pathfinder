@@ -8,6 +8,7 @@ import { PersonalityType } from './entities/personality-type.entity';
 import { Question } from './entities/question.entity';
 import { Answer } from './entities/answer.entity';
 import { TestResult } from './entities/test-result.entity';
+import { User } from '../users/entities/user.entity';
 import { EnneagramType } from './entities/enneagram-type.entity';
 import { EnneagramQuestion } from './entities/enneagram-question.entity';
 import { EnneagramQuestionTypeMapping } from './entities/enneagram-mapping.entity';
@@ -22,6 +23,7 @@ import { EnneagramController } from './enneagram.controller';
       Question,
       Answer,
       TestResult,
+      User,
       EnneagramType,
       EnneagramQuestion,
       EnneagramQuestionTypeMapping,
