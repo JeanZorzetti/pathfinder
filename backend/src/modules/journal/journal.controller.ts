@@ -10,6 +10,7 @@ import {
   Query,
   ParseIntPipe,
   DefaultValuePipe,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -19,6 +20,7 @@ import {
   ApiQuery,
   ApiParam,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JournalService } from './journal.service';
 import { CreateEntryDto } from './dto/create-entry.dto';
 import { UpdateEntryDto } from './dto/update-entry.dto';
@@ -26,6 +28,7 @@ import { JournalStatsDto } from './dto/journal-stats.dto';
 
 @ApiTags('journal')
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('journal')
 export class JournalController {
   constructor(private readonly journalService: JournalService) {}
