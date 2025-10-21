@@ -5,17 +5,33 @@ import { Transporter } from 'nodemailer';
 
 @Injectable()
 export class EmailService {
-  private transporter: Transporter;
+  private transporter: Transporter | null = null;
   private readonly logger = new Logger(EmailService.name);
+  private emailEnabled = false;
 
   constructor(private configService: ConfigService) {
-    this.transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: this.configService.get<string>('SMTP_USER'),
-        pass: this.configService.get<string>('SMTP_PASS'),
-      },
-    });
+    const smtpUser = this.configService.get<string>('SMTP_USER');
+    const smtpPass = this.configService.get<string>('SMTP_PASS');
+
+    if (smtpUser && smtpPass) {
+      try {
+        this.transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: smtpUser,
+            pass: smtpPass,
+          },
+        });
+        this.emailEnabled = true;
+        this.logger.log('Email service initialized successfully');
+      } catch (error) {
+        this.logger.warn('Failed to initialize email service:', error);
+        this.emailEnabled = false;
+      }
+    } else {
+      this.logger.warn('SMTP credentials not configured. Email service disabled.');
+      this.emailEnabled = false;
+    }
   }
 
   /**
@@ -24,6 +40,13 @@ export class EmailService {
   async sendPasswordResetEmail(to: string, resetToken: string): Promise<void> {
     const frontendUrl = this.configService.get<string>('FRONTEND_URL');
     const resetLink = `${frontendUrl}/reset-password?token=${resetToken}`;
+
+    // If email is not enabled, just log the reset link
+    if (!this.emailEnabled || !this.transporter) {
+      this.logger.warn(`Email service not configured. Reset link for ${to}:`);
+      this.logger.warn(`Reset link: ${resetLink}`);
+      return;
+    }
 
     const mailOptions = {
       from: this.configService.get<string>('SMTP_FROM', 'PathFinder <noreply@pathfinder.com>'),
@@ -37,6 +60,7 @@ export class EmailService {
       this.logger.log(`Password reset email sent to ${to}`);
     } catch (error) {
       this.logger.error(`Failed to send password reset email to ${to}`, error);
+      this.logger.warn(`Reset link (fallback): ${resetLink}`);
       throw error;
     }
   }
