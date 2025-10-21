@@ -26,6 +26,12 @@ export class ChallengesController {
   @ApiResponse({ status: 404, description: 'No active challenge found' })
   async completeChallengeDay(@Req() req: any, @Body() dto: CompleteDayDto): Promise<CurrentChallengeDto> {
     const userId = req.user?.id || '00000000-0000-0000-0000-000000000000';
+    console.log('🎯 Controller received:', {
+      userId,
+      dto,
+      dayValue: dto.day,
+      dayType: typeof dto.day,
+    });
     return this.challengesService.completeChallengeDay(userId, dto.day);
   }
 

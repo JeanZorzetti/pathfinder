@@ -42,12 +42,20 @@ export class ChallengesService {
    * Marca um dia do desafio como completo
    */
   async completeChallengeDay(userId: string, day: number): Promise<CurrentChallengeDto> {
+    console.log('🔧 Service completeChallengeDay called:', {
+      userId,
+      day,
+      dayType: typeof day,
+    });
+
     // Validar dia da semana (0-4 = Segunda-Sexta)
     if (day < 0 || day > 4) {
+      console.error('❌ Day validation failed:', { day });
       throw new BadRequestException('Dia inválido. Deve ser entre 0 (Segunda) e 4 (Sexta)');
     }
 
     const weekStartDate = this.getWeekStartDate();
+    console.log('📅 Week start date:', weekStartDate);
 
     // Buscar desafio atual
     const userChallenge = await this.userChallengeRepository.findOne({
@@ -57,7 +65,14 @@ export class ChallengesService {
       },
     });
 
+    console.log('🔍 User challenge query result:', {
+      found: !!userChallenge,
+      challengeId: userChallenge?.id,
+      daysCompleted: userChallenge?.daysCompleted,
+    });
+
     if (!userChallenge) {
+      console.error('❌ No challenge found for:', { userId, weekStartDate });
       throw new NotFoundException('Nenhum desafio ativo encontrado para esta semana');
     }
 
