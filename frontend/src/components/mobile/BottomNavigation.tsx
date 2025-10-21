@@ -59,11 +59,8 @@ export const BottomNavigation = () => {
 
   return (
     <>
-      {/* Spacer to prevent content from being hidden behind fixed nav */}
-      <div className="h-20 md:hidden" />
-
       {/* Bottom Navigation - Only visible on mobile */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 md:hidden pb-safe">
         <div className="flex items-center justify-around px-2 py-2 safe-area-inset-bottom">
           {navItems.map((item) => {
             const Icon = item.icon;
