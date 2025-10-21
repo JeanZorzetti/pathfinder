@@ -1,288 +1,296 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/lib/supabase-client";
-import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Brain, ArrowRight, ArrowLeft, Home } from "lucide-react";
+import { Brain, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import api from "@/lib/api";
 import { toast } from "sonner";
-import { bigFiveQuestions } from "@/data/bigFiveQuestions";
-import { bigFiveTraits, calculateBigFiveLevel } from "@/data/bigFiveData";
 
-const BigFiveTest = () => {
+interface BigFiveQuestion {
+  id: string;
+  questionNumber: number;
+  questionText: string;
+  questionTextPt: string;
+  dimensionCode: string;
+  isReversed: boolean;
+  orderIndex: number;
+}
+
+interface Answer {
+  questionId: string;
+  answer: number;
+}
+
+export default function BigFiveTest() {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<number[]>([]);
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+
+  const [questions, setQuestions] = useState<BigFiveQuestion[]>([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState<Answer[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [startTime] = useState(Date.now());
+
+  // Likert scale labels
+  const scaleLabels = [
+    "Discordo totalmente",
+    "Discordo",
+    "Neutro",
+    "Concordo",
+    "Concordo totalmente",
+  ];
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        toast.error("Você precisa estar logado para fazer o teste");
-        navigate("/auth");
-      } else {
-        setUser(session.user);
-      }
-    });
-  }, [navigate]);
+    if (!authLoading && !isAuthenticated) {
+      navigate("/auth");
+      return;
+    }
 
-  const handleAnswer = (score: number) => {
-    const newAnswers = [...answers];
-    newAnswers[currentQuestion] = score;
-    setAnswers(newAnswers);
+    if (isAuthenticated) {
+      loadQuestions();
+    }
+  }, [authLoading, isAuthenticated, navigate]);
+
+  const loadQuestions = async () => {
+    try {
+      setIsLoading(true);
+      const response = await api.get("/personality-tests/bigfive/questions");
+      setQuestions(response.data);
+    } catch (error) {
+      console.error("Error loading questions:", error);
+      toast.error("Erro ao carregar questões. Tente novamente.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAnswer = (value: number) => {
+    const currentQuestion = questions[currentQuestionIndex];
+
+    // Update or add answer
+    const existingAnswerIndex = answers.findIndex(
+      (a) => a.questionId === currentQuestion.id
+    );
+
+    if (existingAnswerIndex >= 0) {
+      const updatedAnswers = [...answers];
+      updatedAnswers[existingAnswerIndex] = {
+        questionId: currentQuestion.id,
+        answer: value,
+      };
+      setAnswers(updatedAnswers);
+    } else {
+      setAnswers([...answers, { questionId: currentQuestion.id, answer: value }]);
+    }
+  };
+
+  const getCurrentAnswer = (): number | null => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const answer = answers.find((a) => a.questionId === currentQuestion.id);
+    return answer ? answer.answer : null;
   };
 
   const handleNext = () => {
-    if (answers[currentQuestion] === undefined) {
-      toast.error("Por favor, selecione uma resposta");
-      return;
-    }
-    
-    if (currentQuestion < bigFiveQuestions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      handleSubmit();
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
   };
 
   const handlePrevious = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
-  };
-
-  const calculateResults = () => {
-    const traitScores: Record<string, number[]> = {
-      openness: [],
-      conscientiousness: [],
-      extraversion: [],
-      agreeableness: [],
-      neuroticism: [],
-    };
-
-    // Agrupa pontuações por traço
-    bigFiveQuestions.forEach((q, index) => {
-      let score = answers[index];
-      // Inverte pontuação para questões reversas
-      if (q.reverse) {
-        score = 6 - score; // Inverte escala 1-5
-      }
-      traitScores[q.trait].push(score);
-    });
-
-    // Calcula média percentual para cada traço (0-100)
-    const results: Record<string, any> = {};
-    Object.keys(traitScores).forEach((trait) => {
-      const scores = traitScores[trait];
-      const average = scores.reduce((a, b) => a + b, 0) / scores.length;
-      const percentage = ((average - 1) / 4) * 100; // Converte escala 1-5 para 0-100
-      
-      results[trait] = {
-        score: Math.round(percentage),
-        level: calculateBigFiveLevel(percentage),
-      };
-    });
-
-    return results;
   };
 
   const handleSubmit = async () => {
-    if (!user) return;
+    if (answers.length !== 60) {
+      toast.error("Por favor, responda todas as 60 questões antes de finalizar.");
+      return;
+    }
 
-    setIsSubmitting(true);
-    const results = calculateResults();
+    try {
+      setIsSubmitting(true);
+      const completionTimeSeconds = Math.floor((Date.now() - startTime) / 1000);
 
-    const { error } = await supabase.from("test_results").insert({
-      user_id: user.id,
-      test_type: "bigfive",
-      result_data: {
-        scores: results,
-        answers: answers,
-      },
-    });
+      const response = await api.post("/personality-tests/bigfive/calculate", {
+        answers,
+        completionTimeSeconds,
+      });
 
-    if (error) {
-      toast.error("Erro ao salvar resultado");
+      toast.success("Teste concluído com sucesso!");
+
+      // Navigate to results page with the result ID
+      navigate(`/bigfive-result/${response.data.id}`);
+    } catch (error: any) {
+      console.error("Error submitting test:", error);
+      toast.error(
+        error.response?.data?.message || "Erro ao processar teste. Tente novamente."
+      );
+    } finally {
       setIsSubmitting(false);
-    } else {
-      toast.success("Teste concluído!");
-      setResult(results);
     }
   };
 
-  const progress = ((currentQuestion + 1) / bigFiveQuestions.length) * 100;
-  const currentQ = bigFiveQuestions[currentQuestion];
-
-  if (!user) {
+  if (authLoading || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin">
-          <Brain className="w-8 h-8 text-primary" />
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
+          <p className="text-muted-foreground">Carregando teste...</p>
         </div>
       </div>
     );
   }
 
-  if (result) {
+  if (questions.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-subtle py-12">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <Card className="shadow-elegant">
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center mx-auto mb-4">
-                <Brain className="w-8 h-8 text-primary-foreground" />
-              </div>
-              <CardTitle className="text-3xl mb-2">Seus Resultados Big Five</CardTitle>
-              <CardDescription>Perfil de Personalidade OCEAN</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {Object.entries(result).map(([trait, data]: [string, any]) => {
-                const traitData = bigFiveTraits[trait as keyof typeof bigFiveTraits];
-                const isHigh = data.level === 'High';
-                const description = isHigh ? traitData.highDescription : traitData.lowDescription;
-                const characteristics = isHigh ? traitData.highCharacteristics : traitData.lowCharacteristics;
-                const careers = isHigh ? traitData.highCareers : traitData.lowCareers;
-
-                return (
-                  <div key={trait} className="p-6 rounded-lg bg-accent/30 border border-accent">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-bold text-xl">{traitData.trait}</h3>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        data.level === 'High' ? 'bg-primary/20 text-primary' :
-                        data.level === 'Low' ? 'bg-secondary/20 text-secondary' :
-                        'bg-muted text-muted-foreground'
-                      }`}>
-                        {data.score}% - {data.level === 'High' ? 'Alto' : data.level === 'Low' ? 'Baixo' : 'Médio'}
-                      </span>
-                    </div>
-                    
-                    <div className="mb-4">
-                      <div className="h-2 bg-muted rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-gradient-to-r from-primary to-secondary transition-all"
-                          style={{ width: `${data.score}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    <p className="text-muted-foreground mb-4">{description}</p>
-
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div>
-                        <h4 className="font-semibold mb-2 text-sm">Características:</h4>
-                        <ul className="text-sm space-y-1">
-                          {characteristics.slice(0, 3).map((char, i) => (
-                            <li key={i} className="text-muted-foreground">• {char}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold mb-2 text-sm">Carreiras Sugeridas:</h4>
-                        <ul className="text-sm space-y-1">
-                          {careers.slice(0, 3).map((career, i) => (
-                            <li key={i} className="text-muted-foreground">• {career}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-
-              <div className="flex gap-3 pt-4">
-                <Button onClick={() => navigate("/dashboard")} className="flex-1">
-                  Ver Dashboard
-                </Button>
-                <Button variant="outline" onClick={() => navigate("/")} className="flex-1">
-                  <Home className="w-4 h-4 mr-2" />
-                  Início
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-subtle py-12">
-      <div className="container mx-auto px-4 max-w-2xl">
-        <Card className="shadow-elegant">
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
           <CardHeader>
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center">
-                <Brain className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <span className="text-sm text-muted-foreground">
-                Questão {currentQuestion + 1} de {bigFiveQuestions.length}
-              </span>
-            </div>
-            <CardTitle className="text-2xl">Teste Big Five (OCEAN)</CardTitle>
+            <CardTitle>Erro</CardTitle>
             <CardDescription>
-              Avalie o quanto você concorda com cada afirmação
+              Não foi possível carregar as questões do teste.
             </CardDescription>
-            <Progress value={progress} className="mt-4" />
           </CardHeader>
-
-          <CardContent className="space-y-6">
-            <div className="text-center py-6">
-              <p className="text-lg font-medium mb-6">{currentQ.text}</p>
-
-              <RadioGroup 
-                value={answers[currentQuestion]?.toString()} 
-                onValueChange={(value) => handleAnswer(parseInt(value))}
-                className="space-y-3"
-              >
-                {[
-                  { value: 1, label: "Discordo Totalmente" },
-                  { value: 2, label: "Discordo" },
-                  { value: 3, label: "Neutro" },
-                  { value: 4, label: "Concordo" },
-                  { value: 5, label: "Concordo Totalmente" },
-                ].map((option) => (
-                  <div key={option.value} className="flex items-center space-x-3 p-4 rounded-lg border border-accent hover:bg-accent/50 transition-colors cursor-pointer">
-                    <RadioGroupItem value={option.value.toString()} id={`option-${option.value}`} />
-                    <Label htmlFor={`option-${option.value}`} className="flex-1 cursor-pointer text-left">
-                      {option.label}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </div>
-
-            <div className="flex gap-3">
-              {currentQuestion > 0 && (
-                <Button variant="outline" onClick={handlePrevious} className="flex-1">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Anterior
-                </Button>
-              )}
-              <Button 
-                onClick={handleNext} 
-                disabled={answers[currentQuestion] === undefined || isSubmitting}
-                className="flex-1"
-              >
-                {currentQuestion === bigFiveQuestions.length - 1 ? (
-                  isSubmitting ? "Processando..." : "Finalizar"
-                ) : (
-                  <>
-                    Próxima
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </>
-                )}
-              </Button>
-            </div>
+          <CardContent>
+            <Button onClick={() => navigate("/dashboard")} className="w-full">
+              Voltar ao Dashboard
+            </Button>
           </CardContent>
         </Card>
       </div>
+    );
+  }
+
+  const currentQuestion = questions[currentQuestionIndex];
+  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+  const currentAnswer = getCurrentAnswer();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20 py-8 px-4">
+      <div className="max-w-3xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full mb-4">
+            <Brain className="h-8 w-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold mb-2">Teste Big Five (OCEAN)</h1>
+          <p className="text-muted-foreground">
+            Descubra suas 5 grandes dimensões de personalidade
+          </p>
+        </div>
+
+        {/* Progress */}
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="font-medium">
+                  Questão {currentQuestionIndex + 1} de {questions.length}
+                </span>
+                <span className="text-muted-foreground">
+                  {Math.round(progress)}% completo
+                </span>
+              </div>
+              <Progress value={progress} className="h-2" />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>Respondidas: {answers.length}/60</span>
+                <span>
+                  Dimensão:{" "}
+                  {currentQuestion.dimensionCode === "O" && "Abertura"}
+                  {currentQuestion.dimensionCode === "C" && "Conscienciosidade"}
+                  {currentQuestion.dimensionCode === "E" && "Extroversão"}
+                  {currentQuestion.dimensionCode === "A" && "Amabilidade"}
+                  {currentQuestion.dimensionCode === "N" && "Neuroticismo"}
+                </span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Question Card */}
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="text-xl">
+              {currentQuestion.questionTextPt}
+            </CardTitle>
+            <CardDescription className="text-sm italic">
+              {currentQuestion.questionText}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <button
+                  key={value}
+                  onClick={() => handleAnswer(value)}
+                  className={`w-full p-4 rounded-lg border-2 transition-all text-left ${
+                    currentAnswer === value
+                      ? "border-purple-500 bg-purple-50 dark:bg-purple-900/20"
+                      : "border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-700"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">{scaleLabels[value - 1]}</span>
+                    {currentAnswer === value && (
+                      <div className="w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full" />
+                      </div>
+                    )}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Navigation */}
+        <div className="flex justify-between gap-4">
+          <Button
+            variant="outline"
+            onClick={handlePrevious}
+            disabled={currentQuestionIndex === 0}
+            className="flex-1"
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Anterior
+          </Button>
+
+          {currentQuestionIndex === questions.length - 1 ? (
+            <Button
+              onClick={handleSubmit}
+              disabled={answers.length !== 60 || isSubmitting}
+              className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Processando...
+                </>
+              ) : (
+                "Finalizar Teste"
+              )}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleNext}
+              disabled={currentAnswer === null}
+              className="flex-1"
+            >
+              Próxima
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
+          )}
+        </div>
+
+        {/* Helper text */}
+        <p className="text-center text-sm text-muted-foreground mt-6">
+          Responda com honestidade. Não há respostas certas ou erradas.
+        </p>
+      </div>
     </div>
   );
-};
-
-export default BigFiveTest;
+}

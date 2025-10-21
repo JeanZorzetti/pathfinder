@@ -14,6 +14,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import Test from "./pages/Test";
 import BigFiveTest from "./pages/BigFiveTest";
+import BigFiveResult from "./pages/BigFiveResult";
 import EnneagramTest from "./pages/EnneagramTest";
 import About from "./pages/About";
 import Journal from "./pages/Journal";
@@ -46,6 +47,7 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/test/mbti" element={<Test />} />
             <Route path="/test/bigfive" element={<BigFiveTest />} />
+            <Route path="/bigfive-result/:id" element={<BigFiveResult />} />
             <Route path="/test/enneagram" element={<EnneagramTest />} />
             <Route path="/about" element={<About />} />
             <Route path="/journal" element={<Journal />} />

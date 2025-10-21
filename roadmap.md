@@ -669,24 +669,30 @@ const ENNEAGRAM_TYPES = [
 ];
 ```
 
-#### 2. **Big Five Completo** 🔄 EM PROGRESSO (40% Completo)
+#### 2. **Big Five Completo** 🔄 EM PROGRESSO (70% Completo)
 
-**🔧 Backend (50% Completo):**
+**🔧 Backend (100% Completo):** ✅
 
 - [x] 3 entidades TypeORM (BigFiveDimension, BigFiveQuestion, BigFiveResult)
 - [x] 5 dimensões OCEAN com descrições completas (PT + EN)
 - [x] 60 questões validadas (12 por dimensão, PT + EN)
-- [ ] BigFiveService (lógica de cálculo)
-- [ ] BigFiveController (endpoints REST)
-- [ ] Migration executada (tabelas criadas)
+- [x] BigFiveService (lógica de cálculo completa)
+- [x] BigFiveController (8 endpoints REST)
+- [x] Migration executada (tabelas criadas via SQL manual)
+- [x] Scoring algorithm (Likert 1-5 → 0-100 scale)
+- [x] Reversed questions handling
+- [x] Percentile calculation
+- [x] Global statistics
 
-**🎨 Frontend (0% Completo):**
+**🎨 Frontend (40% Completo):**
 
-- [ ] BigFiveTest.tsx (componente de teste)
-- [ ] Scoring de 0-100 por dimensão
-- [ ] Gráfico de radar visual (Chart.js ou Recharts)
-- [ ] Página de resultados detalhada
-- [ ] Comparação com média populacional
+- [x] BigFiveTest.tsx (componente de teste)
+- [x] Scoring de 0-100 por dimensão (backend)
+- [x] Recharts instalado para gráfico radar
+- [ ] Página de resultados com radar chart
+- [ ] Comparação com média populacional (UI)
+- [ ] Rota em App.tsx
+- [ ] Link no dashboard
 
 **Dimensões:**
 
