@@ -169,15 +169,25 @@ const Dashboard = () => {
         dayIndex = today - 1; // Monday = 0, Friday = 4
       }
 
-      haptics.success(); // Haptic feedback on success
+      console.log('🔍 Challenge Day Debug:', {
+        todayJSDay: today,
+        dayIndexToSend: dayIndex,
+        expectedRange: '0-4 (Mon-Fri)',
+      });
+
       await api.completeChallengeDay(dayIndex);
+      haptics.success(); // Haptic feedback on success
       toast.success('✓ Dia marcado como completo! +20 XP');
       // Reload dashboard to get updated challenge
       loadDashboard();
     } catch (error: any) {
       haptics.error(); // Haptic feedback on error
       console.error('Error marking challenge complete:', error);
-      toast.error(error.response?.data?.message || 'Erro ao marcar desafio');
+      console.error('Backend error details:', error.response?.data);
+
+      // Show specific error message from backend
+      const errorMessage = error.response?.data?.message || error.message || 'Erro ao marcar desafio';
+      toast.error(errorMessage);
     }
   };
 
