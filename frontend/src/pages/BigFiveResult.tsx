@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Brain, Home, TrendingUp, Users, Loader2 } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Legend } from "recharts";
-import api from "@/lib/api";
+import { axiosInstance } from "@/lib/api";
 import { toast } from "sonner";
 
 interface BigFiveScores {
@@ -48,7 +48,7 @@ export default function BigFiveResult() {
   const dimensionNames: { [key: string]: string } = {
     openness: "Abertura",
     conscientiousness: "Conscienciosidade",
-    extraversion: "Extroversão",
+    extraversion: "Extroversï¿½o",
     agreeableness: "Amabilidade",
     neuroticism: "Neuroticismo",
   };
@@ -69,7 +69,7 @@ export default function BigFiveResult() {
   const loadResult = async () => {
     try {
       setIsLoading(true);
-      const response = await api.get(`/personality-tests/bigfive/results/${id}`);
+      const response = await axiosInstance.get(`/personality-tests/bigfive/results/${id}`);
 
       // Transform backend response to match our interface
       const transformedResult = {
@@ -107,7 +107,7 @@ export default function BigFiveResult() {
 
   const loadDimensions = async () => {
     try {
-      const response = await api.get("/personality-tests/bigfive/dimensions");
+      const response = await axiosInstance.get("/personality-tests/bigfive/dimensions");
       setDimensions(response.data);
     } catch (error) {
       console.error("Error loading dimensions:", error);
@@ -158,9 +158,9 @@ export default function BigFiveResult() {
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Resultado não encontrado</CardTitle>
+            <CardTitle>Resultado nï¿½o encontrado</CardTitle>
             <CardDescription>
-              Não foi possível encontrar o resultado do teste.
+              Nï¿½o foi possï¿½vel encontrar o resultado do teste.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -190,7 +190,7 @@ export default function BigFiveResult() {
           </div>
           <h1 className="text-3xl font-bold mb-2">Seu Perfil Big Five (OCEAN)</h1>
           <p className="text-muted-foreground">
-            Seus resultados nas 5 grandes dimensões de personalidade
+            Seus resultados nas 5 grandes dimensï¿½es de personalidade
           </p>
         </div>
 
@@ -199,10 +199,10 @@ export default function BigFiveResult() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              Visão Geral das Dimensões
+              Visï¿½o Geral das Dimensï¿½es
             </CardTitle>
             <CardDescription>
-              Gráfico radar mostrando suas pontuações em cada dimensão
+              Grï¿½fico radar mostrando suas pontuaï¿½ï¿½es em cada dimensï¿½o
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -212,7 +212,7 @@ export default function BigFiveResult() {
                 <PolarAngleAxis dataKey="dimension" />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} />
                 <Radar
-                  name="Sua Pontuação"
+                  name="Sua Pontuaï¿½ï¿½o"
                   dataKey="score"
                   stroke="#8b5cf6"
                   fill="#8b5cf6"
@@ -251,7 +251,7 @@ export default function BigFiveResult() {
                           : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
                       }`}
                     >
-                      {interpretation === "high" ? "Alto" : interpretation === "low" ? "Baixo" : "Médio"}
+                      {interpretation === "high" ? "Alto" : interpretation === "low" ? "Baixo" : "Mï¿½dio"}
                     </span>
                     <span className="flex items-center gap-1 text-sm text-muted-foreground">
                       <Users className="h-4 w-4" />
@@ -277,7 +277,7 @@ export default function BigFiveResult() {
                         ? dimensionInfo.highDescriptionPt
                         : interpretation === "low"
                         ? dimensionInfo.lowDescriptionPt
-                        : "Você apresenta características equilibradas nesta dimensão, combinando aspectos de ambos os extremos."}
+                        : "Vocï¿½ apresenta caracterï¿½sticas equilibradas nesta dimensï¿½o, combinando aspectos de ambos os extremos."}
                     </p>
                   )}
                 </CardContent>
@@ -290,17 +290,17 @@ export default function BigFiveResult() {
         {result.completionTimeSeconds && (
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle className="text-lg">Estatísticas do Teste</CardTitle>
+              <CardTitle className="text-lg">Estatï¿½sticas do Teste</CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
-                <p className="text-sm text-muted-foreground">Tempo de Conclusão</p>
+                <p className="text-sm text-muted-foreground">Tempo de Conclusï¿½o</p>
                 <p className="text-2xl font-bold">
                   {Math.floor(result.completionTimeSeconds / 60)}:{String(result.completionTimeSeconds % 60).padStart(2, "0")}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Questões</p>
+                <p className="text-sm text-muted-foreground">Questï¿½es</p>
                 <p className="text-2xl font-bold">60</p>
               </div>
               <div>
@@ -324,7 +324,7 @@ export default function BigFiveResult() {
           </Button>
           <Button variant="outline" onClick={() => navigate("/")} className="flex-1" size="lg">
             <Home className="mr-2 h-5 w-5" />
-            Voltar ao Início
+            Voltar ao Inï¿½cio
           </Button>
         </div>
       </div>

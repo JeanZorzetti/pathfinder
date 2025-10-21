@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Brain, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import api from "@/lib/api";
+import { axiosInstance } from "@/lib/api";
 import { toast } from "sonner";
 
 interface BigFiveQuestion {
@@ -57,7 +57,7 @@ export default function BigFiveTest() {
   const loadQuestions = async () => {
     try {
       setIsLoading(true);
-      const response = await api.get("/personality-tests/bigfive/questions");
+      const response = await axiosInstance.get("/personality-tests/bigfive/questions");
       setQuestions(response.data);
     } catch (error) {
       console.error("Error loading questions:", error);
@@ -115,7 +115,7 @@ export default function BigFiveTest() {
       setIsSubmitting(true);
       const completionTimeSeconds = Math.floor((Date.now() - startTime) / 1000);
 
-      const response = await api.post("/personality-tests/bigfive/calculate", {
+      const response = await axiosInstance.post("/personality-tests/bigfive/calculate", {
         answers,
         completionTimeSeconds,
       });
