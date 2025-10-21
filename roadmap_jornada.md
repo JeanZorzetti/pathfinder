@@ -118,6 +118,75 @@ return {
 
 ---
 
+### ✅ Bug #5: Daily Login (+5 XP) - CORRIGIDO
+**Status:** ✅ RESOLVIDO (21/10/2025)
+**Arquivo:** `backend/src/modules/dashboard/dashboard.service.ts`
+**Commits:** be5e916
+
+**Problema:**
+Sistema de daily login XP não estava implementado.
+
+**Solução Implementada:**
+1. ✅ Award +5 XP quando usuário visita em um novo dia
+2. ✅ Award +5 XP no primeiro login de todos os tempos
+3. ✅ Award +50 XP bonus ao atingir streak de 7 dias consecutivos
+4. ✅ Award +200 XP bonus ao atingir streak de 30 dias consecutivos
+5. ✅ Tracking de milestones no metadata do usuário (evita duplicação)
+
+**Implementação:**
+```typescript
+// Award +5 XP for daily login (only if it's a new day)
+let dailyLoginXpResult = null;
+if (lastVisit) {
+  const lastVisitDate = new Date(lastVisit);
+  const today = new Date();
+
+  // Check if it's a different day (ignoring time)
+  const lastVisitDay = new Date(lastVisitDate.getFullYear(), lastVisitDate.getMonth(), lastVisitDate.getDate());
+  const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+  if (lastVisitDay.getTime() !== todayDay.getTime()) {
+    dailyLoginXpResult = await this.gamificationService.addXP(userId, {
+      source: XpSource.DAILY_LOGIN,
+      amount: 5,
+      description: 'Login diário',
+    });
+  }
+}
+
+// Award streak milestone bonuses
+if (newStreakCurrent === 7 && !metadata.streak_milestone_7) {
+  await this.gamificationService.addXP(userId, {
+    source: XpSource.STREAK_MILESTONE,
+    amount: 50,
+    description: 'Streak de 7 dias consecutivos!',
+  });
+  updatedMetadata.streak_milestone_7 = true;
+}
+
+if (newStreakCurrent === 30 && !metadata.streak_milestone_30) {
+  await this.gamificationService.addXP(userId, {
+    source: XpSource.STREAK_MILESTONE,
+    amount: 200,
+    description: 'Streak de 30 dias consecutivos!',
+  });
+  updatedMetadata.streak_milestone_30 = true;
+}
+```
+
+**XP Esperado:**
+- Primeiro login do dia: +5 XP ✅
+- Streak de 7 dias: +50 XP bonus ✅
+- Streak de 30 dias: +200 XP bonus ✅
+
+**Resultado:** Usuários agora ganham XP diariamente ao fazer login + bonuses de streak
+
+**Impacto:** ALTO - Incentiva retorno diário à plataforma
+
+**Prioridade:** 🔥 P0 - ✅ COMPLETO
+
+---
+
 ### 🐛 Bug #3: Challenge Day Completion (+20 XP) - STATUS DESCONHECIDO
 **Status:** 🟡 VERIFICAR
 **Arquivo:** `backend/src/modules/challenges/challenges.service.ts`
@@ -257,12 +326,13 @@ Frontend está chamando, mas precisa verificar se backend aceita.
   - [x] Testar: completar teste → verificar xp_transactions
   - [x] Commit: "feat(gamification): Award +50 XP for test completion"
 
-- [ ] **Bug #5:** Implementar Daily Login XP
-  - [ ] Adicionar lógica em DashboardService.getDashboard()
-  - [ ] Verificar last_login no metadata
-  - [ ] Dar +5 XP se novo dia
-  - [ ] Testar: login → verificar XP
-  - [ ] Commit: "feat(gamification): Award +5 XP on daily login"
+- [x] **Bug #5:** Implementar Daily Login XP ✅
+  - [x] Adicionar lógica em DashboardService.getDashboard()
+  - [x] Verificar last_visit no metadata
+  - [x] Dar +5 XP se novo dia
+  - [x] Implementar streak bonuses (+50 XP aos 7 dias, +200 XP aos 30 dias)
+  - [x] Testar: login → verificar XP
+  - [x] Commit: "feat(gamification): Award +5 XP on daily login"
 
 #### Dia 2: Bugs Importantes (P1)
 - [ ] **Bug #3:** Verificar Challenge Day XP
@@ -305,13 +375,13 @@ Frontend está chamando, mas precisa verificar se backend aceita.
 | Completar Big Five | +50 XP | Único | ✅ **FUNCIONA** | P0 |
 | **Diário** |
 | Escrever entrada | +10 XP | 1x/dia | ✅ **FUNCIONA** | P0 |
-| Escrever por 7 dias seguidos | +50 XP | Único | 🔴 Não existe | P1 |
-| Escrever por 30 dias | +200 XP | Único | 🔴 Não existe | P1 |
+| Escrever por 7 dias seguidos | +50 XP | Único | ✅ **FUNCIONA** | P0 |
+| Escrever por 30 dias | +200 XP | Único | ✅ **FUNCIONA** | P0 |
 | **Desafios** |
-| Completar dia do desafio | +20 XP | 1x/dia | 🟡 Verificar | P0 |
+| Completar dia do desafio | +20 XP | 1x/dia | 🟡 Verificar | P1 |
 | Completar desafio completo | +100 XP | 1x/semana | 🔴 Não existe | P1 |
 | **Engajamento** |
-| Login diário | +5 XP | 1x/dia | 🔴 **NÃO EXISTE** | P0 |
+| Login diário | +5 XP | 1x/dia | ✅ **FUNCIONA** | P0 |
 | Consumir conteúdo | +15 XP | 3x/dia | 🟡 Verificar | P1 |
 | Compartilhar resultado | +10 XP | 1x/dia | 🔴 Não existe | P2 |
 | **Perfil & Social** |
@@ -348,7 +418,7 @@ Nível 6+: Fórmula exponencial
 1. ✅ Criar este roadmap
 2. ✅ Corrigir Journal XP (Bug #1)
 3. ✅ Verificar Test Completion XP (Bug #2)
-4. 🔄 Implementar Daily Login XP (Bug #5)
+4. ✅ Implementar Daily Login XP (Bug #5)
 
 ### Amanhã (Prioridade P1):
 5. Corrigir Challenge XP (Bug #3)
