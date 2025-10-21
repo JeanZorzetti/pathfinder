@@ -245,7 +245,17 @@ export class PersonalityTestsService {
       completedAt: new Date(),
     });
 
-    return this.testResultsRepository.save(testResult);
+    const savedResult = await this.testResultsRepository.save(testResult);
+
+    // Update user's mbti_type if this is an MBTI test
+    if (framework.code === FrameworkCode.MBTI) {
+      await this.userRepository.update(
+        { id: userId },
+        { mbti_type: dto.typeCode }
+      );
+    }
+
+    return savedResult;
   }
 
   /**
