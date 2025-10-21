@@ -300,13 +300,22 @@
 
 **Resultado:** Navigation acessível e Hero legível em mobile (< 640px)
 
-#### Dia 2: Dashboard
-- [ ] **Fix #3:** Dashboard Responsivo
-  - [ ] Grid de 1 coluna em mobile: `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`
-  - [ ] Reduzir padding de cards: `p-4 md:p-6`
-  - [ ] Stack vertical em mobile para ProfileCard
-  - [ ] Otimizar JourneyCard progress bar
-  - Arquivos: `Dashboard.tsx`, `dashboard/*.tsx`
+#### Dia 2: Dashboard ✅ **CONCLUÍDO (21/10/2025)**
+
+- [x] **Fix #3:** Dashboard Responsivo ✅
+  - [x] Grid de 1 coluna em mobile: `grid-cols-1 md:grid-cols-2`
+  - [x] Reduzir padding: `py-4 sm:py-6 md:py-8`, `gap-4 sm:gap-6`
+  - [x] Hero title responsive: `text-2xl sm:text-3xl md:text-4xl`
+  - [x] ProfileCard: Avatar + strengths em horizontal mobile (`flex-col sm:flex-row`)
+  - [x] ProfileCard: Reduced padding `p-3 sm:p-4`, font sizes `text-xs sm:text-sm`
+  - [x] JourneyCard: Optimized progress bar `h-2 sm:h-3`, badge `text-2xl sm:text-3xl`
+  - [x] JourneyCard: Achievement cards `p-2 sm:p-3`, `line-clamp-2`
+  - [x] DailyInsightCard: Stack header on mobile `flex-col sm:flex-row`
+  - [x] WeeklyChallengeCard: Reduced spacing `gap-1 sm:gap-2`, weekday text `text-[10px] sm:text-xs`
+  - Arquivos: `Dashboard.tsx`, `ProfileCard.tsx`, `JourneyCard.tsx`, `DailyInsightCard.tsx`, `WeeklyChallengeCard.tsx`
+  - **Commit:** 71dacbc
+
+**Resultado:** Dashboard totalmente utilizável em mobile com spacing otimizado e touch targets adequados
 
 #### Dia 3-4: Testes
 - [ ] **Fix #4:** Testes Responsivos
