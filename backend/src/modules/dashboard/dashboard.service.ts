@@ -124,7 +124,7 @@ export class DashboardService {
     }
 
     // Award +5 XP for daily login (only if it's a new day)
-    let dailyLoginXpResult = null;
+    let dailyLoginXpResult: Awaited<ReturnType<typeof this.gamificationService.addXP>> | null = null;
     if (lastVisit) {
       const lastVisitDate = new Date(lastVisit);
       const today = new Date();
