@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { JournalService } from './journal.service';
+import { GamificationService } from '../gamification/gamification.service';
 import { CreateEntryDto } from './dto/create-entry.dto';
 import { UpdateEntryDto } from './dto/update-entry.dto';
 import { JournalStatsDto } from './dto/journal-stats.dto';
@@ -31,7 +32,10 @@ import { JournalStatsDto } from './dto/journal-stats.dto';
 @UseGuards(JwtAuthGuard)
 @Controller('journal')
 export class JournalController {
-  constructor(private readonly journalService: JournalService) {}
+  constructor(
+    private readonly journalService: JournalService,
+    private readonly gamificationService: GamificationService,
+  ) {}
 
   @Post('entries')
   @ApiOperation({ summary: 'Criar nova entrada de diário (+10 XP)' })
@@ -43,12 +47,24 @@ export class JournalController {
 
     const entry = await this.journalService.create(userId, createEntryDto);
 
-    // TODO: Adicionar +10 XP via GamificationService quando integrado
-    // await this.gamificationService.addXP(userId, { source: 'journal_entry', amount: 10 });
+    // Award +10 XP for writing journal entry
+    let xpResult = null;
+    try {
+      xpResult = await this.gamificationService.addXP(userId, {
+        source: 'journal_entry',
+        amount: 10,
+        description: 'Entrada de diário criada',
+      });
+    } catch (error) {
+      console.error('Error awarding XP for journal entry:', error);
+      // Don't block the response if XP fails
+    }
 
     return {
       ...entry,
-      xpAwarded: 10,
+      xpAwarded: xpResult?.xpGained || 10,
+      totalXp: xpResult?.totalXp,
+      level: xpResult?.currentLevel,
       message: 'Entrada criada com sucesso! +10 XP',
     };
   }
