@@ -280,19 +280,25 @@
 
 ### 📋 Sprint 1: Fixes Críticos (P0) - 3-5 dias
 
-#### Dia 1: Navigation & Hero
-- [ ] **Fix #1:** Navigation Responsivo
-  - [ ] Criar `MobileNavDrawer.tsx` com Sheet do shadcn
-  - [ ] Hamburger menu para mobile (< md)
-  - [ ] Desktop nav mantém current state
-  - [ ] Integrar `BottomNavigation` em todas as páginas
-  - Arquivos: `Index.tsx`, `components/MobileNavDrawer.tsx`
+#### Dia 1: Navigation & Hero ✅ **CONCLUÍDO (21/10/2025)**
 
-- [ ] **Fix #2:** Hero Section
-  - [ ] Ajustar text scales: `text-3xl sm:text-4xl md:text-6xl lg:text-7xl`
-  - [ ] Reduzir padding vertical em mobile: `py-12 sm:py-16 md:py-24`
-  - [ ] CTA buttons em coluna em mobile
+- [x] **Fix #1:** Navigation Responsivo ✅
+  - [x] Criar `MobileNavDrawer.tsx` com Sheet do shadcn
+  - [x] Hamburger menu para mobile (< md)
+  - [x] Desktop nav mantém current state (hidden md:flex)
+  - [x] Integrar `BottomNavigation` em Index.tsx
+  - Arquivos: `Index.tsx`, `components/mobile/MobileNavDrawer.tsx`
+  - **Commit:** 4935fe3
+
+- [x] **Fix #2:** Hero Section ✅
+  - [x] Ajustar text scales: `text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl`
+  - [x] Reduzir padding vertical em mobile: `py-12 sm:py-16 md:py-24 lg:py-32`
+  - [x] CTA buttons já em coluna em mobile (flex-col sm:flex-row)
+  - [x] Adicionado line-height e spacing melhorado
   - Arquivo: `Index.tsx`
+  - **Commit:** 4935fe3
+
+**Resultado:** Navigation acessível e Hero legível em mobile (< 640px)
 
 #### Dia 2: Dashboard
 - [ ] **Fix #3:** Dashboard Responsivo
