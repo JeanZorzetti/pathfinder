@@ -62,10 +62,10 @@ export class User {
   comparison_code: string;
 
   @Column({ name: 'reset_token', nullable: true })
-  resetToken: string;
+  resetToken: string | null;
 
   @Column({ name: 'reset_token_expires_at', nullable: true })
-  resetTokenExpiresAt: Date;
+  resetTokenExpiresAt: Date | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
