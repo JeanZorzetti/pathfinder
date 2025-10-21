@@ -256,4 +256,71 @@ All colors MUST be HSL.
   .space-y-mobile > * + * {
     @apply mt-3 sm:mt-4 md:mt-6;
   }
+
+  /* Reduced motion support for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Faster animations on mobile for better performance */
+  @media (max-width: 768px) {
+    * {
+      transition-duration: 0.2s !important;
+    }
+  }
+
+  /* Accessibility - Focus visible for keyboard navigation */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Remove outline for mouse users (not keyboard) */
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Skip to main content link for screen readers */
+  .skip-to-main {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 1em;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    text-decoration: none;
+  }
+
+  .skip-to-main:focus {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 1em;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    * {
+      border-width: 2px !important;
+    }
+  }
+
+  /* Screen reader only content */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
 }
