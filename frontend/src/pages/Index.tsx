@@ -41,7 +41,7 @@ const Index = () => {
       <StructuredData type="WebSite" data={websiteSchema} />
       {/* Navigation */}
       <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="container mx-auto py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             {/* Mobile Menu - Only visible on mobile */}
             <MobileNavDrawer isAuthenticated={isAuthenticated} />
@@ -91,7 +91,7 @@ const Index = () => {
             backgroundPosition: 'center',
           }}
         />
-        <div className="relative container mx-auto px-4 py-12 sm:py-16 md:py-24 lg:py-32 text-center">
+        <div className="relative container mx-auto py-12 sm:py-16 md:py-24 lg:py-32 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 max-w-4xl mx-auto leading-tight">
             <span className="gradient-text">Conheça-se Profundamente.</span>
             <br />
@@ -123,7 +123,7 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto py-16 sm:py-20">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Por que Pathfinder?
@@ -173,8 +173,8 @@ const Index = () => {
       </section>
 
       {/* Tests Preview */}
-      <section className="bg-muted/30 py-20">
-        <div className="container mx-auto px-4">
+      <section className="bg-muted/30 py-16 sm:py-20">
+        <div className="container mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Testes Disponíveis
@@ -240,7 +240,7 @@ const Index = () => {
       <FAQSection />
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
+      <section className="container mx-auto py-16 sm:py-20 text-center">
         <div className="max-w-3xl mx-auto">
           <TrendingUp className="w-16 h-16 mx-auto mb-6 text-primary animate-fade-in" />
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -257,8 +257,8 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-card/50 backdrop-blur-sm py-8">
-        <div className="container mx-auto px-4">
+      <footer className="border-t bg-card/50 backdrop-blur-sm py-6 sm:py-8">
+        <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 rounded-full gradient-primary flex items-center justify-center">
