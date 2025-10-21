@@ -216,7 +216,7 @@ export class AuthService {
   async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<{ message: string }> {
     const user = await this.usersService.findByResetToken(resetPasswordDto.token);
 
-    if (!user) {
+    if (!user || !user.resetTokenExpiresAt) {
       throw new BadRequestException('Token inválido ou expirado');
     }
 
