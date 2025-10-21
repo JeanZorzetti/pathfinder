@@ -167,84 +167,20 @@ export class SeedService {
 
   private async seedBigFiveTypes() {
     console.log('📦 Seeding Big Five types...');
-
-    const bigFiveFramework = await this.frameworksRepository.findOne({
-      where: { code: FrameworkCode.BIG_FIVE },
-    });
-
-    if (!bigFiveFramework) {
-      console.log('  ✗ Big Five framework not found. Skipping types.');
-      return;
-    }
-
-    for (const [key, data] of Object.entries(bigFiveTypesData)) {
-      const existing = await this.typesRepository.findOne({
-        where: { slug: data.slug },
-      });
-
-      if (!existing) {
-        await this.typesRepository.save({
-          code: key.toUpperCase().replace(/_/g, '-'),
-          name: data.name,
-          title: data.title,
-          description: data.description,
-          shortDescription: data.shortDescription,
-          slug: data.slug,
-          metaTitle: data.metaTitle,
-          metaDescription: data.metaDescription,
-          keywords: data.keywords,
-          strengths: data.strengths,
-          weaknesses: data.weaknesses,
-          careers: data.careers,
-          relationships: '',
-          growth: '',
-          traits: data.traits || {},
-          compatibility: {},
-          frameworkId: bigFiveFramework.id,
-          isActive: true,
-        });
-        console.log(`  ✓ Created Big Five type: ${data.name}`);
-      } else {
-        console.log(`  ⊙ Big Five type already exists: ${data.name}`);
-      }
-    }
+    console.log('  ⊙ Big Five now uses separate tables (bigfive_dimensions)');
+    console.log('  ⊙ Dimensions are populated via SQL migration');
+    console.log('  ⊙ Skipping old test_frameworks seed for Big Five types');
+    // Note: Big Five dimensions are now in bigfive_dimensions table
+    // They are populated via SQL migration, not via this seed
   }
 
   private async seedBigFiveQuestions() {
     console.log('📦 Seeding Big Five questions...');
-
-    const bigFiveFramework = await this.frameworksRepository.findOne({
-      where: { code: FrameworkCode.BIG_FIVE },
-    });
-
-    if (!bigFiveFramework) {
-      console.log('  ✗ Big Five framework not found. Skipping questions.');
-      return;
-    }
-
-    for (let i = 0; i < bigFiveQuestionsData.length; i++) {
-      const q = bigFiveQuestionsData[i];
-      const existing = await this.questionsRepository.findOne({
-        where: {
-          frameworkId: bigFiveFramework.id,
-          orderIndex: q.orderIndex,
-        },
-      });
-
-      if (!existing) {
-        await this.questionsRepository.save({
-          questionText: q.questionText,
-          dimension: q.dimension,
-          options: q.options,
-          orderIndex: q.orderIndex,
-          frameworkId: bigFiveFramework.id,
-          isActive: true,
-        });
-        console.log(`  ✓ Created question ${i + 1}/${bigFiveQuestionsData.length}`);
-      }
-    }
-
-    console.log(`  ✓ All Big Five questions processed`);
+    console.log('  ⊙ Big Five now uses separate tables (bigfive_questions)');
+    console.log('  ⊙ Questions are populated via SQL migration');
+    console.log('  ⊙ Skipping old test_frameworks seed for Big Five');
+    // Note: Big Five questions are now in bigfive_questions table
+    // They are populated via SQL migration, not via this seed
   }
 
   private async seedEnneagramTypes() {
