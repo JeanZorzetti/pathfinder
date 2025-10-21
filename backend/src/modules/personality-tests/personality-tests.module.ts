@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PersonalityTestsController } from './personality-tests.controller';
 import { PersonalityTestsService } from './personality-tests.service';
@@ -14,6 +14,7 @@ import { EnneagramQuestion } from './entities/enneagram-question.entity';
 import { EnneagramQuestionTypeMapping } from './entities/enneagram-mapping.entity';
 import { EnneagramService } from './enneagram.service';
 import { EnneagramController } from './enneagram.controller';
+import { GamificationModule } from '../gamification/gamification.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { EnneagramController } from './enneagram.controller';
       EnneagramQuestion,
       EnneagramQuestionTypeMapping,
     ]),
+    forwardRef(() => GamificationModule),
   ],
   controllers: [PersonalityTestsController, EnneagramController],
   providers: [PersonalityTestsService, ScoringService, EnneagramService],

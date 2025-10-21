@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PersonalityFramework, FrameworkCode } from './entities/personality-framework.entity';
@@ -29,6 +29,7 @@ export class PersonalityTestsService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private scoringService: ScoringService,
+    @Inject(forwardRef(() => GamificationService))
     private gamificationService: GamificationService,
   ) {}
 
