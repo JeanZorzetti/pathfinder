@@ -142,9 +142,9 @@ export class UsersService {
    * Clear reset token after password reset
    */
   async clearResetToken(id: string): Promise<void> {
-    await this.usersRepository.update(id, {
-      resetToken: null,
-      resetTokenExpiresAt: null,
-    });
+    const user = await this.findById(id);
+    user.resetToken = null;
+    user.resetTokenExpiresAt = null;
+    await this.usersRepository.save(user);
   }
 }
