@@ -92,6 +92,8 @@ import typeormConfig from './config/typeorm.config';
           PushSubscription,
           DailyInsight,
         ],
+        migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+        migrationsRun: configService.get('DB_RUN_MIGRATIONS') === 'true',
         synchronize: configService.get('NODE_ENV') === 'development',
         logging: configService.get('NODE_ENV') === 'development',
         // SSL configuration - usar DATABASE_SSL env var ao invés de NODE_ENV
