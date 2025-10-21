@@ -27,6 +27,9 @@ import { PersonalityType } from './modules/personality-tests/entities/personalit
 import { Question } from './modules/personality-tests/entities/question.entity';
 import { TestResult } from './modules/personality-tests/entities/test-result.entity';
 import { Answer } from './modules/personality-tests/entities/answer.entity';
+import { EnneagramType } from './modules/personality-tests/entities/enneagram-type.entity';
+import { EnneagramQuestion } from './modules/personality-tests/entities/enneagram-question.entity';
+import { EnneagramQuestionTypeMapping } from './modules/personality-tests/entities/enneagram-mapping.entity';
 import { Article } from './modules/content/entities/article.entity';
 import { ArticleCategory } from './modules/content/entities/article-category.entity';
 import { XpTransaction } from './modules/gamification/entities/xp-transaction.entity';
@@ -71,6 +74,9 @@ import typeormConfig from './config/typeorm.config';
           Question,
           TestResult,
           Answer,
+          EnneagramType,
+          EnneagramQuestion,
+          EnneagramQuestionTypeMapping,
           Article,
           ArticleCategory,
           XpTransaction,
