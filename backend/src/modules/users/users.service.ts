@@ -140,6 +140,7 @@ export class UsersService {
 
   /**
    * Clear reset token after password reset
+   * Uses save() instead of update() to handle null values properly
    */
   async clearResetToken(id: string): Promise<void> {
     const user = await this.findById(id);
