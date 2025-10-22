@@ -463,11 +463,21 @@ const Dashboard = () => {
                           MBTI
                         </Badge>
                       )}
+                      {testResults.some((r) => r.framework === 'bigfive') ? (
+                        <Badge variant="default" className="flex items-center gap-1">
+                          ✓ Big Five
+                        </Badge>
+                      ) : (
+                        <Badge
+                          variant="outline"
+                          className="cursor-pointer hover:bg-accent"
+                          onClick={() => navigate('/bigfive-test')}
+                        >
+                          Big Five
+                        </Badge>
+                      )}
                       <Badge variant="outline" className="opacity-50">
                         Eneagrama (Em breve)
-                      </Badge>
-                      <Badge variant="outline" className="opacity-50">
-                        Big Five (Em breve)
                       </Badge>
                     </div>
                   </div>

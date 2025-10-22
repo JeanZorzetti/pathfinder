@@ -7,6 +7,7 @@ import { DashboardResponseDto } from './dto/dashboard-response.dto';
 import { DailyInsight } from './entities/daily-insight.entity';
 import { User } from '../users/entities/user.entity';
 import { XpSource } from '../gamification/entities/xp-transaction.entity';
+import { BigFiveResult } from '../personality-tests/entities/bigfive-result.entity';
 
 @Injectable()
 export class DashboardService {
@@ -15,6 +16,8 @@ export class DashboardService {
     private dailyInsightRepository: Repository<DailyInsight>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(BigFiveResult)
+    private bigFiveResultRepository: Repository<BigFiveResult>,
     private readonly gamificationService: GamificationService,
     private readonly challengesService: ChallengesService,
   ) {}
@@ -61,8 +64,10 @@ export class DashboardService {
         currentChallenge = null;
       }
 
-    // Get test results (simplified - just return the mbtiType from user)
+    // Get test results
     const testResults: any[] = [];
+
+    // Add MBTI if exists
     if (user.mbti_type) {
       testResults.push({
         id: userId, // Using userId as placeholder
@@ -71,6 +76,32 @@ export class DashboardService {
         completedAt: user.createdAt?.toISOString() || new Date().toISOString(),
         resultData: { type: user.mbti_type },
       });
+    }
+
+    // Add Big Five if exists
+    try {
+      const bigFiveResult = await this.bigFiveResultRepository.findOne({
+        where: { userId },
+        order: { createdAt: 'DESC' }, // Get most recent result
+      });
+
+      if (bigFiveResult) {
+        testResults.push({
+          id: bigFiveResult.id,
+          framework: 'bigfive',
+          typeCode: 'OCEAN', // Big Five doesn't have a simple type code
+          completedAt: bigFiveResult.createdAt?.toISOString() || new Date().toISOString(),
+          resultData: {
+            openness: bigFiveResult.opennessScore,
+            conscientiousness: bigFiveResult.conscientiousnessScore,
+            extraversion: bigFiveResult.extraversionScore,
+            agreeableness: bigFiveResult.agreeablenessScore,
+            neuroticism: bigFiveResult.neuroticismScore,
+          },
+        });
+      }
+    } catch (error) {
+      console.error('Error getting Big Five result:', error);
     }
 
     // Calculate streak from metadata
