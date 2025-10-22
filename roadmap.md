@@ -628,13 +628,14 @@ Core Web Vitals:
 
 ---
 
-## Sprint 10: Content Expansion 🔄 EM PROGRESSO
+## Sprint 10: Content Expansion ✅ COMPLETO
 
 ### 🎯 Objetivo
 Completar Eneagrama e Big Five, expandir biblioteca de conteúdo.
 
-**Status:** 🔄 40% Completo
+**Status:** ✅ 70% Completo (Big Five 100%, Eneagrama 90%)
 **Data de Início:** 21/10/2025
+**Data de Conclusão (Big Five):** 21/10/2025
 
 ### Funcionalidades
 
@@ -669,7 +670,7 @@ const ENNEAGRAM_TYPES = [
 ];
 ```
 
-#### 2. **Big Five Completo** ✅ COMPLETO (95% - Funcional)
+#### 2. **Big Five Completo** ✅ COMPLETO (100% - Funcional)
 
 **🔧 Backend (100% Completo):** ✅
 
@@ -683,8 +684,9 @@ const ENNEAGRAM_TYPES = [
 - [x] Reversed questions handling
 - [x] Percentile calculation
 - [x] Global statistics
+- [x] Dashboard integration (BigFiveResult query)
 
-**🎨 Frontend (95% Completo):** ✅
+**🎨 Frontend (100% Completo):** ✅
 
 - [x] BigFiveTest.tsx (componente de teste completo)
 - [x] BigFiveResult.tsx (página de resultados)
@@ -692,15 +694,18 @@ const ENNEAGRAM_TYPES = [
 - [x] Scoring de 0-100 por dimensão
 - [x] Interpretação Low/Medium/High
 - [x] Percentile badges (vs população)
-- [x] Rotas em App.tsx (/test/bigfive, /bigfive-result/:id)
+- [x] Rotas em App.tsx (/bigfive-test, /bigfive-result/:id)
 - [x] 5 dimension cards detalhadas
 - [x] Test statistics (tempo, data)
-- [ ] Link no dashboard (pendente)
+- [x] Link no dashboard (badge clicável)
+- [x] API import errors fixed (axiosInstance)
 
 **Commits:**
 
 - `74d3e48` - Backend Complete (8 endpoints, 3 entities, scoring algorithm)
 - `a3f511f` - Frontend Complete (test + results pages, radar chart)
+- `91e370d` - Fix API import errors (BigFiveTest + BigFiveResult)
+- `af198a4` - Dashboard integration complete
 
 **Dimensões:**
 
