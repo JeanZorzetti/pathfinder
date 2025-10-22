@@ -30,6 +30,9 @@ import { Answer } from './modules/personality-tests/entities/answer.entity';
 import { EnneagramType } from './modules/personality-tests/entities/enneagram-type.entity';
 import { EnneagramQuestion } from './modules/personality-tests/entities/enneagram-question.entity';
 import { EnneagramQuestionTypeMapping } from './modules/personality-tests/entities/enneagram-mapping.entity';
+import { BigFiveDimension } from './modules/personality-tests/entities/bigfive-dimension.entity';
+import { BigFiveQuestion } from './modules/personality-tests/entities/bigfive-question.entity';
+import { BigFiveResult } from './modules/personality-tests/entities/bigfive-result.entity';
 import { Article } from './modules/content/entities/article.entity';
 import { ArticleCategory } from './modules/content/entities/article-category.entity';
 import { XpTransaction } from './modules/gamification/entities/xp-transaction.entity';
@@ -77,6 +80,9 @@ import typeormConfig from './config/typeorm.config';
           EnneagramType,
           EnneagramQuestion,
           EnneagramQuestionTypeMapping,
+          BigFiveDimension,
+          BigFiveQuestion,
+          BigFiveResult,
           Article,
           ArticleCategory,
           XpTransaction,
