@@ -48,7 +48,7 @@ export default function BigFiveResult() {
   const dimensionNames: { [key: string]: string } = {
     openness: "Abertura",
     conscientiousness: "Conscienciosidade",
-    extraversion: "Extrovers�o",
+    extraversion: "Extroversão",
     agreeableness: "Amabilidade",
     neuroticism: "Neuroticismo",
   };
@@ -158,9 +158,9 @@ export default function BigFiveResult() {
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Resultado n�o encontrado</CardTitle>
+            <CardTitle>Resultado não encontrado</CardTitle>
             <CardDescription>
-              N�o foi poss�vel encontrar o resultado do teste.
+              Não foi possível encontrar o resultado do teste.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -190,7 +190,7 @@ export default function BigFiveResult() {
           </div>
           <h1 className="text-3xl font-bold mb-2">Seu Perfil Big Five (OCEAN)</h1>
           <p className="text-muted-foreground">
-            Seus resultados nas 5 grandes dimens�es de personalidade
+            Seus resultados nas 5 grandes dimensões de personalidade
           </p>
         </div>
 
@@ -199,10 +199,10 @@ export default function BigFiveResult() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              Vis�o Geral das Dimens�es
+              Visão Geral das Dimensões
             </CardTitle>
             <CardDescription>
-              Gr�fico radar mostrando suas pontua��es em cada dimens�o
+              Gráfico radar mostrando suas pontuações em cada dimensão
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -212,7 +212,7 @@ export default function BigFiveResult() {
                 <PolarAngleAxis dataKey="dimension" />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} />
                 <Radar
-                  name="Sua Pontua��o"
+                  name="Sua Pontuação"
                   dataKey="score"
                   stroke="#8b5cf6"
                   fill="#8b5cf6"
@@ -251,7 +251,7 @@ export default function BigFiveResult() {
                           : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
                       }`}
                     >
-                      {interpretation === "high" ? "Alto" : interpretation === "low" ? "Baixo" : "M�dio"}
+                      {interpretation === "high" ? "Alto" : interpretation === "low" ? "Baixo" : "Médio"}
                     </span>
                     <span className="flex items-center gap-1 text-sm text-muted-foreground">
                       <Users className="h-4 w-4" />
@@ -277,7 +277,7 @@ export default function BigFiveResult() {
                         ? dimensionInfo.highDescriptionPt
                         : interpretation === "low"
                         ? dimensionInfo.lowDescriptionPt
-                        : "Voc� apresenta caracter�sticas equilibradas nesta dimens�o, combinando aspectos de ambos os extremos."}
+                        : "Você apresenta características equilibradas nesta dimensão, combinando aspectos de ambos os extremos."}
                     </p>
                   )}
                 </CardContent>
@@ -290,17 +290,17 @@ export default function BigFiveResult() {
         {result.completionTimeSeconds && (
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle className="text-lg">Estat�sticas do Teste</CardTitle>
+              <CardTitle className="text-lg">Estatísticas do Teste</CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
-                <p className="text-sm text-muted-foreground">Tempo de Conclus�o</p>
+                <p className="text-sm text-muted-foreground">Tempo de Conclusão</p>
                 <p className="text-2xl font-bold">
                   {Math.floor(result.completionTimeSeconds / 60)}:{String(result.completionTimeSeconds % 60).padStart(2, "0")}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Quest�es</p>
+                <p className="text-sm text-muted-foreground">Questões</p>
                 <p className="text-2xl font-bold">60</p>
               </div>
               <div>
@@ -324,7 +324,7 @@ export default function BigFiveResult() {
           </Button>
           <Button variant="outline" onClick={() => navigate("/")} className="flex-1" size="lg">
             <Home className="mr-2 h-5 w-5" />
-            Voltar ao In�cio
+            Voltar ao Início
           </Button>
         </div>
       </div>
