@@ -471,7 +471,7 @@ const Dashboard = () => {
                         <Badge
                           variant="outline"
                           className="cursor-pointer hover:bg-accent"
-                          onClick={() => navigate('/bigfive-test')}
+                          onClick={() => navigate('/test/bigfive')}
                         >
                           Big Five
                         </Badge>
