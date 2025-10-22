@@ -45,7 +45,7 @@ export class BigFiveController {
   @ApiResponse({ status: 400, description: 'Invalid answers (must be 60 answers, 1-5 scale)' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async calculateScores(@Req() req: any, @Body() body: Omit<BigFiveCalculateDto, 'userId'>) {
-    const userId = req.user.sub;
+    const userId = req.user?.id || req.user?.sub;
 
     const result = await this.bigFiveService.calculateScores({
       userId,
@@ -90,7 +90,7 @@ export class BigFiveController {
   @ApiResponse({ status: 200, description: 'Returns latest result or null' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getUserLatestResult(@Req() req: any) {
-    const userId = req.user.sub;
+    const userId = req.user?.id || req.user?.sub;
     return this.bigFiveService.getUserLatestResult(userId);
   }
 
@@ -101,7 +101,7 @@ export class BigFiveController {
   @ApiResponse({ status: 200, description: 'Returns all user results ordered by date' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getUserResults(@Req() req: any) {
-    const userId = req.user.sub;
+    const userId = req.user?.id || req.user?.sub;
     return this.bigFiveService.getUserResults(userId);
   }
 
