@@ -7,7 +7,9 @@ import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Responsi
 import { axiosInstance } from "@/lib/api";
 import { toast } from "sonner";
 import { DimensionWithFacets, FacetScores } from "@/types/bigfive-facets";
+import { CareerMatch } from "@/types/bigfive-careers";
 import FacetBreakdownSection from "@/components/bigfive/FacetBreakdownSection";
+import CareerRecommendationsSection from "@/components/bigfive/CareerRecommendationsSection";
 import { authService } from "@/services/authService";
 
 interface BigFiveScores {
@@ -48,6 +50,7 @@ export default function BigFiveResult() {
   const [result, setResult] = useState<BigFiveResult | null>(null);
   const [dimensions, setDimensions] = useState<Dimension[]>([]);
   const [dimensionsWithFacets, setDimensionsWithFacets] = useState<DimensionWithFacets[]>([]);
+  const [careerMatches, setCareerMatches] = useState<CareerMatch[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -111,6 +114,9 @@ export default function BigFiveResult() {
       if (transformedResult.facetScores) {
         await loadFacetsWithInterpretations(transformedResult.id);
       }
+
+      // Load career recommendations (Phase 3)
+      await loadCareerRecommendations(transformedResult.id);
     } catch (error) {
       console.error("Error loading result:", error);
       toast.error("Erro ao carregar resultado");
@@ -138,6 +144,18 @@ export default function BigFiveResult() {
     } catch (error) {
       console.error("Error loading facets:", error);
       // Don't show error toast - facets are optional enhancement
+    }
+  };
+
+  const loadCareerRecommendations = async (resultId: string) => {
+    try {
+      const response = await axiosInstance.get(
+        `/personality-tests/bigfive/results/${resultId}/career-matches?lang=pt`
+      );
+      setCareerMatches(response.data);
+    } catch (error) {
+      console.error("Error loading career recommendations:", error);
+      // Don't show error toast - careers are optional enhancement
     }
   };
 
@@ -318,6 +336,16 @@ export default function BigFiveResult() {
           <div className="mb-6">
             <FacetBreakdownSection
               dimensionsWithFacets={dimensionsWithFacets}
+              isAuthenticated={isAuthenticated}
+            />
+          </div>
+        )}
+
+        {/* NEW: Career Recommendations Section (Phase 3) */}
+        {careerMatches.length > 0 && (
+          <div className="mb-6">
+            <CareerRecommendationsSection
+              careerMatches={careerMatches}
               isAuthenticated={isAuthenticated}
             />
           </div>

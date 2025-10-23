@@ -3,6 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { BigFiveService, BigFiveCalculateDto } from './bigfive.service';
 import { BigFiveFacetService } from './bigfive-facet.service';
+import { BigFiveCareerService } from './bigfive-career.service';
 
 @ApiTags('Big Five Personality Test')
 @Controller('personality-tests/bigfive')
@@ -10,6 +11,7 @@ export class BigFiveController {
   constructor(
     private readonly bigFiveService: BigFiveService,
     private readonly facetService: BigFiveFacetService,
+    private readonly careerService: BigFiveCareerService,
   ) {}
 
   @Get('dimensions')
@@ -175,5 +177,60 @@ export class BigFiveController {
     }
 
     return this.facetService.getFacetsWithInterpretations(result.facetScores, lang);
+  }
+
+  // ==========================================
+  // NEW: Career Recommendation Endpoints (Phase 3)
+  // ==========================================
+
+  @Get('careers')
+  @ApiOperation({ summary: 'Get all career profiles' })
+  @ApiResponse({ status: 200, description: 'Returns all career profiles' })
+  async getAllCareers() {
+    return this.careerService.getAllCareers();
+  }
+
+  @Get('careers/category/:category')
+  @ApiOperation({ summary: 'Get careers by category' })
+  @ApiResponse({ status: 200, description: 'Returns careers in specified category' })
+  async getCareersByCategory(@Param('category') category: string) {
+    return this.careerService.getCareersByCategory(category);
+  }
+
+  @Get('careers/:id')
+  @ApiOperation({ summary: 'Get specific career profile by ID' })
+  @ApiResponse({ status: 200, description: 'Returns career details' })
+  @ApiResponse({ status: 404, description: 'Career not found' })
+  async getCareerById(@Param('id') id: string) {
+    return this.careerService.getCareerById(id);
+  }
+
+  @Get('results/:resultId/career-matches')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get career recommendations based on personality result' })
+  @ApiResponse({ status: 200, description: 'Returns ranked career matches with scores' })
+  @ApiResponse({ status: 404, description: 'Result not found' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getCareerMatches(
+    @Param('resultId') resultId: string,
+    @Query('lang') lang: 'en' | 'pt' = 'pt',
+  ) {
+    return this.careerService.calculateCareerMatches(resultId, lang);
+  }
+
+  @Get('results/:resultId/career-matches/top')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get top 6 career recommendations (preview)' })
+  @ApiResponse({ status: 200, description: 'Returns top 6 career matches' })
+  @ApiResponse({ status: 404, description: 'Result not found' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getTopCareerMatches(
+    @Param('resultId') resultId: string,
+    @Query('limit') limit: number = 6,
+    @Query('lang') lang: 'en' | 'pt' = 'pt',
+  ) {
+    return this.careerService.getTopMatches(resultId, limit, lang);
   }
 }
