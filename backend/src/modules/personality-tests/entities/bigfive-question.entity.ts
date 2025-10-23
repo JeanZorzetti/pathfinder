@@ -21,6 +21,9 @@ export class BigFiveQuestion {
   @Column({ name: 'is_reversed', type: 'boolean', default: false })
   isReversed: boolean; // If true, scoring is reversed (5 becomes 1, 4 becomes 2, etc)
 
+  @Column({ name: 'facet_code', type: 'varchar', length: 10, nullable: true })
+  facetCode: string; // O1, O2, C1, etc. - Links to specific facet
+
   @Column({ name: 'order_index', type: 'integer' })
   orderIndex: number; // Display order
 

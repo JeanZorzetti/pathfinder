@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { BigFiveDimension } from './entities/bigfive-dimension.entity';
 import { BigFiveQuestion } from './entities/bigfive-question.entity';
 import { BigFiveResult } from './entities/bigfive-result.entity';
+import { BigFiveFacetService } from './bigfive-facet.service';
 
 export interface BigFiveAnswer {
   questionId: string;
@@ -33,6 +34,7 @@ export class BigFiveService {
     private questionsRepository: Repository<BigFiveQuestion>,
     @InjectRepository(BigFiveResult)
     private resultsRepository: Repository<BigFiveResult>,
+    private facetService: BigFiveFacetService,
   ) {}
 
   /**
@@ -136,6 +138,9 @@ export class BigFiveService {
       neuroticism: this.calculateDimensionScore(dimensionScores['N']),
     };
 
+    // Calculate facet scores (NEW: Phase 2.3)
+    const facetScores = await this.facetService.calculateFacetScores(answers);
+
     // Save result to database
     const result = this.resultsRepository.create({
       userId,
@@ -144,6 +149,7 @@ export class BigFiveService {
       extraversionScore: scores.extraversion,
       agreeablenessScore: scores.agreeableness,
       neuroticismScore: scores.neuroticism,
+      facetScores, // Store facet scores in JSONB column
       answers,
       completionTimeSeconds,
     });

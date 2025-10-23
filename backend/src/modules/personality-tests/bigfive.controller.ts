@@ -1,12 +1,16 @@
-import { Controller, Get, Post, Body, Param, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, Req, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { BigFiveService, BigFiveCalculateDto } from './bigfive.service';
+import { BigFiveFacetService } from './bigfive-facet.service';
 
 @ApiTags('Big Five Personality Test')
 @Controller('personality-tests/bigfive')
 export class BigFiveController {
-  constructor(private readonly bigFiveService: BigFiveService) {}
+  constructor(
+    private readonly bigFiveService: BigFiveService,
+    private readonly facetService: BigFiveFacetService,
+  ) {}
 
   @Get('dimensions')
   @ApiOperation({ summary: 'Get all 5 Big Five dimensions (OCEAN)' })
@@ -53,7 +57,7 @@ export class BigFiveController {
       completionTimeSeconds: body.completionTimeSeconds,
     });
 
-    // Also return interpretations and percentiles
+    // Also return interpretations, percentiles, and facet scores
     return {
       id: result.id,
       userId: result.userId,
@@ -64,6 +68,7 @@ export class BigFiveController {
         agreeableness: result.agreeablenessScore,
         neuroticism: result.neuroticismScore,
       },
+      facetScores: result.facetScores, // NEW: Facet scores (Phase 2.3)
       interpretations: {
         openness: this.bigFiveService.getScoreInterpretation(result.opennessScore),
         conscientiousness: this.bigFiveService.getScoreInterpretation(result.conscientiousnessScore),
@@ -121,5 +126,54 @@ export class BigFiveController {
   @ApiResponse({ status: 200, description: 'Returns total tests and average scores' })
   async getGlobalStatistics() {
     return this.bigFiveService.getGlobalStatistics();
+  }
+
+  // ==========================================
+  // NEW: Facet Endpoints (Phase 2.3)
+  // ==========================================
+
+  @Get('facets')
+  @ApiOperation({ summary: 'Get all 30 Big Five facets' })
+  @ApiResponse({ status: 200, description: 'Returns all 30 facets organized by dimension' })
+  async getAllFacets(@Query('lang') lang?: 'en' | 'pt') {
+    return this.facetService.getAllFacets();
+  }
+
+  @Get('facets/dimension/:code')
+  @ApiOperation({ summary: 'Get facets for specific dimension (6 facets per dimension)' })
+  @ApiResponse({ status: 200, description: 'Returns facets for the dimension' })
+  async getFacetsByDimension(@Param('code') code: string) {
+    return this.facetService.getFacetsByDimension(code);
+  }
+
+  @Get('facets/:facetCode')
+  @ApiOperation({ summary: 'Get specific facet by code (e.g., O1, C2, E3)' })
+  @ApiResponse({ status: 200, description: 'Returns facet details' })
+  @ApiResponse({ status: 404, description: 'Facet not found' })
+  async getFacetByCode(@Param('facetCode') facetCode: string) {
+    return this.facetService.getFacetByCode(facetCode);
+  }
+
+  @Get('results/:resultId/facets')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get facet scores and interpretations for a result' })
+  @ApiResponse({ status: 200, description: 'Returns facet breakdown with interpretations' })
+  @ApiResponse({ status: 404, description: 'Result not found' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getResultFacets(
+    @Param('resultId') resultId: string,
+    @Query('lang') lang: 'en' | 'pt' = 'pt',
+  ) {
+    const result = await this.bigFiveService.getResultById(resultId);
+
+    if (!result.facetScores) {
+      return {
+        message: 'This result does not have facet scores. Please retake the test.',
+        facets: [],
+      };
+    }
+
+    return this.facetService.getFacetsWithInterpretations(result.facetScores, lang);
   }
 }

@@ -6,6 +6,9 @@ import { Brain, Home, TrendingUp, Users, Loader2 } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer, Legend } from "recharts";
 import { axiosInstance } from "@/lib/api";
 import { toast } from "sonner";
+import { DimensionWithFacets, FacetScores } from "@/types/bigfive-facets";
+import FacetBreakdownSection from "@/components/bigfive/FacetBreakdownSection";
+import { authService } from "@/services/authService";
 
 interface BigFiveScores {
   openness: number;
@@ -19,6 +22,7 @@ interface BigFiveResult {
   id: string;
   userId: string;
   scores: BigFiveScores;
+  facetScores?: FacetScores; // NEW: Facet scores from backend
   interpretations: {
     [key: string]: "low" | "medium" | "high";
   };
@@ -43,7 +47,9 @@ export default function BigFiveResult() {
 
   const [result, setResult] = useState<BigFiveResult | null>(null);
   const [dimensions, setDimensions] = useState<Dimension[]>([]);
+  const [dimensionsWithFacets, setDimensionsWithFacets] = useState<DimensionWithFacets[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const dimensionNames: { [key: string]: string } = {
     openness: "Abertura",
@@ -62,6 +68,9 @@ export default function BigFiveResult() {
   };
 
   useEffect(() => {
+    // Check authentication
+    setIsAuthenticated(authService.isAuthenticated());
+
     loadResult();
     loadDimensions();
   }, [id]);
@@ -82,6 +91,7 @@ export default function BigFiveResult() {
           agreeableness: response.data.agreeablenessScore,
           neuroticism: response.data.neuroticismScore,
         },
+        facetScores: response.data.facetScores, // NEW: Get facet scores from backend
         interpretations: {},
         percentiles: {},
         createdAt: response.data.createdAt,
@@ -96,6 +106,11 @@ export default function BigFiveResult() {
       });
 
       setResult(transformedResult);
+
+      // Load facets with interpretations if we have facet scores
+      if (transformedResult.facetScores) {
+        await loadFacetsWithInterpretations(transformedResult.id);
+      }
     } catch (error) {
       console.error("Error loading result:", error);
       toast.error("Erro ao carregar resultado");
@@ -111,6 +126,18 @@ export default function BigFiveResult() {
       setDimensions(response.data);
     } catch (error) {
       console.error("Error loading dimensions:", error);
+    }
+  };
+
+  const loadFacetsWithInterpretations = async (resultId: string) => {
+    try {
+      const response = await axiosInstance.get(
+        `/personality-tests/bigfive/results/${resultId}/facets?lang=pt`
+      );
+      setDimensionsWithFacets(response.data);
+    } catch (error) {
+      console.error("Error loading facets:", error);
+      // Don't show error toast - facets are optional enhancement
     }
   };
 
@@ -285,6 +312,16 @@ export default function BigFiveResult() {
             );
           })}
         </div>
+
+        {/* NEW: Facet Breakdown Section (Phase 2.4) */}
+        {dimensionsWithFacets.length > 0 && (
+          <div className="mb-6">
+            <FacetBreakdownSection
+              dimensionsWithFacets={dimensionsWithFacets}
+              isAuthenticated={isAuthenticated}
+            />
+          </div>
+        )}
 
         {/* Stats Card */}
         {result.completionTimeSeconds && (

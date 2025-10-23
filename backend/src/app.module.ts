@@ -33,6 +33,7 @@ import { EnneagramQuestionTypeMapping } from './modules/personality-tests/entiti
 import { BigFiveDimension } from './modules/personality-tests/entities/bigfive-dimension.entity';
 import { BigFiveQuestion } from './modules/personality-tests/entities/bigfive-question.entity';
 import { BigFiveResult } from './modules/personality-tests/entities/bigfive-result.entity';
+import { BigFiveFacet } from './modules/personality-tests/entities/bigfive-facet.entity';
 import { Article } from './modules/content/entities/article.entity';
 import { ArticleCategory } from './modules/content/entities/article-category.entity';
 import { XpTransaction } from './modules/gamification/entities/xp-transaction.entity';
@@ -83,6 +84,7 @@ import typeormConfig from './config/typeorm.config';
           BigFiveDimension,
           BigFiveQuestion,
           BigFiveResult,
+          BigFiveFacet,
           Article,
           ArticleCategory,
           XpTransaction,

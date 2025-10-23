@@ -27,6 +27,9 @@ export class BigFiveResult {
   @Column({ type: 'jsonb' })
   answers: { questionId: string; answer: number }[]; // Raw answers for audit
 
+  @Column({ name: 'facet_scores', type: 'jsonb', nullable: true })
+  facetScores: { [facetCode: string]: number }; // e.g., { "O1": 75, "O2": 82, "C1": 90, ... }
+
   @Column({ name: 'completion_time_seconds', type: 'integer', nullable: true })
   completionTimeSeconds: number;
 
