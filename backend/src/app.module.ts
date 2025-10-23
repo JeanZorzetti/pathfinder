@@ -35,6 +35,7 @@ import { BigFiveQuestion } from './modules/personality-tests/entities/bigfive-qu
 import { BigFiveResult } from './modules/personality-tests/entities/bigfive-result.entity';
 import { BigFiveFacet } from './modules/personality-tests/entities/bigfive-facet.entity';
 import { BigFiveCareerProfile } from './modules/personality-tests/entities/bigfive-career-profile.entity';
+import { BigFiveCompatibilityInsight } from './modules/personality-tests/entities/bigfive-compatibility-insight.entity';
 import { Article } from './modules/content/entities/article.entity';
 import { ArticleCategory } from './modules/content/entities/article-category.entity';
 import { XpTransaction } from './modules/gamification/entities/xp-transaction.entity';
@@ -87,6 +88,7 @@ import typeormConfig from './config/typeorm.config';
           BigFiveResult,
           BigFiveFacet,
           BigFiveCareerProfile,
+          BigFiveCompatibilityInsight,
           Article,
           ArticleCategory,
           XpTransaction,

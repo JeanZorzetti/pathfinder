@@ -8,8 +8,10 @@ import { axiosInstance } from "@/lib/api";
 import { toast } from "sonner";
 import { DimensionWithFacets, FacetScores } from "@/types/bigfive-facets";
 import { CareerMatch } from "@/types/bigfive-careers";
+import { RelationshipInsight } from "@/types/bigfive-compatibility";
 import FacetBreakdownSection from "@/components/bigfive/FacetBreakdownSection";
 import CareerRecommendationsSection from "@/components/bigfive/CareerRecommendationsSection";
+import RelationshipInsightsSection from "@/components/bigfive/RelationshipInsightsSection";
 import { authService } from "@/services/authService";
 
 interface BigFiveScores {
@@ -51,6 +53,7 @@ export default function BigFiveResult() {
   const [dimensions, setDimensions] = useState<Dimension[]>([]);
   const [dimensionsWithFacets, setDimensionsWithFacets] = useState<DimensionWithFacets[]>([]);
   const [careerMatches, setCareerMatches] = useState<CareerMatch[]>([]);
+  const [relationshipInsights, setRelationshipInsights] = useState<RelationshipInsight[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -117,6 +120,9 @@ export default function BigFiveResult() {
 
       // Load career recommendations (Phase 3)
       await loadCareerRecommendations(transformedResult.id);
+
+      // Load relationship insights (Phase 4)
+      await loadRelationshipInsights(transformedResult.id);
     } catch (error) {
       console.error("Error loading result:", error);
       toast.error("Erro ao carregar resultado");
@@ -156,6 +162,18 @@ export default function BigFiveResult() {
     } catch (error) {
       console.error("Error loading career recommendations:", error);
       // Don't show error toast - careers are optional enhancement
+    }
+  };
+
+  const loadRelationshipInsights = async (resultId: string) => {
+    try {
+      const response = await axiosInstance.get(
+        `/personality-tests/bigfive/results/${resultId}/relationship-insights?lang=pt`
+      );
+      setRelationshipInsights(response.data);
+    } catch (error) {
+      console.error("Error loading relationship insights:", error);
+      // Don't show error toast - relationship insights are optional enhancement
     }
   };
 
@@ -346,6 +364,16 @@ export default function BigFiveResult() {
           <div className="mb-6">
             <CareerRecommendationsSection
               careerMatches={careerMatches}
+              isAuthenticated={isAuthenticated}
+            />
+          </div>
+        )}
+
+        {/* NEW: Relationship Insights Section (Phase 4) */}
+        {relationshipInsights.length > 0 && (
+          <div className="mb-6">
+            <RelationshipInsightsSection
+              insights={relationshipInsights}
               isAuthenticated={isAuthenticated}
             />
           </div>

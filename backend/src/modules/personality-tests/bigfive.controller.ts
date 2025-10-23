@@ -4,6 +4,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { BigFiveService, BigFiveCalculateDto } from './bigfive.service';
 import { BigFiveFacetService } from './bigfive-facet.service';
 import { BigFiveCareerService } from './bigfive-career.service';
+import { BigFiveCompatibilityService } from './bigfive-compatibility.service';
 
 @ApiTags('Big Five Personality Test')
 @Controller('personality-tests/bigfive')
@@ -12,6 +13,7 @@ export class BigFiveController {
     private readonly bigFiveService: BigFiveService,
     private readonly facetService: BigFiveFacetService,
     private readonly careerService: BigFiveCareerService,
+    private readonly compatibilityService: BigFiveCompatibilityService,
   ) {}
 
   @Get('dimensions')
@@ -232,5 +234,45 @@ export class BigFiveController {
     @Query('lang') lang: 'en' | 'pt' = 'pt',
   ) {
     return this.careerService.getTopMatches(resultId, limit, lang);
+  }
+
+  // ==========================================
+  // NEW: Relationship Compatibility Endpoints (Phase 4)
+  // ==========================================
+
+  @Get('compatibility/insights')
+  @ApiOperation({ summary: 'Get all compatibility insights' })
+  @ApiResponse({ status: 200, description: 'Returns all compatibility insights' })
+  async getAllCompatibilityInsights() {
+    return this.compatibilityService.getAllInsights();
+  }
+
+  @Get('results/:resultId/relationship-insights')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get relationship insights based on personality result' })
+  @ApiResponse({ status: 200, description: 'Returns personalized relationship insights' })
+  @ApiResponse({ status: 404, description: 'Result not found' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getRelationshipInsights(
+    @Param('resultId') resultId: string,
+    @Query('lang') lang: 'en' | 'pt' = 'pt',
+  ) {
+    return this.compatibilityService.getRelationshipInsights(resultId, lang);
+  }
+
+  @Get('compatibility/compare/:resultId1/:resultId2')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Compare two Big Five results for compatibility' })
+  @ApiResponse({ status: 200, description: 'Returns compatibility analysis' })
+  @ApiResponse({ status: 404, description: 'One or both results not found' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async compareResults(
+    @Param('resultId1') resultId1: string,
+    @Param('resultId2') resultId2: string,
+    @Query('lang') lang: 'en' | 'pt' = 'pt',
+  ) {
+    return this.compatibilityService.compareResults(resultId1, resultId2, lang);
   }
 }
