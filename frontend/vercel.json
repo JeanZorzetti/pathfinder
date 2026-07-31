@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/sitemap.xml",
-      "destination": "https://pathback.roilabs.com.br/api/v1/content/sitemap.xml"
-    },
-    {
       "source": "/api/:path*",
       "destination": "https://pathback.roilabs.com.br/api/:path*"
     },
